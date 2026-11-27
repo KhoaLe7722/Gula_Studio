@@ -1,0 +1,89 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!-- Pure Two-Color Brand Palette: Pitch Black (#000000) + Electric Volt Lime (#B2CB25) -->
+    <Color x:Key="Color.bgCanvas">#000000</Color>
+    <Color x:Key="Color.bgShell">#050505</Color>
+    <Color x:Key="Color.bgSurface">#0C0C0C</Color>
+    <Color x:Key="Color.bgElevated">#141414</Color>
+    <Color x:Key="Color.bgHover">#1E1E1E</Color>
+    <Color x:Key="Color.bgSelected">#1D2206</Color>
+    <Color x:Key="Color.strokeSubtle">#1F1F1F</Color>
+    <Color x:Key="Color.strokeStrong">#343434</Color>
+    <Color x:Key="Color.textPrimary">#FFFFFF</Color>
+    <Color x:Key="Color.textSecondary">#EDEDED</Color>
+    <Color x:Key="Color.textMuted">#C8C8C8</Color>
+    <Color x:Key="Color.emerald">#B2CB25</Color>
+    <Color x:Key="Color.emeraldHover">#C5DF2F</Color>
+    <Color x:Key="Color.emeraldPressed">#94AB1B</Color>
+    <Color x:Key="Color.gold">#B2CB25</Color>
+    <Color x:Key="Color.goldHover">#C5DF2F</Color>
+    <Color x:Key="Color.goldPressed">#94AB1B</Color>
+    <Color x:Key="Color.accent">#B2CB25</Color>
+    <Color x:Key="Color.accentHover">#C5DF2F</Color>
+    <Color x:Key="Color.accentPressed">#94AB1B</Color>
+    <Color x:Key="Color.onAccent">#000000</Color>
+    <Color x:Key="Color.onEmerald">#000000</Color>
+    <Color x:Key="Color.focus">#B2CB25</Color>
+    <Color x:Key="Color.positive">#B2CB25</Color>
+    <Color x:Key="Color.warning">#B2CB25</Color>
+    <Color x:Key="Color.negative">#F87171</Color>
+    <Color x:Key="Color.info">#B2CB25</Color>
+    <Color x:Key="Color.overlay">#D6000000</Color>
+    <SolidColorBrush x:Key="BrushCanvas" Color="{DynamicResource Color.bgCanvas}"/>
+    <SolidColorBrush x:Key="BrushShell" Color="{DynamicResource Color.bgShell}"/>
+    <SolidColorBrush x:Key="BrushSurface" Color="{DynamicResource Color.bgSurface}"/>
+    <SolidColorBrush x:Key="BrushCard" Color="{DynamicResource Color.bgSurface}"/>
+    <SolidColorBrush x:Key="BrushCardElevated" Color="{DynamicResource Color.bgElevated}"/>
+    <SolidColorBrush x:Key="BrushCardHover" Color="{DynamicResource Color.bgHover}"/>
+    <SolidColorBrush x:Key="BrushHover" Color="{DynamicResource Color.bgHover}"/>
+    <SolidColorBrush x:Key="BrushInput" Color="#0A0A0A"/>
+    <SolidColorBrush x:Key="BrushSelected" Color="{DynamicResource Color.bgSelected}"/>
+    <SolidColorBrush x:Key="BrushBorderSubtle" Color="{DynamicResource Color.strokeSubtle}"/>
+    <SolidColorBrush x:Key="BrushBorderStrong" Color="{DynamicResource Color.strokeStrong}"/>
+    <SolidColorBrush x:Key="BrushTextPrimary" Color="{DynamicResource Color.textPrimary}"/>
+    <SolidColorBrush x:Key="BrushTextSecondary" Color="{DynamicResource Color.textSecondary}"/>
+    <SolidColorBrush x:Key="BrushTextMuted" Color="{DynamicResource Color.textMuted}"/>
+    <SolidColorBrush x:Key="BrushEmerald" Color="{DynamicResource Color.emerald}"/>
+    <SolidColorBrush x:Key="BrushEmeraldHover" Color="{DynamicResource Color.emeraldHover}"/>
+    <SolidColorBrush x:Key="BrushEmeraldPressed" Color="{DynamicResource Color.emeraldPressed}"/>
+    <SolidColorBrush x:Key="BrushOnEmerald" Color="{DynamicResource Color.onEmerald}"/>
+    <SolidColorBrush x:Key="BrushGold" Color="{DynamicResource Color.gold}"/>
+    <SolidColorBrush x:Key="BrushGoldSubtle" Color="#4DB2CB25"/>
+    <SolidColorBrush x:Key="BrushAccent" Color="{DynamicResource Color.accent}"/>
+    <SolidColorBrush x:Key="BrushAccentHover" Color="{DynamicResource Color.accentHover}"/>
+    <SolidColorBrush x:Key="BrushAccentPressed" Color="{DynamicResource Color.accentPressed}"/>
+    <SolidColorBrush x:Key="BrushOnAccent" Color="{DynamicResource Color.onAccent}"/>
+    <SolidColorBrush x:Key="BrushOnSelected" Color="#FFFFFF"/>
+    <SolidColorBrush x:Key="BrushFocus" Color="{DynamicResource Color.focus}"/>
+    <SolidColorBrush x:Key="BrushPositive" Color="{DynamicResource Color.positive}"/>
+    <SolidColorBrush x:Key="BrushWarning" Color="{DynamicResource Color.warning}"/>
+    <SolidColorBrush x:Key="BrushNegative" Color="{DynamicResource Color.negative}"/>
+    <SolidColorBrush x:Key="BrushDanger" Color="{DynamicResource Color.negative}"/>
+    <SolidColorBrush x:Key="BrushInfo" Color="{DynamicResource Color.info}"/>
+    <SolidColorBrush x:Key="BrushOverlay" Color="{DynamicResource Color.overlay}"/>
+    <SolidColorBrush x:Key="BrushAccentCyan" Color="{DynamicResource Color.gold}"/>
+    <SolidColorBrush x:Key="BrushAccentPink" Color="{DynamicResource Color.gold}"/>
+    <SolidColorBrush x:Key="BrushAccentEmerald" Color="{DynamicResource Color.positive}"/>
+    <SolidColorBrush x:Key="AppCanvasBrush" Color="{DynamicResource Color.bgCanvas}"/>
+    <SolidColorBrush x:Key="DesignAccentBrush" Color="{DynamicResource Color.accent}"/>
+    <SolidColorBrush x:Key="BrushBadgeDark" Color="#D9000000"/>
+    <SolidColorBrush x:Key="BrushOnBadgeDark" Color="#FFFFFF"/>
+    <SolidColorBrush x:Key="BrushBadgeEmerald" Color="#F2B2CB25"/>
+    <SolidColorBrush x:Key="BrushBadgeGold" Color="#E6000000"/>
+    <LinearGradientBrush x:Key="BrushDreaminaCta" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="#B2CB25" Offset="0.0"/>
+        <GradientStop Color="#C5DF2F" Offset="1.0"/>
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="BrushDreaminaHero" StartPoint="0,0" EndPoint="1,0">
+        <GradientStop Color="#FFFFFF" Offset="0.0"/>
+        <GradientStop Color="#E5F19C" Offset="0.58"/>
+        <GradientStop Color="#B2CB25" Offset="1.0"/>
+    </LinearGradientBrush>
+    <RadialGradientBrush x:Key="BrushHeroAura" Center="0.5,0.34" GradientOrigin="0.5,0.34" RadiusX="0.46" RadiusY="0.40">
+        <GradientStop Color="#22B2CB25" Offset="0.0"/>
+        <GradientStop Color="#0AB2CB25" Offset="0.45"/>
+        <GradientStop Color="#00000000" Offset="1.0"/>
+    </RadialGradientBrush>
+    <SolidColorBrush x:Key="BrushChatUserBubble" Color="#161A05"/>
+    <SolidColorBrush x:Key="BrushVoicePillBg" Color="#FFFFFF"/>
+    <SolidColorBrush x:Key="BrushVoicePillFg" Color="#000000"/>
+</ResourceDictionary>

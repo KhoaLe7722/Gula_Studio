@@ -1,0 +1,245 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=System.Runtime">
+    <!-- Common -->
+    <sys:String x:Key="Str.Common.Close">Close</sys:String>
+    <sys:String x:Key="Str.Common.Cancel">Cancel</sys:String>
+    <sys:String x:Key="Str.Common.Delete">Delete</sys:String>
+    <sys:String x:Key="Str.Common.Refresh">Refresh</sys:String>
+    <sys:String x:Key="Str.Common.OpenFolder">Open Folder</sys:String>
+    <sys:String x:Key="Str.Common.Copy">Copy</sys:String>
+
+    <!-- Sidebar Navigation -->
+    <sys:String x:Key="Str.Nav.AiStudio">AI Studio</sys:String>
+    <sys:String x:Key="Str.Nav.Storyboard">Storyboard</sys:String>
+    <sys:String x:Key="Str.Nav.Favorites">Favorites</sys:String>
+    <sys:String x:Key="Str.Nav.GpuQueue">GPU Queue</sys:String>
+    <sys:String x:Key="Str.Nav.OutputFolder">Output Folder</sys:String>
+    <sys:String x:Key="Str.Nav.NewChat">New Chat</sys:String>
+    <sys:String x:Key="Str.Nav.Recent">RECENT</sys:String>
+    <sys:String x:Key="Str.Nav.SearchHistory">Search history…</sys:String>
+    <sys:String x:Key="Str.Nav.NoHistory">No conversations yet.</sys:String>
+    <sys:String x:Key="Str.Nav.Settings">Settings</sys:String>
+    <sys:String x:Key="Str.Nav.NewConversationTitle">New Conversation</sys:String>
+
+    <!-- Reconnect / Startup -->
+    <sys:String x:Key="Str.Reconnect.Button">Reconnect Local AI Server</sys:String>
+    <sys:String x:Key="Str.Reconnect.SetupButton">⚡ Setup &amp; Download AI Models (1-Click)</sys:String>
+
+    <!-- Studio View & Composer -->
+    <sys:String x:Key="Str.Studio.PromptPlaceholder">What would you like to imagine? (Attach image · Voice input · Ctrl+Enter)</sys:String>
+    <sys:String x:Key="Str.Studio.QualityStandard">Standard</sys:String>
+    <sys:String x:Key="Str.Studio.Pose3D">3D Pose</sys:String>
+    <sys:String x:Key="Str.Studio.Outfits">Outfits</sys:String>
+    <sys:String x:Key="Str.Studio.Character">Character</sys:String>
+    <sys:String x:Key="Str.Studio.Fast">Fast</sys:String>
+    <sys:String x:Key="Str.Studio.Batch1">1 img</sys:String>
+    <sys:String x:Key="Str.Studio.Batch2">2 imgs</sys:String>
+    <sys:String x:Key="Str.Studio.Batch4">4 imgs</sys:String>
+    <sys:String x:Key="Str.Studio.Options">Options</sys:String>
+    <sys:String x:Key="Str.Studio.Generate">Generate</sys:String>
+    <sys:String x:Key="Str.Studio.ProTitle">Pro Generation Controls (Style · Lighting · Lens · LoRA)</sys:String>
+    <sys:String x:Key="Str.Studio.Style">Art Style</sys:String>
+    <sys:String x:Key="Str.Studio.Lighting">Cinematic Lighting</sys:String>
+    <sys:String x:Key="Str.Studio.CameraLens">Camera &amp; Lens</sys:String>
+    <sys:String x:Key="Str.Studio.LoraTitle">Detail &amp; Style LoRA Library (up to 3)</sys:String>
+    <sys:String x:Key="Str.Studio.NoLoras">No .safetensors files found in ComfyUI/models/loras.</sys:String>
+    <sys:String x:Key="Str.Studio.DeepReasoning">Deep Reasoning</sys:String>
+    <sys:String x:Key="Str.Studio.PosterText">Poster Text</sys:String>
+    <sys:String x:Key="Str.Studio.NineExpressions">9 Expressions</sys:String>
+    <sys:String x:Key="Str.Studio.Width">Width (px)</sys:String>
+    <sys:String x:Key="Str.Studio.Height">Height (px)</sys:String>
+    <sys:String x:Key="Str.Studio.Seed">Seed (blank = random)</sys:String>
+    <sys:String x:Key="Str.Studio.Count">Count</sys:String>
+    <sys:String x:Key="Str.Studio.PromptMode">Prompt Mode</sys:String>
+    <sys:String x:Key="Str.Studio.PreviewPrompt">Preview Final Prompt</sys:String>
+
+    <!-- Storyboard Studio -->
+    <sys:String x:Key="Str.Story.Title">Storyboard &amp; Character Studio</sys:String>
+    <sys:String x:Key="Str.Story.Subtitle">Keep characters consistent across scenes · Face, hair &amp; body lock · 3D Pose &amp; Outfit libraries</sys:String>
+    <sys:String x:Key="Str.Story.Export">Export Story</sys:String>
+    <sys:String x:Key="Str.Story.RenderAll">Render All Scenes</sys:String>
+    <sys:String x:Key="Str.Story.StopBatch">Stop Batch</sys:String>
+    <sys:String x:Key="Str.Story.NewStory">New Story</sys:String>
+    <sys:String x:Key="Str.Story.StyleColon">Style:</sys:String>
+    <sys:String x:Key="Str.Story.CastHeader">1. Persistent Character Cast</sys:String>
+    <sys:String x:Key="Str.Story.CastSub">Select a character to edit reference angles &amp; DNA</sys:String>
+    <sys:String x:Key="Str.Story.Add">+ Add</sys:String>
+    <sys:String x:Key="Str.Story.ScenesHeader">2. Storyboard Scenes</sys:String>
+    <sys:String x:Key="Str.Story.AddScene">Add Scene</sys:String>
+    <sys:String x:Key="Str.Story.View1to1">Inspect 1:1</sys:String>
+    <sys:String x:Key="Str.Story.Upscale2x">2× HD</sys:String>
+    <sys:String x:Key="Str.Story.SetAnchor">Set Face Anchor</sys:String>
+    <sys:String x:Key="Str.Story.AddAngle">+ Angle</sys:String>
+    <sys:String x:Key="Str.Story.SecondChar">+ 2nd Character</sys:String>
+    <sys:String x:Key="Str.Story.SceneActionLabel">Action, setting &amp; lighting (auto-merges Character DNA)</sys:String>
+    <sys:String x:Key="Str.Story.EnhanceScene">Enhance Scene</sys:String>
+    <sys:String x:Key="Str.Story.EnhancingScene">Enhancing…</sys:String>
+    <sys:String x:Key="Str.Story.DialogueLabel">Dialogue / Caption shown in Story Reader (optional)</sys:String>
+    <sys:String x:Key="Str.Story.PickPose">Choose 3D Pose</sys:String>
+    <sys:String x:Key="Str.Story.PickOutfit">Choose Outfit</sys:String>
+    <sys:String x:Key="Str.Story.RenderScene">Render Scene</sys:String>
+
+    <!-- GPU Jobs Queue -->
+    <sys:String x:Key="Str.Jobs.Title">GPU Generation Queue</sys:String>
+    <sys:String x:Key="Str.Jobs.Subtitle">Real-time status synchronized from the active local/LAN server.</sys:String>
+    <sys:String x:Key="Str.Jobs.Refresh">Refresh Queue</sys:String>
+    <sys:String x:Key="Str.Jobs.ColId">Job ID</sys:String>
+    <sys:String x:Key="Str.Jobs.ColStatus">Status</sys:String>
+    <sys:String x:Key="Str.Jobs.ColMode">Mode</sys:String>
+    <sys:String x:Key="Str.Jobs.ColDone">Completed</sys:String>
+    <sys:String x:Key="Str.Jobs.ColTime">Submitted</sys:String>
+    <sys:String x:Key="Str.Jobs.EmptyTitle">No Jobs Yet</sys:String>
+    <sys:String x:Key="Str.Jobs.EmptySub">Open AI Studio and submit a prompt to start generating.</sys:String>
+    <sys:String x:Key="Str.Jobs.OpenStudio">Open AI Studio</sys:String>
+    <sys:String x:Key="Str.Jobs.DetailTitle">Job Details</sys:String>
+    <sys:String x:Key="Str.Jobs.DetailHint">Select a job above to inspect metadata or retry/cancel.</sys:String>
+    <sys:String x:Key="Str.Jobs.CancelSelected">Cancel Selected Job</sys:String>
+    <sys:String x:Key="Str.Jobs.RetrySelected">Retry as New Job</sys:String>
+
+    <!-- Settings View -->
+    <sys:String x:Key="Str.Settings.Title">Settings</sys:String>
+    <sys:String x:Key="Str.Settings.Subtitle">One-click AI model setup, display language (English / Vietnamese / Chinese), theme, font scale, 18+ safety, auto-export folder, and server connection.</sys:String>
+    <sys:String x:Key="Str.Settings.AppearanceTitle">Appearance, Language &amp; Display</sys:String>
+    <sys:String x:Key="Str.Settings.AppearanceSub">Obsidian Black (#000000) &amp; Volt Lime (#B2CB25) design system synced across the entire workspace.</sys:String>
+    <sys:String x:Key="Str.Settings.LanguageTitle">Display Language (EN / VI / 中文)</sys:String>
+    <sys:String x:Key="Str.Settings.LanguageSub">Switch interface language instantly without restarting (saved automatically).</sys:String>
+    <sys:String x:Key="Str.Settings.ThemeTitle">Dark / Light Mode</sys:String>
+    <sys:String x:Key="Str.Settings.FontSizeTitle">Interface Font Size</sys:String>
+    <sys:String x:Key="Str.Settings.FontSizeSub">Adjust text scale live for crisp readability on any monitor (saved automatically).</sys:String>
+    <sys:String x:Key="Str.Settings.FontSmall">Small (90%)</sys:String>
+    <sys:String x:Key="Str.Settings.FontNormal">Normal (100%)</sys:String>
+    <sys:String x:Key="Str.Settings.FontLarge">Large (112%)</sys:String>
+    <sys:String x:Key="Str.Settings.FontXLarge">Extra Large (125%)</sys:String>
+    <sys:String x:Key="Str.Settings.FontDefault">Reset</sys:String>
+    <sys:String x:Key="Str.Settings.FontPreview">Preview text scale: Create crisp character concepts with Gula Studio.</sys:String>
+    <sys:String x:Key="Str.Settings.NsfwTitle">18+ Content Safety Control (NSFW)</sys:String>
+    <sys:String x:Key="Str.Settings.NsfwSub">Keep shared and family environments safe by hiding sensitive poses and outfits.</sys:String>
+    <sys:String x:Key="Str.Settings.NsfwCheck">Allow showing 18+ (NSFW) unlock toggle</sys:String>
+    <sys:String x:Key="Str.Settings.ExportTitle">Auto-Export Images to Disk</sys:String>
+    <sys:String x:Key="Str.Settings.ExportSub">Automatically save a full-resolution PNG copy to this folder after every generation or 2× upscale.</sys:String>
+    <sys:String x:Key="Str.Settings.ExportCheck">Enable automatic PNG export</sys:String>
+    <sys:String x:Key="Str.Settings.ExportFolder">Output folder</sys:String>
+    <sys:String x:Key="Str.Settings.BrowseFolder">Browse…</sys:String>
+    <sys:String x:Key="Str.Settings.ServerTitle">Server Connection</sys:String>
+    <sys:String x:Key="Str.Settings.ServerUrl">API Server URL</sys:String>
+    <sys:String x:Key="Str.Settings.ServerHint">The local AI server runs privately on your PC and connects automatically on launch.</sys:String>
+    <sys:String x:Key="Str.Settings.CheckConnection">Test Connection</sys:String>
+    <sys:String x:Key="Str.Settings.AiConfigTitle">AI Generation Engine</sys:String>
+
+    <!-- Setup & Model Manager -->
+    <sys:String x:Key="Str.Setup.Title">1-Click Setup &amp; Model Manager (Runtimes &amp; AI Weights)</sys:String>
+    <sys:String x:Key="Str.Setup.ModalTitle">Gula Studio — Setup &amp; Model Manager</sys:String>
+    <sys:String x:Key="Str.Setup.ScanDisk">Scan Disk</sys:String>
+    <sys:String x:Key="Str.Setup.RestartAi">Start AI Services</sys:String>
+    <sys:String x:Key="Str.Setup.ChangeFolder">Change Folder…</sys:String>
+    <sys:String x:Key="Str.Setup.InstallEssential">⚡ Install Essential Pack (1-Click)</sys:String>
+    <sys:String x:Key="Str.Setup.InstallFull">✨ Install Full Pack (Essential + Pro)</sys:String>
+    <sys:String x:Key="Str.Setup.CancelDownload">Stop Download</sys:String>
+    <sys:String x:Key="Str.Setup.InstallSql">Install SQL Express</sys:String>
+    <sys:String x:Key="Str.Setup.BtnInstall">Download &amp; Install</sys:String>
+    <sys:String x:Key="Str.Setup.BtnReinstall">Reinstall</sys:String>
+    <sys:String x:Key="Str.Setup.BtnDownloading">Downloading...</sys:String>
+    <sys:String x:Key="Str.Setup.BadgeInstalled">Installed ✓</sys:String>
+    <sys:String x:Key="Str.Setup.BadgeMissing">Not Installed</sys:String>
+    <sys:String x:Key="Str.Setup.BadgeInstalling">Installing...</sys:String>
+    <sys:String x:Key="Str.Setup.TierEssential">Required</sys:String>
+    <sys:String x:Key="Str.Setup.TierRecommended">Recommended</sys:String>
+    <sys:String x:Key="Str.Setup.TierOptional">Optional</sys:String>
+
+    <!-- Dynamic Theme & Safety Labels -->
+    <sys:String x:Key="Str.Theme.SwitchToLight">Switch to Light Mode</sys:String>
+    <sys:String x:Key="Str.Theme.SwitchToDark">Switch to Dark Mode</sys:String>
+    <sys:String x:Key="Str.Theme.DarkDesc">Dark Mode (Obsidian #000000 · #B2CB25)</sys:String>
+    <sys:String x:Key="Str.Theme.LightDesc">Light Mode (Crisp White · #000000 · #B2CB25)</sys:String>
+    <sys:String x:Key="Str.Nsfw.SafeTitle">Family-Safe Mode Active</sys:String>
+    <sys:String x:Key="Str.Nsfw.SafeDetail">All 18+ toggles are hidden and sensitive poses/outfits are completely filtered out.</sys:String>
+    <sys:String x:Key="Str.Nsfw.UnlockedTitle">18+ (NSFW) Option Enabled</sys:String>
+    <sys:String x:Key="Str.Nsfw.UnlockedDetail">You can toggle the 18+ filter inside the 3D Pose and Outfit galleries when needed.</sys:String>
+
+    <!-- Lightbox Pro Studio (Details · Magic Brush · Film Color Grading) -->
+    <sys:String x:Key="Str.Lightbox.Title">Lightbox Pro &amp; Finishing</sys:String>
+    <sys:String x:Key="Str.Lightbox.TabDetails">Details</sys:String>
+    <sys:String x:Key="Str.Lightbox.TabBrush">Magic Brush</sys:String>
+    <sys:String x:Key="Str.Lightbox.TabFilm">Film Color</sys:String>
+    <sys:String x:Key="Str.Lightbox.DownloadPng">Download PNG</sys:String>
+    <sys:String x:Key="Str.Lightbox.CopyImage">Copy Image</sys:String>
+    <sys:String x:Key="Str.Lightbox.ProTitle">Studio Pro Enhancement</sys:String>
+    <sys:String x:Key="Str.Lightbox.HiresDenoise">2K Detail Reconstruction (Denoise)</sys:String>
+    <sys:String x:Key="Str.Lightbox.HiresFix2K">2K Tiled Hires-Fix</sys:String>
+    <sys:String x:Key="Str.Lightbox.Upscale2xFast">Fast 2× Upscale</sys:String>
+    <sys:String x:Key="Str.Lightbox.RemoveBgPng">Remove BG (PNG)</sys:String>
+    <sys:String x:Key="Str.Lightbox.LockSeed">Lock Seed</sys:String>
+    <sys:String x:Key="Str.Lightbox.ReusePrompt">Reuse Prompt</sys:String>
+    <sys:String x:Key="Str.Lightbox.UsedPrompt">Prompt Used</sys:String>
+    <sys:String x:Key="Str.Lightbox.BrushTitle">1. Magic Brush Inpainting</sys:String>
+    <sys:String x:Key="Str.Lightbox.BrushHint">Paint green over any object, hand, hair, outfit, or unwanted area on the left canvas.</sys:String>
+    <sys:String x:Key="Str.Lightbox.BrushEraseMode">Eraser mode (remove painted mask)</sys:String>
+    <sys:String x:Key="Str.Lightbox.BrushPromptLabel">Describe what AI should redraw</sys:String>
+    <sys:String x:Key="Str.Lightbox.BrushControlStrength">Context adherence (ControlNet)</sys:String>
+    <sys:String x:Key="Str.Lightbox.BrushRunInpaint">Inpaint Masked Area</sys:String>
+    <sys:String x:Key="Str.Lightbox.OutpaintTitle">2. Canvas Outpainting</sys:String>
+    <sys:String x:Key="Str.Lightbox.OutpaintHint">Seamlessly expand the surrounding scene to a new aspect ratio.</sys:String>
+    <sys:String x:Key="Str.Lightbox.Outpaint16x9">Expand 16:9</sys:String>
+    <sys:String x:Key="Str.Lightbox.Outpaint1x1">Expand 1:1</sys:String>
+    <sys:String x:Key="Str.Lightbox.Outpaint3x4">Expand 3:4</sys:String>
+    <sys:String x:Key="Str.Lightbox.OutpaintExpand25">Expand +25%</sys:String>
+    <sys:String x:Key="Str.Lightbox.OutpaintLeft">Expand Left</sys:String>
+    <sys:String x:Key="Str.Lightbox.OutpaintRight">Expand Right</sys:String>
+    <sys:String x:Key="Str.Lightbox.FilmTitle">Cinema Film Looks (0-GPU · Real-Time Preview)</sys:String>
+    <sys:String x:Key="Str.Lightbox.GradeExposure">Exposure</sys:String>
+    <sys:String x:Key="Str.Lightbox.GradeContrast">Contrast</sys:String>
+    <sys:String x:Key="Str.Lightbox.GradeSaturation">Saturation</sys:String>
+    <sys:String x:Key="Str.Lightbox.GradeWarmth">Color Temperature (Warm / Cool)</sys:String>
+    <sys:String x:Key="Str.Lightbox.GradeClarity">Micro Clarity</sys:String>
+    <sys:String x:Key="Str.Lightbox.GradeFilmGrain">35mm Film Grain</sys:String>
+    <sys:String x:Key="Str.Lightbox.GradeVignette">Cinema Vignette</sys:String>
+    <sys:String x:Key="Str.Lightbox.GradeCommit">Apply Color Grade</sys:String>
+    <sys:String x:Key="Str.Lightbox.GradeReset">Reset</sys:String>
+    <sys:String x:Key="Str.Lightbox.MaskBanner">Magic Brush · Paint over the region you want AI to edit</sys:String>
+    <sys:String x:Key="Str.Lightbox.BrushSize">Brush size:</sys:String>
+    <sys:String x:Key="Str.Lightbox.Undo">Undo</sys:String>
+    <sys:String x:Key="Str.Lightbox.ClearStrokes">Clear Mask</sys:String>
+    <sys:String x:Key="Str.Lightbox.ViewportEmpty">No image to display</sys:String>
+    <sys:String x:Key="Str.Lightbox.ViewportHint">Ctrl+Scroll: zoom · Drag: pan</sys:String>
+    <sys:String x:Key="Str.Lightbox.FitFrame">Fit</sys:String>
+
+    <!-- Storyboard Extended Labels -->
+    <sys:String x:Key="Str.Story.NoFaceYet">No face anchor yet</sys:String>
+    <sys:String x:Key="Str.Story.View1x1">View 1:1</sys:String>
+    <sys:String x:Key="Str.Story.FacePackTitle">Face Identity Pack</sys:String>
+    <sys:String x:Key="Str.Story.UploadPrimary">Upload Primary</sys:String>
+    <sys:String x:Key="Str.Story.AutoDrawFace">Generate Portrait</sys:String>
+    <sys:String x:Key="Str.Story.AddFaceAngle">+ Add Angle</sys:String>
+    <sys:String x:Key="Str.Story.ThreeAnglePack">3-Angle Pack</sys:String>
+    <sys:String x:Key="Str.Story.ExtraFacesHint">Add 3/4 angles or smiling/neutral expressions for smooth identity lock across head turns.</sys:String>
+    <sys:String x:Key="Str.Story.CharName">Character Name</sys:String>
+    <sys:String x:Key="Str.Story.VisualDnaLabel">Face &amp; Hair Visual DNA (persisted across scenes)</sys:String>
+    <sys:String x:Key="Str.Story.BodyDnaLabel">Body Proportions &amp; Build DNA</sys:String>
+    <sys:String x:Key="Str.Story.Sync">Sync</sys:String>
+    <sys:String x:Key="Str.Story.EnableFaceLock">Enable Face Identity Lock (0-VRAM CPU)</sys:String>
+    <sys:String x:Key="Str.Story.FaceSimilarity">Face Identity Strength</sys:String>
+    <sys:String x:Key="Str.Story.FaceRestoreLabel">Face Detail Restore (recommended 35–45%)</sys:String>
+    <sys:String x:Key="Str.Story.UseInAiStudio">Use in AI Studio</sys:String>
+    <sys:String x:Key="Str.Story.SceneEmptyHint">Click 'Render Scene' to generate artwork</sys:String>
+    <sys:String x:Key="Str.Story.RenderingScene">Rendering scene on GPU…</sys:String>
+    <sys:String x:Key="Str.Story.PoseSectionTitle">3D Depth Pose &amp; Camera Angle</sys:String>
+    <sys:String x:Key="Str.Story.NoPoseSelected">No pose selected (AI free composition)</sys:String>
+    <sys:String x:Key="Str.Story.OutfitSectionTitle">Scene Outfit (Men &amp; Women)</sys:String>
+    <sys:String x:Key="Str.Story.NoOutfitSelected">No outfit selected (uses character / scene prompt)</sys:String>
+    <sys:String x:Key="Str.Story.ReaderEmptyHint">This scene has not been rendered yet — return to editor mode to generate it.</sys:String>
+
+    <!-- Outfit Gallery -->
+    <sys:String x:Key="Str.Outfit.Subtitle">Ranked by visual fidelity (highest accuracy first) · Automatically composes structured outfit cues into your prompt.</sys:String>
+    <sys:String x:Key="Str.Outfit.Unlock18">Unlock 18+</sys:String>
+    <sys:String x:Key="Str.Outfit.SearchPlaceholder">Search outfits (e.g., blazer, dress, denim, kimono…)</sys:String>
+    <sys:String x:Key="Str.Outfit.Reset">Reset</sys:String>
+    <sys:String x:Key="Str.Outfit.PrevPage">Previous</sys:String>
+    <sys:String x:Key="Str.Outfit.NextPage">Next</sys:String>
+    <sys:String x:Key="Str.Outfit.Loading">Loading outfit library…</sys:String>
+    <sys:String x:Key="Str.Outfit.EmptyTitle">No matching outfits found</sys:String>
+    <sys:String x:Key="Str.Outfit.EmptyHint">Try a shorter keyword (e.g., jacket, suit, dress) or click Reset Filters.</sys:String>
+    <sys:String x:Key="Str.Outfit.ResetFilters">Reset Filters</sys:String>
+    <sys:String x:Key="Str.Outfit.LoadingImg">Loading…</sys:String>
+    <sys:String x:Key="Str.Outfit.SelectThis">Select Outfit</sys:String>
+</ResourceDictionary>

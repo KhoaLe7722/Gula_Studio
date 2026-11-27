@@ -1,0 +1,245 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=System.Runtime">
+    <!-- Common -->
+    <sys:String x:Key="Str.Common.Close">Đóng</sys:String>
+    <sys:String x:Key="Str.Common.Cancel">Hủy</sys:String>
+    <sys:String x:Key="Str.Common.Delete">Xóa</sys:String>
+    <sys:String x:Key="Str.Common.Refresh">Làm mới</sys:String>
+    <sys:String x:Key="Str.Common.OpenFolder">Mở thư mục</sys:String>
+    <sys:String x:Key="Str.Common.Copy">Sao chép</sys:String>
+
+    <!-- Sidebar Navigation -->
+    <sys:String x:Key="Str.Nav.AiStudio">Tạo ảnh AI</sys:String>
+    <sys:String x:Key="Str.Nav.Storyboard">Câu chuyện</sys:String>
+    <sys:String x:Key="Str.Nav.Favorites">Yêu thích</sys:String>
+    <sys:String x:Key="Str.Nav.GpuQueue">Hàng đợi GPU</sys:String>
+    <sys:String x:Key="Str.Nav.OutputFolder">Thư mục ảnh</sys:String>
+    <sys:String x:Key="Str.Nav.NewChat">Tạo mới</sys:String>
+    <sys:String x:Key="Str.Nav.Recent">GẦN ĐÂY</sys:String>
+    <sys:String x:Key="Str.Nav.SearchHistory">Tìm lịch sử…</sys:String>
+    <sys:String x:Key="Str.Nav.NoHistory">Chưa có cuộc trò chuyện nào.</sys:String>
+    <sys:String x:Key="Str.Nav.Settings">Cài đặt</sys:String>
+    <sys:String x:Key="Str.Nav.NewConversationTitle">Cuộc trò chuyện mới</sys:String>
+
+    <!-- Reconnect / Startup -->
+    <sys:String x:Key="Str.Reconnect.Button">Kết nối lại máy chủ AI cục bộ</sys:String>
+    <sys:String x:Key="Str.Reconnect.SetupButton">⚡ Tải &amp; Cài đặt Mô hình AI (1-Click)</sys:String>
+
+    <!-- Studio View & Composer -->
+    <sys:String x:Key="Str.Studio.PromptPlaceholder">Bạn muốn tưởng tượng điều gì? (Đính kèm ảnh · Nói bằng giọng nói · Ctrl+Enter)</sys:String>
+    <sys:String x:Key="Str.Studio.QualityStandard">Chuẩn</sys:String>
+    <sys:String x:Key="Str.Studio.Pose3D">Dáng 3D</sys:String>
+    <sys:String x:Key="Str.Studio.Outfits">Trang phục</sys:String>
+    <sys:String x:Key="Str.Studio.Character">Nhân vật</sys:String>
+    <sys:String x:Key="Str.Studio.Fast">Nhanh</sys:String>
+    <sys:String x:Key="Str.Studio.Batch1">1 ảnh</sys:String>
+    <sys:String x:Key="Str.Studio.Batch2">2 ảnh</sys:String>
+    <sys:String x:Key="Str.Studio.Batch4">4 ảnh</sys:String>
+    <sys:String x:Key="Str.Studio.Options">Tùy chỉnh</sys:String>
+    <sys:String x:Key="Str.Studio.Generate">Tạo ảnh</sys:String>
+    <sys:String x:Key="Str.Studio.ProTitle">Tùy chỉnh tạo ảnh Pro (Phong cách · Ánh sáng · Ống kính · LoRA)</sys:String>
+    <sys:String x:Key="Str.Studio.Style">Phong cách</sys:String>
+    <sys:String x:Key="Str.Studio.Lighting">Ánh sáng điện ảnh</sys:String>
+    <sys:String x:Key="Str.Studio.CameraLens">Ống kính &amp; Góc máy</sys:String>
+    <sys:String x:Key="Str.Studio.LoraTitle">Kho LoRA Chi tiết &amp; Phong cách (tối đa 3)</sys:String>
+    <sys:String x:Key="Str.Studio.NoLoras">Chưa tìm thấy tệp .safetensors trong ComfyUI/models/loras.</sys:String>
+    <sys:String x:Key="Str.Studio.DeepReasoning">Suy luận sâu</sys:String>
+    <sys:String x:Key="Str.Studio.PosterText">Chữ Poster</sys:String>
+    <sys:String x:Key="Str.Studio.NineExpressions">9 biểu cảm</sys:String>
+    <sys:String x:Key="Str.Studio.Width">Rộng (px)</sys:String>
+    <sys:String x:Key="Str.Studio.Height">Cao (px)</sys:String>
+    <sys:String x:Key="Str.Studio.Seed">Seed (trống = ngẫu nhiên)</sys:String>
+    <sys:String x:Key="Str.Studio.Count">Số ảnh</sys:String>
+    <sys:String x:Key="Str.Studio.PromptMode">Chế độ Prompt</sys:String>
+    <sys:String x:Key="Str.Studio.PreviewPrompt">Xem prompt cuối</sys:String>
+
+    <!-- Storyboard Studio -->
+    <sys:String x:Key="Str.Story.Title">Xưởng Câu chuyện &amp; Storyboard</sys:String>
+    <sys:String x:Key="Str.Story.Subtitle">Đồng nhất nhân vật qua mọi cảnh · Khóa gương mặt, tóc &amp; cơ thể · Kho Dáng 3D &amp; Trang phục</sys:String>
+    <sys:String x:Key="Str.Story.Export">Xuất bộ truyện</sys:String>
+    <sys:String x:Key="Str.Story.RenderAll">Vẽ tất cả cảnh</sys:String>
+    <sys:String x:Key="Str.Story.StopBatch">Dừng vẽ loạt</sys:String>
+    <sys:String x:Key="Str.Story.NewStory">Truyện mới</sys:String>
+    <sys:String x:Key="Str.Story.StyleColon">Phong cách:</sys:String>
+    <sys:String x:Key="Str.Story.CastHeader">1. Dàn nhân vật cố định</sys:String>
+    <sys:String x:Key="Str.Story.CastSub">Nhấn chọn nhân vật để chỉnh mặt gốc &amp; DNA</sys:String>
+    <sys:String x:Key="Str.Story.Add">+ Thêm</sys:String>
+    <sys:String x:Key="Str.Story.ScenesHeader">2. Phân cảnh câu chuyện</sys:String>
+    <sys:String x:Key="Str.Story.AddScene">Thêm cảnh mới</sys:String>
+    <sys:String x:Key="Str.Story.View1to1">Soi 1:1</sys:String>
+    <sys:String x:Key="Str.Story.Upscale2x">2× Nét</sys:String>
+    <sys:String x:Key="Str.Story.SetAnchor">Lấy mặt gốc</sys:String>
+    <sys:String x:Key="Str.Story.AddAngle">+ Góc mặt</sys:String>
+    <sys:String x:Key="Str.Story.SecondChar">+ Nhân vật 2</sys:String>
+    <sys:String x:Key="Str.Story.SceneActionLabel">Hành động, bối cảnh &amp; ánh sáng (tự ghép DNA)</sys:String>
+    <sys:String x:Key="Str.Story.EnhanceScene">Nâng cấp cảnh</sys:String>
+    <sys:String x:Key="Str.Story.EnhancingScene">Đang nâng cấp…</sys:String>
+    <sys:String x:Key="Str.Story.DialogueLabel">Lời thoại / Chú thích hiển thị khi đọc truyện (tùy chọn)</sys:String>
+    <sys:String x:Key="Str.Story.PickPose">Chọn dáng 3D</sys:String>
+    <sys:String x:Key="Str.Story.PickOutfit">Chọn trang phục</sys:String>
+    <sys:String x:Key="Str.Story.RenderScene">Vẽ cảnh này</sys:String>
+
+    <!-- GPU Jobs Queue -->
+    <sys:String x:Key="Str.Jobs.Title">Tác vụ sinh ảnh</sys:String>
+    <sys:String x:Key="Str.Jobs.Subtitle">Trạng thái được đồng bộ từ máy chủ của dự án đang chọn.</sys:String>
+    <sys:String x:Key="Str.Jobs.Refresh">Làm mới hàng đợi</sys:String>
+    <sys:String x:Key="Str.Jobs.ColId">Mã tác vụ</sys:String>
+    <sys:String x:Key="Str.Jobs.ColStatus">Trạng thái</sys:String>
+    <sys:String x:Key="Str.Jobs.ColMode">Chế độ</sys:String>
+    <sys:String x:Key="Str.Jobs.ColDone">Đã tạo</sys:String>
+    <sys:String x:Key="Str.Jobs.ColTime">Thời điểm gửi</sys:String>
+    <sys:String x:Key="Str.Jobs.EmptyTitle">Chưa có tác vụ</sys:String>
+    <sys:String x:Key="Str.Jobs.EmptySub">Chọn nhân vật và gửi ý tưởng từ Studio AI.</sys:String>
+    <sys:String x:Key="Str.Jobs.OpenStudio">Mở Studio AI</sys:String>
+    <sys:String x:Key="Str.Jobs.DetailTitle">Chi tiết tác vụ</sys:String>
+    <sys:String x:Key="Str.Jobs.DetailHint">Chọn một tác vụ trong bảng phía trên để xem chi tiết hoặc thao tác.</sys:String>
+    <sys:String x:Key="Str.Jobs.CancelSelected">Hủy tác vụ đã chọn</sys:String>
+    <sys:String x:Key="Str.Jobs.RetrySelected">Thử lại thành tác vụ mới</sys:String>
+
+    <!-- Settings View -->
+    <sys:String x:Key="Str.Settings.Title">Cài đặt</sys:String>
+    <sys:String x:Key="Str.Settings.Subtitle">Tải &amp; cài đặt tự động mô hình AI, tùy chỉnh ngôn ngữ (Anh / Việt / Trung), giao diện, cỡ chữ, chế độ an toàn 18+, thư mục lưu ảnh và máy chủ.</sys:String>
+    <sys:String x:Key="Str.Settings.AppearanceTitle">Giao diện, Ngôn ngữ &amp; Hiển thị</sys:String>
+    <sys:String x:Key="Str.Settings.AppearanceSub">Bảng màu chủ đạo Đen (#000000) · Xanh chanh (#B2CB25) đồng bộ cho toàn bộ ứng dụng.</sys:String>
+    <sys:String x:Key="Str.Settings.LanguageTitle">Ngôn ngữ giao diện (Việt / Anh / Trung)</sys:String>
+    <sys:String x:Key="Str.Settings.LanguageSub">Đổi ngôn ngữ hiển thị ngay lập tức không cần khởi động lại ứng dụng (tự động lưu).</sys:String>
+    <sys:String x:Key="Str.Settings.ThemeTitle">Chế độ sáng / tối</sys:String>
+    <sys:String x:Key="Str.Settings.FontSizeTitle">Kích thước chữ giao diện</sys:String>
+    <sys:String x:Key="Str.Settings.FontSizeSub">Tăng hoặc giảm cỡ chữ ngay lập tức cho dễ đọc hơn trên mọi màn hình (tự động lưu).</sys:String>
+    <sys:String x:Key="Str.Settings.FontSmall">Nhỏ (90%)</sys:String>
+    <sys:String x:Key="Str.Settings.FontNormal">Chuẩn (100%)</sys:String>
+    <sys:String x:Key="Str.Settings.FontLarge">Lớn (112%)</sys:String>
+    <sys:String x:Key="Str.Settings.FontXLarge">Rất lớn (125%)</sys:String>
+    <sys:String x:Key="Str.Settings.FontDefault">Mặc định</sys:String>
+    <sys:String x:Key="Str.Settings.FontPreview">Xem trước cỡ chữ: Sáng tạo tác phẩm sắc nét cùng Gula Studio.</sys:String>
+    <sys:String x:Key="Str.Settings.NsfwTitle">Kiểm soát nội dung 18+ (NSFW)</sys:String>
+    <sys:String x:Key="Str.Settings.NsfwSub">Bảo vệ trẻ nhỏ &amp; môi trường gia đình khi sử dụng chung ứng dụng.</sys:String>
+    <sys:String x:Key="Str.Settings.NsfwCheck">Cho phép hiển thị tùy chọn Mở khóa 18+ (NSFW)</sys:String>
+    <sys:String x:Key="Str.Settings.ExportTitle">Tự động lưu ảnh ra máy tính</sys:String>
+    <sys:String x:Key="Str.Settings.ExportSub">Mỗi khi tạo xong hoặc nâng cấp nét 2×, ứng dụng tự động lưu thêm một bản PNG sắc nét vào thư mục này.</sys:String>
+    <sys:String x:Key="Str.Settings.ExportCheck">Bật tự động lưu ảnh sau khi tạo</sys:String>
+    <sys:String x:Key="Str.Settings.ExportFolder">Thư mục lưu ảnh</sys:String>
+    <sys:String x:Key="Str.Settings.BrowseFolder">Chọn thư mục…</sys:String>
+    <sys:String x:Key="Str.Settings.ServerTitle">Kết nối máy chủ</sys:String>
+    <sys:String x:Key="Str.Settings.ServerUrl">Địa chỉ máy chủ API</sys:String>
+    <sys:String x:Key="Str.Settings.ServerHint">Máy chủ xử lý AI chạy cục bộ ngay trên máy này và tự động kết nối khi mở ứng dụng.</sys:String>
+    <sys:String x:Key="Str.Settings.CheckConnection">Kiểm tra kết nối</sys:String>
+    <sys:String x:Key="Str.Settings.AiConfigTitle">Cấu hình sinh ảnh AI</sys:String>
+
+    <!-- Setup & Model Manager -->
+    <sys:String x:Key="Str.Setup.Title">Trình Tải &amp; Cài Đặt Tự Động (Mô hình &amp; Môi trường)</sys:String>
+    <sys:String x:Key="Str.Setup.ModalTitle">Gula Studio — Cài đặt &amp; Tải Mô hình AI</sys:String>
+    <sys:String x:Key="Str.Setup.ScanDisk">Quét ổ đĩa</sys:String>
+    <sys:String x:Key="Str.Setup.RestartAi">Khởi động Dịch vụ AI</sys:String>
+    <sys:String x:Key="Str.Setup.ChangeFolder">Đổi thư mục…</sys:String>
+    <sys:String x:Key="Str.Setup.InstallEssential">⚡ Cài đặt Gói Cơ Bản (1-Click)</sys:String>
+    <sys:String x:Key="Str.Setup.InstallFull">✨ Tải đủ Gói Cơ Bản + Nâng Cao</sys:String>
+    <sys:String x:Key="Str.Setup.CancelDownload">Dừng tải</sys:String>
+    <sys:String x:Key="Str.Setup.InstallSql">Cài SQL Express</sys:String>
+    <sys:String x:Key="Str.Setup.BtnInstall">Tải &amp; Cài đặt</sys:String>
+    <sys:String x:Key="Str.Setup.BtnReinstall">Cài lại</sys:String>
+    <sys:String x:Key="Str.Setup.BtnDownloading">Đang tải...</sys:String>
+    <sys:String x:Key="Str.Setup.BadgeInstalled">Đã cài đặt ✓</sys:String>
+    <sys:String x:Key="Str.Setup.BadgeMissing">Chưa tải</sys:String>
+    <sys:String x:Key="Str.Setup.BadgeInstalling">Đang cài...</sys:String>
+    <sys:String x:Key="Str.Setup.TierEssential">Bắt buộc</sys:String>
+    <sys:String x:Key="Str.Setup.TierRecommended">Khuyên dùng</sys:String>
+    <sys:String x:Key="Str.Setup.TierOptional">Tùy chọn</sys:String>
+
+    <!-- Dynamic Theme & Safety Labels -->
+    <sys:String x:Key="Str.Theme.SwitchToLight">Chuyển sang giao diện sáng</sys:String>
+    <sys:String x:Key="Str.Theme.SwitchToDark">Chuyển sang giao diện tối</sys:String>
+    <sys:String x:Key="Str.Theme.DarkDesc">Giao diện tối (Đen #000000 · #B2CB25)</sys:String>
+    <sys:String x:Key="Str.Theme.LightDesc">Giao diện sáng (Trắng · Đen #000000 · #B2CB25)</sys:String>
+    <sys:String x:Key="Str.Nsfw.SafeTitle">Đang bật chế độ An toàn (Trẻ nhỏ &amp; Gia đình)</sys:String>
+    <sys:String x:Key="Str.Nsfw.SafeDetail">Đã ẩn hoàn toàn nút Mở khóa 18+ và lọc sạch mọi tư thế / trang phục nhạy cảm.</sys:String>
+    <sys:String x:Key="Str.Nsfw.UnlockedTitle">Đã cho phép hiển thị tùy chọn 18+ (NSFW)</sys:String>
+    <sys:String x:Key="Str.Nsfw.UnlockedDetail">Bạn có thể bật hoặc tắt bộ lọc 18+ trong kho Dáng 3D và Trang phục khi cần thiết.</sys:String>
+
+    <!-- Lightbox Pro Studio -->
+    <sys:String x:Key="Str.Lightbox.Title">Studio Hậu kỳ &amp; Chi tiết</sys:String>
+    <sys:String x:Key="Str.Lightbox.TabDetails">Chi tiết</sys:String>
+    <sys:String x:Key="Str.Lightbox.TabBrush">Cọ sửa &amp; Mở rộng</sys:String>
+    <sys:String x:Key="Str.Lightbox.TabFilm">Màu Film</sys:String>
+    <sys:String x:Key="Str.Lightbox.DownloadPng">Tải về PNG</sys:String>
+    <sys:String x:Key="Str.Lightbox.CopyImage">Sao chép ảnh</sys:String>
+    <sys:String x:Key="Str.Lightbox.ProTitle">Nâng cấp ảnh Studio Pro</sys:String>
+    <sys:String x:Key="Str.Lightbox.HiresDenoise">Mức tái tạo chi tiết 2K (Denoise)</sys:String>
+    <sys:String x:Key="Str.Lightbox.HiresFix2K">Siêu nét 2K (Hires-Fix)</sys:String>
+    <sys:String x:Key="Str.Lightbox.Upscale2xFast">Nâng 2× nhanh</sys:String>
+    <sys:String x:Key="Str.Lightbox.RemoveBgPng">Tách nền PNG</sys:String>
+    <sys:String x:Key="Str.Lightbox.LockSeed">Khóa Seed</sys:String>
+    <sys:String x:Key="Str.Lightbox.ReusePrompt">Dùng lại Prompt</sys:String>
+    <sys:String x:Key="Str.Lightbox.UsedPrompt">Prompt đã sử dụng</sys:String>
+    <sys:String x:Key="Str.Lightbox.BrushTitle">1. Cọ sửa chi tiết (Magic Brush Inpaint)</sys:String>
+    <sys:String x:Key="Str.Lightbox.BrushHint">Tô cọ xanh lên vùng tay, mặt, tóc, trang phục hoặc vật thừa trên ảnh bên trái.</sys:String>
+    <sys:String x:Key="Str.Lightbox.BrushEraseMode">Chế độ Tẩy nét mask (xóa vùng đã tô)</sys:String>
+    <sys:String x:Key="Str.Lightbox.BrushPromptLabel">Mô tả chi tiết muốn AI vẽ lại</sys:String>
+    <sys:String x:Key="Str.Lightbox.BrushControlStrength">Độ bám bối cảnh gốc (ControlNet)</sys:String>
+    <sys:String x:Key="Str.Lightbox.BrushRunInpaint">Sửa vùng đã tô (Inpaint)</sys:String>
+    <sys:String x:Key="Str.Lightbox.OutpaintTitle">2. Mở rộng khung hình (Outpainting)</sys:String>
+    <sys:String x:Key="Str.Lightbox.OutpaintHint">Tự động vẽ mở rộng bối cảnh xung quanh sang tỉ lệ mới liền mạch.</sys:String>
+    <sys:String x:Key="Str.Lightbox.Outpaint16x9">Mở ngang 16:9</sys:String>
+    <sys:String x:Key="Str.Lightbox.Outpaint1x1">Mở vuông 1:1</sys:String>
+    <sys:String x:Key="Str.Lightbox.Outpaint3x4">Mở dọc 3:4</sys:String>
+    <sys:String x:Key="Str.Lightbox.OutpaintExpand25">Mở rộng +25%</sys:String>
+    <sys:String x:Key="Str.Lightbox.OutpaintLeft">Mở sang Trái</sys:String>
+    <sys:String x:Key="Str.Lightbox.OutpaintRight">Mở sang Phải</sys:String>
+    <sys:String x:Key="Str.Lightbox.FilmTitle">Bộ lọc màu điện ảnh (0 giây GPU · xem trực tiếp)</sys:String>
+    <sys:String x:Key="Str.Lightbox.GradeExposure">Độ sáng (Exposure)</sys:String>
+    <sys:String x:Key="Str.Lightbox.GradeContrast">Tương phản (Contrast)</sys:String>
+    <sys:String x:Key="Str.Lightbox.GradeSaturation">Độ bão hòa (Saturation)</sys:String>
+    <sys:String x:Key="Str.Lightbox.GradeWarmth">Nhiệt màu (Ấm / Lạnh)</sys:String>
+    <sys:String x:Key="Str.Lightbox.GradeClarity">Độ nét vi mô (Clarity)</sys:String>
+    <sys:String x:Key="Str.Lightbox.GradeFilmGrain">Hạt phim 35mm (Film Grain)</sys:String>
+    <sys:String x:Key="Str.Lightbox.GradeVignette">Viền tối điện ảnh (Vignette)</sys:String>
+    <sys:String x:Key="Str.Lightbox.GradeCommit">Áp dụng màu vào ảnh</sys:String>
+    <sys:String x:Key="Str.Lightbox.GradeReset">Đặt lại</sys:String>
+    <sys:String x:Key="Str.Lightbox.MaskBanner">Cọ sửa ảnh (Magic Brush) · Tô lên vùng muốn AI sửa lại</sys:String>
+    <sys:String x:Key="Str.Lightbox.BrushSize">Cỡ cọ:</sys:String>
+    <sys:String x:Key="Str.Lightbox.Undo">Hoàn tác</sys:String>
+    <sys:String x:Key="Str.Lightbox.ClearStrokes">Xóa hết nét tô</sys:String>
+    <sys:String x:Key="Str.Lightbox.ViewportEmpty">Chưa có ảnh để hiển thị</sys:String>
+    <sys:String x:Key="Str.Lightbox.ViewportHint">Ctrl+Cuộn: thu phóng · Kéo chuột: di chuyển</sys:String>
+    <sys:String x:Key="Str.Lightbox.FitFrame">Vừa khung</sys:String>
+
+    <!-- Storyboard Extended Labels -->
+    <sys:String x:Key="Str.Story.NoFaceYet">Chưa có ảnh mặt gốc</sys:String>
+    <sys:String x:Key="Str.Story.View1x1">Xem 1:1</sys:String>
+    <sys:String x:Key="Str.Story.FacePackTitle">Bộ gương mặt gốc</sys:String>
+    <sys:String x:Key="Str.Story.UploadPrimary">Tải ảnh chính</sys:String>
+    <sys:String x:Key="Str.Story.AutoDrawFace">Tự vẽ mặt gốc</sys:String>
+    <sys:String x:Key="Str.Story.AddFaceAngle">+ Thêm góc mặt</sys:String>
+    <sys:String x:Key="Str.Story.ThreeAnglePack">Bộ 3 góc mặt</sys:String>
+    <sys:String x:Key="Str.Story.ExtraFacesHint">Thêm góc nghiêng 3/4 hoặc biểu cảm cười/buồn để AI đồng nhất khuôn mặt mượt hơn ở mọi góc quay đầu.</sys:String>
+    <sys:String x:Key="Str.Story.CharName">Tên nhân vật</sys:String>
+    <sys:String x:Key="Str.Story.VisualDnaLabel">Hồ sơ DNA gương mặt &amp; tóc (cố định mọi cảnh)</sys:String>
+    <sys:String x:Key="Str.Story.BodyDnaLabel">Chỉ số cơ thể &amp; dáng người cố định</sys:String>
+    <sys:String x:Key="Str.Story.Sync">Đồng bộ</sys:String>
+    <sys:String x:Key="Str.Story.EnableFaceLock">Bật khóa gương mặt đồng nhất</sys:String>
+    <sys:String x:Key="Str.Story.FaceSimilarity">Độ giống khuôn mặt</sys:String>
+    <sys:String x:Key="Str.Story.FaceRestoreLabel">Làm mịn &amp; sắc nét mặt (khuyên 35–45%)</sys:String>
+    <sys:String x:Key="Str.Story.UseInAiStudio">Dùng ở Tạo ảnh AI</sys:String>
+    <sys:String x:Key="Str.Story.SceneEmptyHint">Nhấn 'Vẽ cảnh này' để tạo ảnh</sys:String>
+    <sys:String x:Key="Str.Story.RenderingScene">Đang vẽ cảnh trên GPU…</sys:String>
+    <sys:String x:Key="Str.Story.PoseSectionTitle">Tư thế &amp; Góc máy 3D</sys:String>
+    <sys:String x:Key="Str.Story.NoPoseSelected">Chưa chọn dáng (AI tự do tạo bố cục)</sys:String>
+    <sys:String x:Key="Str.Story.OutfitSectionTitle">Trang phục cảnh này (Nam &amp; Nữ)</sys:String>
+    <sys:String x:Key="Str.Story.NoOutfitSelected">Chưa chọn trang phục (dùng theo mô tả nhân vật / cảnh)</sys:String>
+    <sys:String x:Key="Str.Story.ReaderEmptyHint">Cảnh này chưa được vẽ — quay lại chế độ chỉnh sửa để vẽ cảnh.</sys:String>
+
+    <!-- Outfit Gallery -->
+    <sys:String x:Key="Str.Outfit.Subtitle">Xếp từ trên xuống theo độ chuẩn cao nhất (Chuẩn nhất 100% ở đầu · bộ dễ lệch xếp cuối) · Tự ghép trang phục chuẩn vào prompt.</sys:String>
+    <sys:String x:Key="Str.Outfit.Unlock18">Mở khóa 18+</sys:String>
+    <sys:String x:Key="Str.Outfit.SearchPlaceholder">Tìm trang phục (VD: vest, váy, denim, cổ trang…)</sys:String>
+    <sys:String x:Key="Str.Outfit.Reset">Đặt lại</sys:String>
+    <sys:String x:Key="Str.Outfit.PrevPage">Trang trước</sys:String>
+    <sys:String x:Key="Str.Outfit.NextPage">Trang sau</sys:String>
+    <sys:String x:Key="Str.Outfit.Loading">Đang nạp kho trang phục…</sys:String>
+    <sys:String x:Key="Str.Outfit.EmptyTitle">Không tìm thấy trang phục phù hợp</sys:String>
+    <sys:String x:Key="Str.Outfit.EmptyHint">Hãy thử từ khóa ngắn hơn (VD: vest, váy, denim, cổ trang) hoặc bấm Đặt lại bộ lọc.</sys:String>
+    <sys:String x:Key="Str.Outfit.ResetFilters">Đặt lại bộ lọc</sys:String>
+    <sys:String x:Key="Str.Outfit.LoadingImg">Đang tải…</sys:String>
+    <sys:String x:Key="Str.Outfit.SelectThis">Chọn bộ này</sys:String>
+</ResourceDictionary>

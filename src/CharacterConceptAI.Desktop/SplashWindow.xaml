@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window x:Class="CharacterConceptAI.Desktop.SplashWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Gula Studio"
+        Width="1632" Height="932"
+        WindowStartupLocation="Manual"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        ResizeMode="NoResize"
+        ShowInTaskbar="False"
+        Topmost="True"
+        Opacity="1">
+    <Grid>
+        <!-- STAGE 2: Cinema 3x Scale Dark-Neon Volt-Lime Gula Studio Splash Card (16:10 matching 2560x1600) -->
+        <Grid x:Name="PosterLayer" Margin="16" Opacity="0" RenderTransformOrigin="0.5,0.5">
+            <Grid.RenderTransform>
+                <ScaleTransform x:Name="PosterScale" ScaleX="0.96" ScaleY="0.96"/>
+            </Grid.RenderTransform>
+
+            <!-- Soft editorial outer drop shadow -->
+            <Border CornerRadius="20" Background="#000000">
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="30" ShadowDepth="8" Opacity="0.78" Color="#000000"/>
+                </Border.Effect>
+            </Border>
+
+            <!-- Main clipped artistic splash card -->
+            <Border CornerRadius="20"
+                    BorderBrush="#99B2CB25"
+                    BorderThickness="1.3"
+                    Background="#040704"
+                    ClipToBounds="True">
+                <Grid>
+                    <!-- Full-bleed ultra-sharp Dark-Neon Volt-Lime Gula Studio poster artwork (clean text-free & dot-free canvas) -->
+                    <Image Source="pack://application:,,,/CharacterConceptAI.Desktop;component/Assets/gula_splash.png"
+                           Stretch="UniformToFill"
+                           RenderOptions.BitmapScalingMode="HighQuality"/>
+
+                    <!-- Unified modern geometric vector title matching the 3s Logo Intro 100% -->
+                    <StackPanel VerticalAlignment="Top"
+                                HorizontalAlignment="Left"
+                                Margin="62,54,0,0"
+                                IsHitTestVisible="False">
+                        <TextBlock Text="GULA"
+                                   FontFamily="{DynamicResource FontMain}"
+                                   FontSize="90"
+                                   FontWeight="Black"
+                                   Foreground="#FFFFFF"
+                                   LineHeight="88"
+                                   LineStackingStrategy="BlockLineHeight">
+                            <TextBlock.Effect>
+                                <DropShadowEffect Color="#000000" BlurRadius="22" ShadowDepth="3" Opacity="0.92"/>
+                            </TextBlock.Effect>
+                        </TextBlock>
+                        <TextBlock Text="STUDIO"
+                                   FontFamily="{DynamicResource FontMain}"
+                                   FontSize="90"
+                                   FontWeight="Black"
+                                   Foreground="#B2CB25"
+                                   LineHeight="88"
+                                   LineStackingStrategy="BlockLineHeight"
+                                   Margin="0,-6,0,0">
+                            <TextBlock.Effect>
+                                <DropShadowEffect Color="#B2CB25" BlurRadius="28" ShadowDepth="0" Opacity="0.54"/>
+                            </TextBlock.Effect>
+                        </TextBlock>
+
+                        <!-- Matching Volt-Lime glowing energy bar from 3s intro -->
+                        <Border Height="3.5"
+                                Width="330"
+                                CornerRadius="2"
+                                HorizontalAlignment="Left"
+                                Margin="4,14,0,0">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                    <GradientStop Color="#B2CB25" Offset="0"/>
+                                    <GradientStop Color="#EEFF66" Offset="0.44"/>
+                                    <GradientStop Color="#B2CB25" Offset="0.72"/>
+                                    <GradientStop Color="#00B2CB25" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Border.Background>
+                        </Border>
+
+                        <TextBlock Text="AI CREATIVE WORKSTATION"
+                                   FontFamily="{DynamicResource FontMain}"
+                                   FontSize="15"
+                                   FontWeight="SemiBold"
+                                   Foreground="#D9EE70"
+                                   Margin="4,10,0,0">
+                            <TextBlock.Effect>
+                                <DropShadowEffect Color="#000000" BlurRadius="12" ShadowDepth="1" Opacity="0.9"/>
+                            </TextBlock.Effect>
+                        </TextBlock>
+                    </StackPanel>
+
+                    <!-- Top-right subtle brand chip -->
+                    <Border VerticalAlignment="Top"
+                            HorizontalAlignment="Right"
+                            Margin="0,20,20,0"
+                            Background="#CC000000"
+                            BorderBrush="#77B2CB25"
+                            BorderThickness="1"
+                            CornerRadius="14"
+                            Padding="13,7">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <Image Source="pack://application:,,,/CharacterConceptAI.Desktop;component/Assets/gula_logo.png"
+                                   Width="24" Height="24"
+                                   Stretch="Uniform"
+                                   RenderOptions.BitmapScalingMode="HighQuality"
+                                   Margin="0,0,8,0"/>
+                            <TextBlock Text="Gula Studio"
+                                       FontFamily="{DynamicResource FontMain}"
+                                       FontSize="13.5"
+                                       FontWeight="Bold"
+                                       Foreground="#FFFFFF"
+                                       VerticalAlignment="Center"/>
+                            <TextBlock Text=" · AI Workstation"
+                                       FontFamily="{DynamicResource FontMain}"
+                                       FontSize="12.5"
+                                       FontWeight="SemiBold"
+                                       Foreground="#B2CB25"
+                                       VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Bottom translucent Photoshop-style status + smooth progress footer -->
+                    <Border VerticalAlignment="Bottom" Padding="32,44,32,22">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                <GradientStop Color="#00000000" Offset="0"/>
+                                <GradientStop Color="#CC000000" Offset="0.54"/>
+                                <GradientStop Color="#F4000000" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <StackPanel>
+                            <Grid Margin="0,0,0,10">
+                                <TextBlock x:Name="StatusLabel"
+                                           Text="Đang khởi động Gula Studio…"
+                                           FontFamily="{DynamicResource FontMain}"
+                                           FontSize="14"
+                                           FontWeight="SemiBold"
+                                           Foreground="#F5F5F5"
+                                           TextTrimming="CharacterEllipsis"
+                                           HorizontalAlignment="Left"/>
+                                <TextBlock x:Name="PercentLabel"
+                                           Text="5%"
+                                           FontFamily="{DynamicResource FontMain}"
+                                           FontSize="13.5"
+                                           FontWeight="Bold"
+                                           Foreground="#B2CB25"
+                                           HorizontalAlignment="Right"/>
+                            </Grid>
+
+                            <!-- Sleek 6px Volt-Lime #B2CB25 progress bar -->
+                            <Border x:Name="ProgressTrack" Height="6" CornerRadius="3" Background="#33FFFFFF" ClipToBounds="True">
+                                <Border x:Name="ProgressFill"
+                                        HorizontalAlignment="Left"
+                                        Width="64"
+                                        CornerRadius="3"
+                                        Background="#B2CB25"/>
+                            </Border>
+
+                            <TextBlock Text="Z-Image Turbo · Qwen3-4B · HyperSwap 256 · ControlNet Union 2.1 · Bria RMBG-1.4"
+                                       FontFamily="{DynamicResource FontMain}"
+                                       FontSize="11.5"
+                                       Foreground="#A8B0A0"
+                                       Margin="0,9,0,0"/>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </Border>
+        </Grid>
+
+        <!-- STAGE 1 (First 3 seconds): Dramatic Giant Floating Gula Logo Reveal right over the screen -->
+        <Grid x:Name="LogoIntroLayer" Opacity="0" IsHitTestVisible="False" RenderTransformOrigin="0.5,0.5">
+            <Grid.RenderTransform>
+                <ScaleTransform x:Name="LogoStageScale" ScaleX="0.76" ScaleY="0.76"/>
+            </Grid.RenderTransform>
+
+            <Viewbox Stretch="Uniform" StretchDirection="DownOnly" Margin="18">
+                <Grid Width="960" Height="920">
+                    <!-- Seamless dark radial backdrop halo (no rectangular edge; ensures vivid pop on any wallpaper) -->
+                    <Ellipse Width="900" Height="900" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Ellipse.Fill>
+                            <RadialGradientBrush GradientOrigin="0.5,0.5" Center="0.5,0.5" RadiusX="0.5" RadiusY="0.5">
+                                <GradientStop Color="#DC000000" Offset="0.0"/>
+                                <GradientStop Color="#B0000000" Offset="0.46"/>
+                                <GradientStop Color="#3E000000" Offset="0.74"/>
+                                <GradientStop Color="#00000000" Offset="1.0"/>
+                            </RadialGradientBrush>
+                        </Ellipse.Fill>
+                    </Ellipse>
+
+                    <!-- Breathing Volt-Lime #B2CB25 neon energy aura -->
+                    <Ellipse x:Name="LogoGlowAura" Width="780" Height="780" HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0.78">
+                        <Ellipse.Fill>
+                            <RadialGradientBrush GradientOrigin="0.5,0.5" Center="0.5,0.5" RadiusX="0.5" RadiusY="0.5">
+                                <GradientStop Color="#6AB2CB25" Offset="0.0"/>
+                                <GradientStop Color="#32B2CB25" Offset="0.46"/>
+                                <GradientStop Color="#00B2CB25" Offset="1.0"/>
+                            </RadialGradientBrush>
+                        </Ellipse.Fill>
+                    </Ellipse>
+
+                    <!-- Centerpiece: Giant Glowing Gula Snake "G" Emblem + Bold Wordmark -->
+                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <Image x:Name="GiantLogoImage"
+                               Source="pack://application:,,,/CharacterConceptAI.Desktop;component/Assets/gula_logo.png"
+                               Width="640" Height="640"
+                               Stretch="Uniform"
+                               RenderOptions.BitmapScalingMode="HighQuality"
+                               HorizontalAlignment="Center">
+                            <Image.Effect>
+                                <DropShadowEffect Color="#B2CB25" BlurRadius="48" ShadowDepth="0" Opacity="0.76"/>
+                            </Image.Effect>
+                        </Image>
+
+                        <!-- Expanding Volt-Lime neon accent line -->
+                        <Border x:Name="IntroAccentLine"
+                                Height="3.5"
+                                Width="0"
+                                CornerRadius="2"
+                                Margin="0,8,0,0"
+                                HorizontalAlignment="Center">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                    <GradientStop Color="#00B2CB25" Offset="0"/>
+                                    <GradientStop Color="#B2CB25" Offset="0.22"/>
+                                    <GradientStop Color="#EEFF66" Offset="0.5"/>
+                                    <GradientStop Color="#B2CB25" Offset="0.78"/>
+                                    <GradientStop Color="#00B2CB25" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Border.Background>
+                        </Border>
+
+                        <!-- Crisp wide-tracked cinematic wordmark -->
+                        <StackPanel x:Name="IntroWordmark" Opacity="0" Margin="0,14,0,0" HorizontalAlignment="Center">
+                            <StackPanel.RenderTransform>
+                                <TranslateTransform x:Name="IntroWordmarkSlide" Y="16"/>
+                            </StackPanel.RenderTransform>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                <StackPanel.Effect>
+                                    <DropShadowEffect Color="#000000" BlurRadius="18" ShadowDepth="2" Opacity="0.94"/>
+                                </StackPanel.Effect>
+                                <TextBlock Text="GULA"
+                                           FontFamily="{DynamicResource FontMain}"
+                                           FontSize="54"
+                                           FontWeight="Black"
+                                           Foreground="#FFFFFF"/>
+                                <TextBlock Text=" STUDIO"
+                                           FontFamily="{DynamicResource FontMain}"
+                                           FontSize="54"
+                                           FontWeight="Black"
+                                           Foreground="#B2CB25"/>
+                            </StackPanel>
+                            <TextBlock Text="AI CREATIVE WORKSTATION"
+                                       FontFamily="{DynamicResource FontMain}"
+                                       FontSize="15"
+                                       FontWeight="SemiBold"
+                                       Foreground="#D9EE70"
+                                       HorizontalAlignment="Center"
+                                       Margin="0,3,0,0">
+                                <TextBlock.Effect>
+                                    <DropShadowEffect Color="#000000" BlurRadius="10" ShadowDepth="1" Opacity="0.9"/>
+                                </TextBlock.Effect>
+                            </TextBlock>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+            </Viewbox>
+        </Grid>
+    </Grid>
+</Window>

@@ -1,0 +1,39 @@
+<Application x:Class="CharacterConceptAI.Desktop.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:conv="clr-namespace:CharacterConceptAI.Desktop.Converters"
+             xmlns:components="clr-namespace:CharacterConceptAI.Desktop.Components">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- ThemeService & LocalizationService replace palette & strings live without recreating views. -->
+                <ResourceDictionary Source="Theme/Tokens/Colors.Dark.xaml"/>
+                <ResourceDictionary Source="Theme/Strings/Strings.vi.xaml"/>
+                <ResourceDictionary Source="Theme/Tokens/Dimensions.xaml"/>
+                <ResourceDictionary Source="Theme/Tokens/Typography.xaml"/>
+                <ResourceDictionary Source="Theme/Tokens/Icons.xaml"/>
+                <ResourceDictionary Source="Theme/Controls/Buttons.xaml"/>
+                <ResourceDictionary Source="Theme/Controls/Inputs.xaml"/>
+                <ResourceDictionary Source="Theme/Controls/Collections.xaml"/>
+                <ResourceDictionary Source="Theme/Controls/Feedback.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <components:StatusTextConverter x:Key="StatusTextConverter"/>
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+            <conv:IntToVisibilityConverter x:Key="IntToVisibilityConverter"/>
+            <conv:IntToBrushConverter x:Key="IntToBrushConverter"/>
+            <conv:IntToBorderBrushConverter x:Key="IntToBorderBrushConverter"/>
+            <conv:IntToSelectedTagConverter x:Key="IntToSelectedTagConverter"/>
+            <conv:EqualsToSelectedTagConverter x:Key="EqualsToSelectedTagConverter"/>
+            <conv:BoolToSelectedTagConverter x:Key="BoolToSelectedTagConverter"/>
+            <conv:NotNullToBoolConverter x:Key="NotNullToBoolConverter"/>
+            <conv:InverseBooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter"/>
+            <conv:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
+            <conv:NullToVisibilityConverter x:Key="NotNullToVisibilityConverter" Invert="True"/>
+            <conv:StringNotEmptyToVisibilityConverter x:Key="StringNotEmptyToVisibilityConverter"/>
+            <conv:EnumToBooleanConverter x:Key="EnumToBooleanConverter"/>
+            <conv:StringEqualsToBooleanConverter x:Key="StringEqualsToBooleanConverter"/>
+            <conv:ZoomPercentConverter x:Key="ZoomPercentConverter"/>
+            <conv:AssetThumbnailConverter x:Key="AssetThumbnailConverter"/>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

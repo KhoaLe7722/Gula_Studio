@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<UserControl xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:views="clr-namespace:CharacterConceptAI.Desktop.Features.Views"
+             x:Class="CharacterConceptAI.Desktop.Features.Views.SettingsView">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel MaxWidth="920" HorizontalAlignment="Left">
+            <TextBlock Text="{DynamicResource Str.Settings.Title}" Style="{StaticResource TextPageTitle}"/>
+            <TextBlock Text="{DynamicResource Str.Settings.Subtitle}" Style="{StaticResource TextSecondary}" Margin="0,6,0,22"/>
+
+            <!-- Card 0: One-Click Dependency & AI Model Downloader / Installer -->
+            <Border Style="{StaticResource Card}" Padding="20" Margin="0,0,0,16">
+                <views:SetupManagerView/>
+            </Border>
+
+            <!-- Card 1: Giao diện, Ngôn ngữ & Kích thước chữ -->
+            <Border Style="{StaticResource Card}" Padding="20" Margin="0,0,0,16">
+                <StackPanel>
+                    <TextBlock Text="{DynamicResource Str.Settings.AppearanceTitle}" Style="{StaticResource TextSection}"/>
+                    <TextBlock Text="{DynamicResource Str.Settings.AppearanceSub}" Style="{StaticResource TextSecondary}" TextWrapping="Wrap" Margin="0,6,0,16"/>
+
+                    <!-- Language Switcher (Tiếng Việt / English / 中文) -->
+                    <Grid Margin="0,0,0,16">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel VerticalAlignment="Center" Margin="0,0,16,0">
+                            <TextBlock Text="{DynamicResource Str.Settings.LanguageTitle}" FontWeight="SemiBold"/>
+                            <TextBlock Text="{DynamicResource Str.Settings.LanguageSub}" Style="{StaticResource TextCaption}" TextWrapping="Wrap" Margin="0,3,0,0"/>
+                        </StackPanel>
+                        <WrapPanel Grid.Column="1" VerticalAlignment="Center">
+                            <Button Content="Tiếng Việt"
+                                    Command="{Binding SetLanguageCommand}"
+                                    CommandParameter="vi"
+                                    Style="{StaticResource BtnPillToggle}"
+                                    Tag="{Binding CurrentLanguageCode, Converter={StaticResource EqualsToSelectedTagConverter}, ConverterParameter=vi}"
+                                    MinHeight="32" Padding="12,3" Margin="0,0,6,0"
+                                    AutomationProperties.Name="Ngôn ngữ Tiếng Việt"/>
+                            <Button Content="English"
+                                    Command="{Binding SetLanguageCommand}"
+                                    CommandParameter="en"
+                                    Style="{StaticResource BtnPillToggle}"
+                                    Tag="{Binding CurrentLanguageCode, Converter={StaticResource EqualsToSelectedTagConverter}, ConverterParameter=en}"
+                                    MinHeight="32" Padding="12,3" Margin="0,0,6,0"
+                                    AutomationProperties.Name="Language English"/>
+                            <Button Content="中文 (简体)"
+                                    Command="{Binding SetLanguageCommand}"
+                                    CommandParameter="zh"
+                                    Style="{StaticResource BtnPillToggle}"
+                                    Tag="{Binding CurrentLanguageCode, Converter={StaticResource EqualsToSelectedTagConverter}, ConverterParameter=zh}"
+                                    MinHeight="32" Padding="12,3"
+                                    AutomationProperties.Name="语言 简体中文"/>
+                        </WrapPanel>
+                    </Grid>
+
+                    <Border Height="1" Background="{DynamicResource BrushBorderSubtle}" Margin="0,0,0,16"/>
+
+                    <Grid Margin="0,0,0,18">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="{DynamicResource Str.Settings.ThemeTitle}" FontWeight="SemiBold"/>
+                            <TextBlock Text="{Binding CurrentThemeDisplayLabel}" Style="{StaticResource TextCaption}" Margin="0,3,0,0"/>
+                        </StackPanel>
+                        <Button Grid.Column="1" Command="{Binding ToggleThemeCommand}" Style="{StaticResource BtnIcon}" ToolTip="{Binding ThemeLabel}" AutomationProperties.Name="Chuyển giao diện sáng tối">
+                            <Grid>
+                                <Path Data="{StaticResource Icon.Sun}" Style="{StaticResource LucideIcon}" Stroke="{DynamicResource BrushGold}" Visibility="{Binding IsDarkTheme, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                                <Path Data="{StaticResource Icon.Moon}" Style="{StaticResource LucideIcon}" Stroke="{DynamicResource BrushTextPrimary}" Visibility="{Binding IsDarkTheme, Converter={StaticResource InverseBooleanToVisibilityConverter}}"/>
+                            </Grid>
+                        </Button>
+                    </Grid>
+
+                    <Border Height="1" Background="{DynamicResource BrushBorderSubtle}" Margin="0,0,0,16"/>
+
+                    <!-- Font Size Control -->
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel VerticalAlignment="Center" Margin="0,0,16,0">
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <Path Data="{StaticResource Icon.FontSize}" Style="{StaticResource LucideIconSmall}" Stroke="{DynamicResource BrushGold}" Margin="0,0,8,0"/>
+                                <TextBlock Text="{DynamicResource Str.Settings.FontSizeTitle}" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                            </StackPanel>
+                            <TextBlock Text="{DynamicResource Str.Settings.FontSizeSub}" Style="{StaticResource TextCaption}" TextWrapping="Wrap" Margin="0,4,0,0"/>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                            <Button Command="{Binding DecreaseFontSizeCommand}" Style="{StaticResource BtnIcon}" ToolTip="-5%" AutomationProperties.Name="Giảm kích thước chữ">
+                                <Path Data="{StaticResource Icon.Minus}" Style="{StaticResource LucideIconSmall}"/>
+                            </Button>
+                            <Border Background="{DynamicResource BrushSelected}" BorderBrush="{DynamicResource BrushBorderSubtle}" BorderThickness="1" CornerRadius="12" MinWidth="66" Height="36" Margin="8,0" Padding="12,0">
+                                <TextBlock Text="{Binding UiFontScalePercentLabel}" FontWeight="Bold" Foreground="{DynamicResource BrushOnSelected}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                            <Button Command="{Binding IncreaseFontSizeCommand}" Style="{StaticResource BtnIcon}" ToolTip="+5%" AutomationProperties.Name="Tăng kích thước chữ">
+                                <Path Data="{StaticResource Icon.Plus}" Style="{StaticResource LucideIconSmall}"/>
+                            </Button>
+                        </StackPanel>
+                    </Grid>
+
+                    <WrapPanel Margin="0,12,0,0" VerticalAlignment="Center">
+                        <Button Content="{DynamicResource Str.Settings.FontSmall}" Command="{Binding SetFontScalePresetCommand}" CommandParameter="0.90" Style="{StaticResource BtnPillToggle}" Tag="{Binding UiFontScalePresetKey, Converter={StaticResource EqualsToSelectedTagConverter}, ConverterParameter=0.90}" MinHeight="30" Padding="11,3" Margin="0,0,6,4"/>
+                        <Button Content="{DynamicResource Str.Settings.FontNormal}" Command="{Binding SetFontScalePresetCommand}" CommandParameter="1.00" Style="{StaticResource BtnPillToggle}" Tag="{Binding UiFontScalePresetKey, Converter={StaticResource EqualsToSelectedTagConverter}, ConverterParameter=1.00}" MinHeight="30" Padding="11,3" Margin="0,0,6,4"/>
+                        <Button Content="{DynamicResource Str.Settings.FontLarge}" Command="{Binding SetFontScalePresetCommand}" CommandParameter="1.12" Style="{StaticResource BtnPillToggle}" Tag="{Binding UiFontScalePresetKey, Converter={StaticResource EqualsToSelectedTagConverter}, ConverterParameter=1.12}" MinHeight="30" Padding="11,3" Margin="0,0,6,4"/>
+                        <Button Content="{DynamicResource Str.Settings.FontXLarge}" Command="{Binding SetFontScalePresetCommand}" CommandParameter="1.25" Style="{StaticResource BtnPillToggle}" Tag="{Binding UiFontScalePresetKey, Converter={StaticResource EqualsToSelectedTagConverter}, ConverterParameter=1.25}" MinHeight="30" Padding="11,3" Margin="0,0,8,4"/>
+                        <Button Content="{DynamicResource Str.Settings.FontDefault}" Command="{Binding ResetFontSizeCommand}" Style="{StaticResource BtnGhost}" MinHeight="30" Padding="10,3" Margin="0,0,0,4"/>
+                    </WrapPanel>
+
+                    <Border Background="{DynamicResource BrushCanvas}" BorderBrush="{DynamicResource BrushBorderSubtle}" BorderThickness="1" CornerRadius="8" Padding="12,9" Margin="0,10,0,0">
+                        <TextBlock Text="{DynamicResource Str.Settings.FontPreview}" Style="{StaticResource TextBody}" TextWrapping="Wrap"/>
+                    </Border>
+                </StackPanel>
+            </Border>
+
+            <!-- Card 2: Master NSFW Safety Switch (Family & Kids Protection) -->
+            <Border Style="{StaticResource Card}" Padding="20" Margin="0,0,0,16">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,0,8">
+                        <Border Background="{DynamicResource BrushEmerald}" CornerRadius="10" Width="34" Height="34" Margin="0,0,12,0">
+                            <Path Data="{StaticResource Icon.Shield}" Style="{StaticResource LucideIcon}" Stroke="{DynamicResource BrushOnEmerald}"/>
+                        </Border>
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="{DynamicResource Str.Settings.NsfwTitle}" Style="{StaticResource TextSection}"/>
+                            <TextBlock Text="{DynamicResource Str.Settings.NsfwSub}" Style="{StaticResource TextCaption}"/>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <CheckBox Content="{DynamicResource Str.Settings.NsfwCheck}"
+                              IsChecked="{Binding AllowNsfwContent}"
+                              FontWeight="SemiBold"
+                              Margin="0,8,0,12"
+                              AutomationProperties.Name="Bật tắt quyền nội dung 18+ NSFW"/>
+
+                    <Border Background="{DynamicResource BrushSelected}" BorderBrush="{DynamicResource BrushBorderSubtle}" BorderThickness="1" CornerRadius="12" Padding="14,10">
+                        <StackPanel>
+                            <TextBlock Text="{Binding NsfwSafetyStatusTitle}" FontWeight="SemiBold" Foreground="{DynamicResource BrushOnSelected}"/>
+                            <TextBlock Text="{Binding NsfwSafetyStatusDetail}" Style="{StaticResource TextSecondary}" TextWrapping="Wrap" Margin="0,4,0,0"/>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </Border>
+
+            <!-- Card 3: Auto-Export Folder -->
+            <Border Style="{StaticResource Card}" Padding="20" Margin="0,0,0,16">
+                <StackPanel>
+                    <TextBlock Text="{DynamicResource Str.Settings.ExportTitle}" Style="{StaticResource TextSection}"/>
+                    <TextBlock Text="{DynamicResource Str.Settings.ExportSub}" Style="{StaticResource TextSecondary}" TextWrapping="Wrap" Margin="0,8,0,14"/>
+                    <CheckBox Content="{DynamicResource Str.Settings.ExportCheck}" IsChecked="{Binding AutoExportEnabled}" Margin="0,0,0,12"/>
+                    <TextBlock Text="{DynamicResource Str.Settings.ExportFolder}" Style="{StaticResource TextBody}" Margin="0,0,0,6"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="8"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="8"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox Text="{Binding AutoExportFolder, UpdateSourceTrigger=LostFocus}" AutomationProperties.Name="Thư mục tự động lưu ảnh"/>
+                        <Button Grid.Column="2" Content="{DynamicResource Str.Settings.BrowseFolder}" Command="{Binding BrowseAutoExportFolderCommand}" Style="{StaticResource BtnSecondary}"/>
+                        <Button Grid.Column="4" Command="{Binding OpenAutoExportFolderCommand}" Style="{StaticResource BtnGhost}">
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <Path Data="{StaticResource Icon.FolderOpen}" Style="{StaticResource LucideIconSmall}" Margin="0,0,6,0"/>
+                                <TextBlock Text="{DynamicResource Str.Common.OpenFolder}" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- Card 4: Server Connection -->
+            <Border Style="{StaticResource Card}" Padding="20" Margin="0,0,0,16">
+                <StackPanel>
+                    <TextBlock Text="{DynamicResource Str.Settings.ServerTitle}" Style="{StaticResource TextSection}"/>
+                    <TextBlock Text="{Binding ApiConnectionStatus}" Foreground="{DynamicResource BrushInfo}" FontWeight="SemiBold" Margin="0,8,0,16"/>
+                    <StackPanel Margin="0,0,0,14">
+                        <TextBlock Text="{DynamicResource Str.Settings.ServerUrl}" Style="{StaticResource TextBody}" Margin="0,0,0,6"/>
+                        <TextBox Text="{Binding ServerUrl, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="Địa chỉ máy chủ API"/>
+                    </StackPanel>
+                    <TextBlock Text="{DynamicResource Str.Settings.ServerHint}" Style="{StaticResource TextCaption}" TextWrapping="Wrap" Margin="0,0,0,14"/>
+                    <Button Command="{Binding RefreshConnectionCommand}" Style="{StaticResource BtnSecondary}" HorizontalAlignment="Left" Padding="16,8">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <Path Data="{StaticResource Icon.RefreshCw}" Style="{StaticResource LucideIconSmall}" Margin="0,0,7,0"/>
+                            <TextBlock Text="{DynamicResource Str.Settings.CheckConnection}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                    <Border Height="1" Background="{DynamicResource BrushBorderSubtle}" Margin="0,20,0,16"/>
+                    <TextBlock Text="{DynamicResource Str.Settings.AiConfigTitle}" FontWeight="SemiBold"/>
+                    <TextBlock Text="{Binding GenerationProviderLabel}" Style="{StaticResource TextSecondary}" Margin="0,6,0,0"/>
+                    <TextBlock Text="{Binding Img2ImgAvailabilityReason}" Foreground="{DynamicResource BrushWarning}" TextWrapping="Wrap" FontSize="{DynamicResource FontSizeSmall}" Margin="0,6,0,0"/>
+                </StackPanel>
+            </Border>
+
+            <TextBlock Text="Gula Studio · Z-Image Turbo Local AI Workstation" Style="{StaticResource TextCaption}" TextWrapping="Wrap" Margin="0,4,0,20"/>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

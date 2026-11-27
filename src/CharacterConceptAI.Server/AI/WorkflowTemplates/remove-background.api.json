@@ -1,0 +1,22 @@
+{
+  "10": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "__SOURCE_IMAGE__"
+    }
+  },
+  "20": {
+    "class_type": "CcaRemoveBackground",
+    "inputs": {
+      "image": ["10", 0],
+      "edge_smooth": 0.6,
+      "foreground_boost": 0.0
+    }
+  },
+  "40": {
+    "class_type": "PreviewImage",
+    "inputs": {
+      "images": ["20", 0]
+    }
+  }
+}

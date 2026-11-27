@@ -1,0 +1,47 @@
+{
+  "61": {
+    "class_type": "UpscaleModelLoader",
+    "inputs": {
+      "model_name": "RealESRGAN_x2plus.pth"
+    }
+  },
+  "62": {
+    "class_type": "ImageUpscaleWithModel",
+    "inputs": {
+      "upscale_model": [
+        "61",
+        0
+      ],
+      "image": [
+        "8",
+        0
+      ]
+    }
+  },
+  "63": {
+    "class_type": "ImageScaleBy",
+    "inputs": {
+      "image": [
+        "8",
+        0
+      ],
+      "upscale_method": "bicubic",
+      "scale_by": 2
+    }
+  },
+  "64": {
+    "class_type": "ImageBlend",
+    "inputs": {
+      "image1": [
+        "63",
+        0
+      ],
+      "image2": [
+        "62",
+        0
+      ],
+      "blend_factor": 0.55,
+      "blend_mode": "normal"
+    }
+  }
+}

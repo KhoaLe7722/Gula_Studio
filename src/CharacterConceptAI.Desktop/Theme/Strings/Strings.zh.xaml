@@ -1,0 +1,245 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=System.Runtime">
+    <!-- Common -->
+    <sys:String x:Key="Str.Common.Close">关闭</sys:String>
+    <sys:String x:Key="Str.Common.Cancel">取消</sys:String>
+    <sys:String x:Key="Str.Common.Delete">删除</sys:String>
+    <sys:String x:Key="Str.Common.Refresh">刷新</sys:String>
+    <sys:String x:Key="Str.Common.OpenFolder">打开文件夹</sys:String>
+    <sys:String x:Key="Str.Common.Copy">复制</sys:String>
+
+    <!-- Sidebar Navigation -->
+    <sys:String x:Key="Str.Nav.AiStudio">AI 绘图</sys:String>
+    <sys:String x:Key="Str.Nav.Storyboard">故事分镜</sys:String>
+    <sys:String x:Key="Str.Nav.Favorites">收藏夹</sys:String>
+    <sys:String x:Key="Str.Nav.GpuQueue">GPU 队列</sys:String>
+    <sys:String x:Key="Str.Nav.OutputFolder">图片目录</sys:String>
+    <sys:String x:Key="Str.Nav.NewChat">新建对话</sys:String>
+    <sys:String x:Key="Str.Nav.Recent">最近记录</sys:String>
+    <sys:String x:Key="Str.Nav.SearchHistory">搜索历史…</sys:String>
+    <sys:String x:Key="Str.Nav.NoHistory">暂无对话记录。</sys:String>
+    <sys:String x:Key="Str.Nav.Settings">设置</sys:String>
+    <sys:String x:Key="Str.Nav.NewConversationTitle">新对话</sys:String>
+
+    <!-- Reconnect / Startup -->
+    <sys:String x:Key="Str.Reconnect.Button">重新连接本地 AI 服务器</sys:String>
+    <sys:String x:Key="Str.Reconnect.SetupButton">⚡ 一键下载与安装 AI 模型</sys:String>
+
+    <!-- Studio View & Composer -->
+    <sys:String x:Key="Str.Studio.PromptPlaceholder">输入您的创意画面描述…（支持参考图 · 语音输入 · Ctrl+Enter）</sys:String>
+    <sys:String x:Key="Str.Studio.QualityStandard">标准</sys:String>
+    <sys:String x:Key="Str.Studio.Pose3D">3D 姿势</sys:String>
+    <sys:String x:Key="Str.Studio.Outfits">服装库</sys:String>
+    <sys:String x:Key="Str.Studio.Character">角色</sys:String>
+    <sys:String x:Key="Str.Studio.Fast">快速</sys:String>
+    <sys:String x:Key="Str.Studio.Batch1">1 张</sys:String>
+    <sys:String x:Key="Str.Studio.Batch2">2 张</sys:String>
+    <sys:String x:Key="Str.Studio.Batch4">4 张</sys:String>
+    <sys:String x:Key="Str.Studio.Options">高级选项</sys:String>
+    <sys:String x:Key="Str.Studio.Generate">生成图像</sys:String>
+    <sys:String x:Key="Str.Studio.ProTitle">专业生成设置（风格 · 光影 · 镜头 · LoRA）</sys:String>
+    <sys:String x:Key="Str.Studio.Style">艺术风格</sys:String>
+    <sys:String x:Key="Str.Studio.Lighting">电影级光影</sys:String>
+    <sys:String x:Key="Str.Studio.CameraLens">镜头与视角</sys:String>
+    <sys:String x:Key="Str.Studio.LoraTitle">细节与风格 LoRA 库（最多叠加 3 个）</sys:String>
+    <sys:String x:Key="Str.Studio.NoLoras">在 ComfyUI/models/loras 中未找到 .safetensors 文件。</sys:String>
+    <sys:String x:Key="Str.Studio.DeepReasoning">深度推理</sys:String>
+    <sys:String x:Key="Str.Studio.PosterText">海报文字</sys:String>
+    <sys:String x:Key="Str.Studio.NineExpressions">9 宫格表情</sys:String>
+    <sys:String x:Key="Str.Studio.Width">宽度 (px)</sys:String>
+    <sys:String x:Key="Str.Studio.Height">高度 (px)</sys:String>
+    <sys:String x:Key="Str.Studio.Seed">种子（留空=随机）</sys:String>
+    <sys:String x:Key="Str.Studio.Count">数量</sys:String>
+    <sys:String x:Key="Str.Studio.PromptMode">提示词模式</sys:String>
+    <sys:String x:Key="Str.Studio.PreviewPrompt">预览最终提示词</sys:String>
+
+    <!-- Storyboard Studio -->
+    <sys:String x:Key="Str.Story.Title">故事分镜与角色工作室</sys:String>
+    <sys:String x:Key="Str.Story.Subtitle">跨场景保持角色一致性 · 锁定面部、发型与体态 · 内置 3D 姿势与服装库</sys:String>
+    <sys:String x:Key="Str.Story.Export">导出故事</sys:String>
+    <sys:String x:Key="Str.Story.RenderAll">绘制全部分镜</sys:String>
+    <sys:String x:Key="Str.Story.StopBatch">停止批量绘制</sys:String>
+    <sys:String x:Key="Str.Story.NewStory">新建故事</sys:String>
+    <sys:String x:Key="Str.Story.StyleColon">风格：</sys:String>
+    <sys:String x:Key="Str.Story.CastHeader">1. 固定角色阵容</sys:String>
+    <sys:String x:Key="Str.Story.CastSub">点击角色编辑多角度面部参考与外貌 DNA</sys:String>
+    <sys:String x:Key="Str.Story.Add">+ 添加</sys:String>
+    <sys:String x:Key="Str.Story.ScenesHeader">2. 故事分镜列表</sys:String>
+    <sys:String x:Key="Str.Story.AddScene">添加分镜</sys:String>
+    <sys:String x:Key="Str.Story.View1to1">1:1 查看</sys:String>
+    <sys:String x:Key="Str.Story.Upscale2x">2× 高清</sys:String>
+    <sys:String x:Key="Str.Story.SetAnchor">设为参考脸</sys:String>
+    <sys:String x:Key="Str.Story.AddAngle">+ 角度</sys:String>
+    <sys:String x:Key="Str.Story.SecondChar">+ 第二角色</sys:String>
+    <sys:String x:Key="Str.Story.SceneActionLabel">动作、场景与光线（自动融合角色外貌 DNA）</sys:String>
+    <sys:String x:Key="Str.Story.EnhanceScene">AI 扩写分镜</sys:String>
+    <sys:String x:Key="Str.Story.EnhancingScene">正在扩写…</sys:String>
+    <sys:String x:Key="Str.Story.DialogueLabel">对白 / 字幕（故事阅读模式下显示，可选）</sys:String>
+    <sys:String x:Key="Str.Story.PickPose">选择 3D 姿势</sys:String>
+    <sys:String x:Key="Str.Story.PickOutfit">选择服装</sys:String>
+    <sys:String x:Key="Str.Story.RenderScene">绘制此分镜</sys:String>
+
+    <!-- GPU Jobs Queue -->
+    <sys:String x:Key="Str.Jobs.Title">GPU 渲染队列</sys:String>
+    <sys:String x:Key="Str.Jobs.Subtitle">与本地或局域网服务器实时同步任务状态。</sys:String>
+    <sys:String x:Key="Str.Jobs.Refresh">刷新队列</sys:String>
+    <sys:String x:Key="Str.Jobs.ColId">任务编号</sys:String>
+    <sys:String x:Key="Str.Jobs.ColStatus">状态</sys:String>
+    <sys:String x:Key="Str.Jobs.ColMode">模式</sys:String>
+    <sys:String x:Key="Str.Jobs.ColDone">已完成</sys:String>
+    <sys:String x:Key="Str.Jobs.ColTime">提交时间</sys:String>
+    <sys:String x:Key="Str.Jobs.EmptyTitle">暂无任务</sys:String>
+    <sys:String x:Key="Str.Jobs.EmptySub">请在 AI 绘图页输入创意描述并提交生成任务。</sys:String>
+    <sys:String x:Key="Str.Jobs.OpenStudio">打开 AI 绘图</sys:String>
+    <sys:String x:Key="Str.Jobs.DetailTitle">任务详情</sys:String>
+    <sys:String x:Key="Str.Jobs.DetailHint">选择上方列表中的任务以查看详情、取消或重试。</sys:String>
+    <sys:String x:Key="Str.Jobs.CancelSelected">取消所选任务</sys:String>
+    <sys:String x:Key="Str.Jobs.RetrySelected">重新提交任务</sys:String>
+
+    <!-- Settings View -->
+    <sys:String x:Key="Str.Settings.Title">设置</sys:String>
+    <sys:String x:Key="Str.Settings.Subtitle">一键下载安装 AI 模型，自定义语言（英 / 越 / 中）、深浅主题、字体大小、安全过滤、导出目录与服务器。</sys:String>
+    <sys:String x:Key="Str.Settings.AppearanceTitle">外观、语言与显示</sys:String>
+    <sys:String x:Key="Str.Settings.AppearanceSub">曜石黑 (#000000) 与荧光青柠 (#B2CB25) 主题配色，全局实时同步。</sys:String>
+    <sys:String x:Key="Str.Settings.LanguageTitle">界面语言（中 / EN / VI）</sys:String>
+    <sys:String x:Key="Str.Settings.LanguageSub">实时切换界面语言，无需重启应用（自动保存偏好）。</sys:String>
+    <sys:String x:Key="Str.Settings.ThemeTitle">深色 / 浅色模式</sys:String>
+    <sys:String x:Key="Str.Settings.FontSizeTitle">界面字体大小</sys:String>
+    <sys:String x:Key="Str.Settings.FontSizeSub">即时调整全局字号，适配各类显示器（自动保存）。</sys:String>
+    <sys:String x:Key="Str.Settings.FontSmall">小 (90%)</sys:String>
+    <sys:String x:Key="Str.Settings.FontNormal">标准 (100%)</sys:String>
+    <sys:String x:Key="Str.Settings.FontLarge">大 (112%)</sys:String>
+    <sys:String x:Key="Str.Settings.FontXLarge">特大 (125%)</sys:String>
+    <sys:String x:Key="Str.Settings.FontDefault">重置</sys:String>
+    <sys:String x:Key="Str.Settings.FontPreview">字号预览：使用 Gula Studio 创作高清角色原画与故事分镜。</sys:String>
+    <sys:String x:Key="Str.Settings.NsfwTitle">18+ 内容安全保护 (NSFW)</sys:String>
+    <sys:String x:Key="Str.Settings.NsfwSub">保护儿童与家庭使用环境，默认隐藏敏感姿势与服装。</sys:String>
+    <sys:String x:Key="Str.Settings.NsfwCheck">允许显示 18+ (NSFW) 解锁选项</sys:String>
+    <sys:String x:Key="Str.Settings.ExportTitle">自动保存图片到本地</sys:String>
+    <sys:String x:Key="Str.Settings.ExportSub">每次生成完成或 2× 超清放大后，自动向该目录保存无损 PNG 副本。</sys:String>
+    <sys:String x:Key="Str.Settings.ExportCheck">启用生成后自动导出 PNG</sys:String>
+    <sys:String x:Key="Str.Settings.ExportFolder">导出目录</sys:String>
+    <sys:String x:Key="Str.Settings.BrowseFolder">选择目录…</sys:String>
+    <sys:String x:Key="Str.Settings.ServerTitle">服务器连接</sys:String>
+    <sys:String x:Key="Str.Settings.ServerUrl">API 服务器地址</sys:String>
+    <sys:String x:Key="Str.Settings.ServerHint">本地 AI 服务器运行于本机并自动连接，完全离线保护隐私。</sys:String>
+    <sys:String x:Key="Str.Settings.CheckConnection">检测连接</sys:String>
+    <sys:String x:Key="Str.Settings.AiConfigTitle">AI 生成引擎配置</sys:String>
+
+    <!-- Setup & Model Manager -->
+    <sys:String x:Key="Str.Setup.Title">一键下载与安装管理器（运行环境与 AI 模型）</sys:String>
+    <sys:String x:Key="Str.Setup.ModalTitle">Gula Studio — 一键环境与模型安装器</sys:String>
+    <sys:String x:Key="Str.Setup.ScanDisk">扫描磁盘</sys:String>
+    <sys:String x:Key="Str.Setup.RestartAi">启动 AI 服务</sys:String>
+    <sys:String x:Key="Str.Setup.ChangeFolder">更改目录…</sys:String>
+    <sys:String x:Key="Str.Setup.InstallEssential">⚡ 一键安装核心基础包</sys:String>
+    <sys:String x:Key="Str.Setup.InstallFull">✨ 安装完整包（核心 + 专业扩展）</sys:String>
+    <sys:String x:Key="Str.Setup.CancelDownload">停止下载</sys:String>
+    <sys:String x:Key="Str.Setup.InstallSql">安装 SQL Express</sys:String>
+    <sys:String x:Key="Str.Setup.BtnInstall">下载并安装</sys:String>
+    <sys:String x:Key="Str.Setup.BtnReinstall">重新安装</sys:String>
+    <sys:String x:Key="Str.Setup.BtnDownloading">下载中...</sys:String>
+    <sys:String x:Key="Str.Setup.BadgeInstalled">已安装 ✓</sys:String>
+    <sys:String x:Key="Str.Setup.BadgeMissing">未安装</sys:String>
+    <sys:String x:Key="Str.Setup.BadgeInstalling">安装中...</sys:String>
+    <sys:String x:Key="Str.Setup.TierEssential">必需</sys:String>
+    <sys:String x:Key="Str.Setup.TierRecommended">推荐</sys:String>
+    <sys:String x:Key="Str.Setup.TierOptional">可选</sys:String>
+
+    <!-- Dynamic Theme & Safety Labels -->
+    <sys:String x:Key="Str.Theme.SwitchToLight">切换到浅色模式</sys:String>
+    <sys:String x:Key="Str.Theme.SwitchToDark">切换到深色模式</sys:String>
+    <sys:String x:Key="Str.Theme.DarkDesc">深色模式（曜石黑 #000000 · #B2CB25）</sys:String>
+    <sys:String x:Key="Str.Theme.LightDesc">浅色模式（纯净白 · #000000 · #B2CB25）</sys:String>
+    <sys:String x:Key="Str.Nsfw.SafeTitle">已开启安全保护模式（家庭与青少年）</sys:String>
+    <sys:String x:Key="Str.Nsfw.SafeDetail">已隐藏全部 18+ 开关，并过滤所有敏感姿势与服装。</sys:String>
+    <sys:String x:Key="Str.Nsfw.UnlockedTitle">已允许显示 18+ (NSFW) 选项</sys:String>
+    <sys:String x:Key="Str.Nsfw.UnlockedDetail">您可在 3D 姿势库与服装库中按需开启或关闭 18+ 过滤。</sys:String>
+
+    <!-- Lightbox Pro Studio -->
+    <sys:String x:Key="Str.Lightbox.Title">后期工作室与详情</sys:String>
+    <sys:String x:Key="Str.Lightbox.TabDetails">详情</sys:String>
+    <sys:String x:Key="Str.Lightbox.TabBrush">魔法画笔与扩图</sys:String>
+    <sys:String x:Key="Str.Lightbox.TabFilm">胶片调色</sys:String>
+    <sys:String x:Key="Str.Lightbox.DownloadPng">保存 PNG</sys:String>
+    <sys:String x:Key="Str.Lightbox.CopyImage">复制图像</sys:String>
+    <sys:String x:Key="Str.Lightbox.ProTitle">Studio Pro 画质增强</sys:String>
+    <sys:String x:Key="Str.Lightbox.HiresDenoise">2K 细节重绘强度 (Denoise)</sys:String>
+    <sys:String x:Key="Str.Lightbox.HiresFix2K">2K 分块高清修复</sys:String>
+    <sys:String x:Key="Str.Lightbox.Upscale2xFast">快速 2× 放大</sys:String>
+    <sys:String x:Key="Str.Lightbox.RemoveBgPng">透明抠图 PNG</sys:String>
+    <sys:String x:Key="Str.Lightbox.LockSeed">锁定种子</sys:String>
+    <sys:String x:Key="Str.Lightbox.ReusePrompt">复用提示词</sys:String>
+    <sys:String x:Key="Str.Lightbox.UsedPrompt">已使用的提示词</sys:String>
+    <sys:String x:Key="Str.Lightbox.BrushTitle">1. 魔法画笔局部重绘 (Magic Brush)</sys:String>
+    <sys:String x:Key="Str.Lightbox.BrushHint">在左侧画面中用绿色画笔涂抹需要修改的手部、物品、服饰或瑕疵区域。</sys:String>
+    <sys:String x:Key="Str.Lightbox.BrushEraseMode">橡皮擦模式（擦除已涂抹蒙版）</sys:String>
+    <sys:String x:Key="Str.Lightbox.BrushPromptLabel">描述希望 AI 重绘的内容</sys:String>
+    <sys:String x:Key="Str.Lightbox.BrushControlStrength">原图环境贴合度 (ControlNet)</sys:String>
+    <sys:String x:Key="Str.Lightbox.BrushRunInpaint">重绘已涂抹区域 (Inpaint)</sys:String>
+    <sys:String x:Key="Str.Lightbox.OutpaintTitle">2. 画布无痕外扩 (Outpainting)</sys:String>
+    <sys:String x:Key="Str.Lightbox.OutpaintHint">自动将周围场景无缝延展至新的画面比例。</sys:String>
+    <sys:String x:Key="Str.Lightbox.Outpaint16x9">横向扩图 16:9</sys:String>
+    <sys:String x:Key="Str.Lightbox.Outpaint1x1">方形扩图 1:1</sys:String>
+    <sys:String x:Key="Str.Lightbox.Outpaint3x4">竖向扩图 3:4</sys:String>
+    <sys:String x:Key="Str.Lightbox.OutpaintExpand25">四周扩展 +25%</sys:String>
+    <sys:String x:Key="Str.Lightbox.OutpaintLeft">向左扩展</sys:String>
+    <sys:String x:Key="Str.Lightbox.OutpaintRight">向右扩展</sys:String>
+    <sys:String x:Key="Str.Lightbox.FilmTitle">电影胶片调色（0 显存 · 实时预览）</sys:String>
+    <sys:String x:Key="Str.Lightbox.GradeExposure">曝光 (Exposure)</sys:String>
+    <sys:String x:Key="Str.Lightbox.GradeContrast">对比度 (Contrast)</sys:String>
+    <sys:String x:Key="Str.Lightbox.GradeSaturation">饱和度 (Saturation)</sys:String>
+    <sys:String x:Key="Str.Lightbox.GradeWarmth">色温 (暖 / 冷)</sys:String>
+    <sys:String x:Key="Str.Lightbox.GradeClarity">微细节清晰度 (Clarity)</sys:String>
+    <sys:String x:Key="Str.Lightbox.GradeFilmGrain">35mm 胶片颗粒 (Grain)</sys:String>
+    <sys:String x:Key="Str.Lightbox.GradeVignette">电影暗角 (Vignette)</sys:String>
+    <sys:String x:Key="Str.Lightbox.GradeCommit">应用调色到图像</sys:String>
+    <sys:String x:Key="Str.Lightbox.GradeReset">重置</sys:String>
+    <sys:String x:Key="Str.Lightbox.MaskBanner">魔法画笔 · 涂抹希望 AI 修改的区域</sys:String>
+    <sys:String x:Key="Str.Lightbox.BrushSize">笔刷大小：</sys:String>
+    <sys:String x:Key="Str.Lightbox.Undo">撤销</sys:String>
+    <sys:String x:Key="Str.Lightbox.ClearStrokes">清空蒙版</sys:String>
+    <sys:String x:Key="Str.Lightbox.ViewportEmpty">暂无可显示的图像</sys:String>
+    <sys:String x:Key="Str.Lightbox.ViewportHint">Ctrl+滚轮：缩放 · 拖拽：平移</sys:String>
+    <sys:String x:Key="Str.Lightbox.FitFrame">适应窗口</sys:String>
+
+    <!-- Storyboard Extended Labels -->
+    <sys:String x:Key="Str.Story.NoFaceYet">尚未设置参考脸</sys:String>
+    <sys:String x:Key="Str.Story.View1x1">查看 1:1</sys:String>
+    <sys:String x:Key="Str.Story.FacePackTitle">参考人脸库</sys:String>
+    <sys:String x:Key="Str.Story.UploadPrimary">上传主参考图</sys:String>
+    <sys:String x:Key="Str.Story.AutoDrawFace">AI 绘制基准脸</sys:String>
+    <sys:String x:Key="Str.Story.AddFaceAngle">+ 添加角度</sys:String>
+    <sys:String x:Key="Str.Story.ThreeAnglePack">生成 3 角度组</sys:String>
+    <sys:String x:Key="Str.Story.ExtraFacesHint">添加 3/4 侧面或微笑/自然表情，让角色在多视角分镜中面部更稳定一致。</sys:String>
+    <sys:String x:Key="Str.Story.CharName">角色名称</sys:String>
+    <sys:String x:Key="Str.Story.VisualDnaLabel">面部与发型外貌 DNA（跨场景锁定）</sys:String>
+    <sys:String x:Key="Str.Story.BodyDnaLabel">固定身材与体态 DNA</sys:String>
+    <sys:String x:Key="Str.Story.Sync">同步</sys:String>
+    <sys:String x:Key="Str.Story.EnableFaceLock">启用 0 显存人脸一致性锁定</sys:String>
+    <sys:String x:Key="Str.Story.FaceSimilarity">人脸相似度</sys:String>
+    <sys:String x:Key="Str.Story.FaceRestoreLabel">面部细节修复（建议 35–45%）</sys:String>
+    <sys:String x:Key="Str.Story.UseInAiStudio">在 AI 绘图中应用</sys:String>
+    <sys:String x:Key="Str.Story.SceneEmptyHint">点击“绘制此分镜”开始生成</sys:String>
+    <sys:String x:Key="Str.Story.RenderingScene">正在 GPU 上绘制分镜…</sys:String>
+    <sys:String x:Key="Str.Story.PoseSectionTitle">3D 深度姿势与机位</sys:String>
+    <sys:String x:Key="Str.Story.NoPoseSelected">未选择姿势（AI 自由构图）</sys:String>
+    <sys:String x:Key="Str.Story.OutfitSectionTitle">本场服装（男 / 女）</sys:String>
+    <sys:String x:Key="Str.Story.NoOutfitSelected">未选择服装（遵循角色 / 场景描述）</sys:String>
+    <sys:String x:Key="Str.Story.ReaderEmptyHint">此分镜尚未绘制 — 请返回编辑模式生成图像。</sys:String>
+
+    <!-- Outfit Gallery -->
+    <sys:String x:Key="Str.Outfit.Subtitle">按还原度从高到低排序 · 选中后自动将结构化服装词条融入提示词。</sys:String>
+    <sys:String x:Key="Str.Outfit.Unlock18">解锁 18+</sys:String>
+    <sys:String x:Key="Str.Outfit.SearchPlaceholder">搜索服装（如：西装、连衣裙、牛仔、古风…）</sys:String>
+    <sys:String x:Key="Str.Outfit.Reset">重置</sys:String>
+    <sys:String x:Key="Str.Outfit.PrevPage">上一页</sys:String>
+    <sys:String x:Key="Str.Outfit.NextPage">下一页</sys:String>
+    <sys:String x:Key="Str.Outfit.Loading">正在加载服装库…</sys:String>
+    <sys:String x:Key="Str.Outfit.EmptyTitle">未找到匹配的服装</sys:String>
+    <sys:String x:Key="Str.Outfit.EmptyHint">请尝试更简短的关键词或点击重置筛选。</sys:String>
+    <sys:String x:Key="Str.Outfit.ResetFilters">重置筛选</sys:String>
+    <sys:String x:Key="Str.Outfit.LoadingImg">加载中…</sys:String>
+    <sys:String x:Key="Str.Outfit.SelectThis">选择此套服装</sys:String>
+</ResourceDictionary>

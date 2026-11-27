@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<UserControl xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="CharacterConceptAI.Desktop.Features.Views.SetupManagerView">
+    <StackPanel>
+        <!-- Header & Summary -->
+        <Grid Margin="0,0,0,14">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel VerticalAlignment="Center" Margin="0,0,12,0">
+                <TextBlock Text="{DynamicResource Str.Setup.Title}" Style="{StaticResource TextSection}" TextWrapping="Wrap"/>
+                <TextBlock Text="{Binding SetupSummaryText}" Style="{StaticResource TextSecondary}" TextWrapping="Wrap" Margin="0,4,0,0"/>
+            </StackPanel>
+            <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                <Button Content="{DynamicResource Str.Setup.ScanDisk}"
+                        Command="{Binding RefreshSetupStatusCommand}"
+                        IsEnabled="{Binding IsSetupIdle}"
+                        Style="{StaticResource BtnSecondary}"
+                        Margin="0,0,8,0"/>
+                <Button Content="{DynamicResource Str.Setup.RestartAi}"
+                        Command="{Binding RestartLocalAiServicesCommand}"
+                        IsEnabled="{Binding IsSetupIdle}"
+                        Style="{StaticResource BtnGhost}"/>
+            </StackPanel>
+        </Grid>
+
+        <!-- System Hardware & Prerequisites Strip -->
+        <WrapPanel Margin="0,0,0,14">
+            <Border Background="{DynamicResource BrushCanvas}" BorderBrush="{DynamicResource BrushBorderSubtle}" BorderThickness="1" CornerRadius="8" Padding="10,6" Margin="0,0,8,8">
+                <TextBlock Text="{Binding SetupGpuInfo}" FontSize="12" FontWeight="SemiBold" Foreground="{DynamicResource BrushTextPrimary}"/>
+            </Border>
+            <Border Background="{DynamicResource BrushCanvas}" BorderBrush="{DynamicResource BrushBorderSubtle}" BorderThickness="1" CornerRadius="8" Padding="10,6" Margin="0,0,8,8">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{Binding SetupSqlInfo}" FontSize="12" FontWeight="SemiBold" Foreground="{DynamicResource BrushTextPrimary}" VerticalAlignment="Center"/>
+                    <Button Content="{DynamicResource Str.Setup.InstallSql}"
+                            Command="{Binding InstallSqlServerExpressCommand}"
+                            Visibility="{Binding SetupHasSqlServer, Converter={StaticResource InverseBooleanToVisibilityConverter}}"
+                            Style="{StaticResource BtnPrimary}"
+                            MinHeight="22" Padding="8,2" FontSize="11" Margin="8,0,0,0"/>
+                </StackPanel>
+            </Border>
+            <Border Background="{DynamicResource BrushCanvas}" BorderBrush="{DynamicResource BrushBorderSubtle}" BorderThickness="1" CornerRadius="8" Padding="10,6" Margin="0,0,8,8">
+                <TextBlock Text="{Binding SetupPythonInfo}" FontSize="12" Foreground="{DynamicResource BrushTextSecondary}"/>
+            </Border>
+            <Border Background="{DynamicResource BrushCanvas}" BorderBrush="{DynamicResource BrushBorderSubtle}" BorderThickness="1" CornerRadius="8" Padding="10,6" Margin="0,0,0,8">
+                <TextBlock Text="{Binding SetupFreeDiskInfo}" FontSize="12" FontWeight="SemiBold" Foreground="{DynamicResource BrushGold}"/>
+            </Border>
+        </WrapPanel>
+
+        <!-- Workspace Directory Selector -->
+        <Grid Margin="0,0,0,14">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="8"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="8"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBox Text="{Binding SetupWorkspacePath, Mode=OneWay}"
+                     IsReadOnly="True"
+                     ToolTip="Thư mục lưu ComfyUI, Custom Nodes và toàn bộ mô hình AI"
+                     AutomationProperties.Name="Thư mục cài đặt mô hình AI"/>
+            <Button Grid.Column="2"
+                    Content="{DynamicResource Str.Setup.ChangeFolder}"
+                    Command="{Binding BrowseSetupWorkspaceCommand}"
+                    IsEnabled="{Binding IsSetupIdle}"
+                    Style="{StaticResource BtnSecondary}"/>
+            <Button Grid.Column="4"
+                    Content="{DynamicResource Str.Common.OpenFolder}"
+                    Command="{Binding OpenSetupWorkspaceFolderCommand}"
+                    Style="{StaticResource BtnGhost}"/>
+        </Grid>
+
+        <!-- 1-Click Master Bundle Actions -->
+        <WrapPanel Margin="0,0,0,14">
+            <Button Content="{DynamicResource Str.Setup.InstallEssential}"
+                    Command="{Binding InstallEssentialBundleCommand}"
+                    IsEnabled="{Binding IsSetupIdle}"
+                    Style="{StaticResource BtnPrimary}"
+                    Margin="0,0,8,6"
+                    ToolTip="ComfyUI + 4 Custom Nodes + Z-Image-Turbo INT8 + Qwen3-4B FP8 + VAE"/>
+            <Button Content="{DynamicResource Str.Setup.InstallFull}"
+                    Command="{Binding InstallFullBundleCommand}"
+                    IsEnabled="{Binding IsSetupIdle}"
+                    Style="{StaticResource BtnSecondary}"
+                    Margin="0,0,8,6"
+                    ToolTip="Essential + ControlNet Union 2.1 + CPU Face Lock + RMBG-1.4 + 2x/4x Upscalers"/>
+            <Button Content="{DynamicResource Str.Setup.CancelDownload}"
+                    Command="{Binding CancelSetupDownloadCommand}"
+                    Visibility="{Binding IsAnySetupDownloading, Converter={StaticResource BooleanToVisibilityConverter}}"
+                    Style="{StaticResource BtnSecondary}"
+                    Margin="0,0,0,6"/>
+        </WrapPanel>
+
+        <!-- Live Banner -->
+        <Border Background="{DynamicResource BrushSelected}"
+                BorderBrush="{DynamicResource BrushBorderSubtle}"
+                BorderThickness="1"
+                CornerRadius="10"
+                Padding="12,9"
+                Margin="0,0,0,14"
+                Visibility="{Binding SetupBannerMessage, Converter={StaticResource StringNotEmptyToVisibilityConverter}}">
+            <TextBlock Text="{Binding SetupBannerMessage}"
+                       Foreground="{DynamicResource BrushOnSelected}"
+                       FontWeight="SemiBold"
+                       FontSize="12.5"
+                       TextWrapping="Wrap"/>
+        </Border>
+
+        <!-- Individual Packages List -->
+        <ItemsControl ItemsSource="{Binding SetupPackages}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Border Background="{DynamicResource BrushCanvas}"
+                            BorderBrush="{DynamicResource BrushBorderSubtle}"
+                            BorderThickness="1"
+                            CornerRadius="12"
+                            Padding="14,12"
+                            Margin="0,0,0,10">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Title + Tier Badge + Size -->
+                            <WrapPanel Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Margin="0,0,12,0">
+                                <TextBlock Text="{Binding LocalizedName}" FontWeight="Bold" FontSize="13.5" Foreground="{DynamicResource BrushTextPrimary}" VerticalAlignment="Center" Margin="0,0,8,2"/>
+                                <Border Background="{DynamicResource BrushSelected}" CornerRadius="6" Padding="7,2" Margin="0,0,6,2" VerticalAlignment="Center">
+                                    <TextBlock Text="{Binding LocalizedTierBadge}" FontSize="11" FontWeight="SemiBold" Foreground="{DynamicResource BrushGold}"/>
+                                </Border>
+                                <Border Background="{DynamicResource BrushCard}" BorderBrush="{DynamicResource BrushBorderSubtle}" BorderThickness="1" CornerRadius="6" Padding="7,2" Margin="0,0,6,2" VerticalAlignment="Center">
+                                    <TextBlock Text="{Binding SizeLabel}" FontSize="11" Foreground="{DynamicResource BrushTextMuted}"/>
+                                </Border>
+                                <Border Background="{DynamicResource BrushCard}" BorderBrush="{DynamicResource BrushBorderSubtle}" BorderThickness="1" CornerRadius="6" Padding="7,2" Margin="0,0,0,2" VerticalAlignment="Center">
+                                    <TextBlock Text="{Binding StatusBadgeText}" FontSize="11" FontWeight="SemiBold" Foreground="{DynamicResource BrushTextPrimary}"/>
+                                </Border>
+                            </WrapPanel>
+
+                            <!-- Per-Item 1-Click Action Button -->
+                            <Button Grid.Row="0" Grid.Column="1" Grid.RowSpan="2"
+                                    Content="{Binding ActionButtonLabel}"
+                                    Command="{Binding DataContext.InstallSetupPackageCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                    CommandParameter="{Binding}"
+                                    IsEnabled="{Binding DataContext.IsSetupIdle, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                    Style="{StaticResource BtnSecondary}"
+                                    MinWidth="112"
+                                    VerticalAlignment="Center"/>
+
+                            <!-- Description + Live Status -->
+                            <StackPanel Grid.Row="1" Grid.Column="0" Margin="0,4,12,0">
+                                <TextBlock Text="{Binding LocalizedDescription}" Style="{StaticResource TextCaption}" TextWrapping="Wrap"/>
+                                <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                                    <TextBlock Text="{Binding DetailStatus}" FontSize="11.5" FontWeight="Medium" Foreground="{DynamicResource BrushTextSecondary}" TextTrimming="CharacterEllipsis"/>
+                                    <TextBlock Text="{Binding SpeedLabel}" FontSize="11.5" FontWeight="Bold" Foreground="{DynamicResource BrushGold}" Margin="10,0,0,0"/>
+                                </StackPanel>
+                            </StackPanel>
+
+                            <!-- Progress Bar (visible when downloading or partially installed) -->
+                            <ProgressBar Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
+                                         Value="{Binding ProgressPercent, Mode=OneWay}"
+                                         Maximum="100"
+                                         Height="6"
+                                         Margin="0,10,0,0"
+                                         Foreground="{DynamicResource BrushEmerald}"
+                                         Background="{DynamicResource BrushCard}"
+                                         BorderThickness="0"
+                                         Visibility="{Binding IsInstalling, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </StackPanel>
+</UserControl>

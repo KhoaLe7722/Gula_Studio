@@ -1,0 +1,117 @@
+{
+  "71": {
+    "class_type": "CcaFaceCrop",
+    "inputs": {
+      "image": [
+        "8",
+        0
+      ],
+      "prompt": "__PROMPT__"
+    }
+  },
+  "72": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "clip": [
+        "30",
+        0
+      ],
+      "text": [
+        "71",
+        2
+      ]
+    }
+  },
+  "73": {
+    "class_type": "ConditioningZeroOut",
+    "inputs": {
+      "conditioning": [
+        "72",
+        0
+      ]
+    }
+  },
+  "74": {
+    "class_type": "VAEEncode",
+    "inputs": {
+      "pixels": [
+        "71",
+        0
+      ],
+      "vae": [
+        "29",
+        0
+      ]
+    }
+  },
+  "75": {
+    "class_type": "ModelSamplingAuraFlow",
+    "inputs": {
+      "model": [
+        "28",
+        0
+      ],
+      "shift": 2.13
+    }
+  },
+  "76": {
+    "class_type": "KSampler",
+    "inputs": {
+      "model": [
+        "75",
+        0
+      ],
+      "positive": [
+        "72",
+        0
+      ],
+      "negative": [
+        "73",
+        0
+      ],
+      "latent_image": [
+        "74",
+        0
+      ],
+      "seed": 123456,
+      "steps": 9,
+      "cfg": 1.0,
+      "sampler_name": "res_multistep",
+      "scheduler": "simple",
+      "denoise": [
+        "71",
+        3
+      ]
+    }
+  },
+  "77": {
+    "class_type": "VAEDecode",
+    "inputs": {
+      "samples": [
+        "76",
+        0
+      ],
+      "vae": [
+        "29",
+        0
+      ]
+    }
+  },
+  "78": {
+    "class_type": "CcaFaceComposite",
+    "inputs": {
+      "image": [
+        "64",
+        0
+      ],
+      "region": [
+        "71",
+        1
+      ],
+      "refined": [
+        "77",
+        0
+      ]
+    }
+  }
+}

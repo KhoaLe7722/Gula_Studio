@@ -1,0 +1,84 @@
+{
+  "10": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "__SOURCE_IMAGE__"
+    }
+  },
+  "61": {
+    "class_type": "UpscaleModelLoader",
+    "inputs": {
+      "model_name": "4x_NMKD-Siax_200k.pth"
+    }
+  },
+  "62": {
+    "class_type": "CcaSmartUpscale2x",
+    "inputs": {
+      "image": ["10", 0],
+      "upscale_model": ["61", 0],
+      "detail_mix": 0.82
+    }
+  },
+  "28": {
+    "class_type": "UNETLoader",
+    "inputs": {
+      "unet_name": "z_image_turbo_int8_convrot.safetensors",
+      "weight_dtype": "default"
+    }
+  },
+  "30": {
+    "class_type": "CLIPLoader",
+    "inputs": {
+      "clip_name": "qwen_3_4b_fp8_mixed.safetensors",
+      "type": "lumina2",
+      "device": "default"
+    }
+  },
+  "29": {
+    "class_type": "VAELoader",
+    "inputs": {
+      "vae_name": "ae.safetensors"
+    }
+  },
+  "11": {
+    "class_type": "ModelSamplingAuraFlow",
+    "inputs": {
+      "model": ["28", 0],
+      "shift": 3.0
+    }
+  },
+  "27": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "text": "__PROMPT__",
+      "clip": ["30", 0]
+    }
+  },
+  "33": {
+    "class_type": "ConditioningZeroOut",
+    "inputs": {
+      "conditioning": ["27", 0]
+    }
+  },
+  "70": {
+    "class_type": "CcaTiledHiresRefine",
+    "inputs": {
+      "image": ["62", 0],
+      "model": ["11", 0],
+      "positive": ["27", 0],
+      "negative": ["33", 0],
+      "vae": ["29", 0],
+      "seed": 123456,
+      "steps": 6,
+      "denoise": 0.24,
+      "tile_size": 1024,
+      "tile_overlap": 128
+    }
+  },
+  "40": {
+    "class_type": "PreviewImage",
+    "inputs": {
+      "images": ["70", 0]
+    }
+  }
+}

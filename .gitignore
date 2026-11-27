@@ -1,0 +1,56 @@
+# Build & IDE
+**/bin/
+**/obj/
+.vs/
+.idea/
+*.user
+*.suo
+*.log
+desktop_output.log
+tests/backend-verification.log
+
+# Secrets, Certificates & Local Runtime Config
+*.pfx
+*.pem
+*.key
+*.cer
+*.bak
+*.mdf
+*.ldf
+*.db
+*.sqlite
+secrets/
+.env
+.env.*
+!*.example
+**/appsettings.Development.json
+**/appsettings.Production.json
+**/DataProtectionKeys/
+
+# Generated Media, Staging & Evidence Dumps
+**/MediaStorage/
+/media/
+/storage/
+/backups/
+/publish/
+/dist/
+/artifacts/
+/evidence/
+/design/
+
+# AI Runtimes & Large Model Weights (downloaded via In-App 1-Click Setup Manager)
+/ComfyUI/
+/PromptEnhancer/
+/SpeechToText/
+/model_weights/
+*.safetensors
+*.ckpt
+*.pt
+*.pth
+*.onnx
+*.gguf
+*.bin
+*.7z
+*.zip
+__pycache__/
+*.pyc

@@ -1,0 +1,10 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/CharacterConceptAI.Desktop/CharacterConceptAI.Desktop.csproj" />
+    <Project Path="src/CharacterConceptAI.Server/CharacterConceptAI.Server.csproj" />
+    <Project Path="src/CharacterConceptAI.Shared.Contracts/CharacterConceptAI.Shared.Contracts.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/CharacterConceptAI.Tests/CharacterConceptAI.Tests.csproj" />
+  </Folder>
+</Solution>

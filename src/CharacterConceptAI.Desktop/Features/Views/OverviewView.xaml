@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<UserControl xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Class="CharacterConceptAI.Desktop.Features.Views.OverviewView">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel>
+            <TextBlock Text="{Binding SelectedProject.Name, TargetNullValue='Chọn một dự án'}" Style="{StaticResource TextPageTitle}"/>
+            <TextBlock Text="{Binding SelectedProject.Description}" Style="{StaticResource TextSecondary}" TextWrapping="Wrap" Margin="0,8,0,24"/>
+            <WrapPanel Margin="0,0,0,24">
+                <Button Command="{Binding SetTabCommand}" CommandParameter="1" Style="{StaticResource BtnSecondary}" Width="190" Height="108" Margin="0,0,16,16">
+                    <StackPanel>
+                        <TextBlock Text="{Binding CharacterTotalCount}" FontSize="28" FontWeight="SemiBold" Margin="0,0,0,8"/>
+                        <TextBlock Text="Nhân vật" Foreground="{DynamicResource BrushTextSecondary}"/>
+                    </StackPanel>
+                </Button>
+                <Button Command="{Binding SetTabCommand}" CommandParameter="3" Style="{StaticResource BtnSecondary}" Width="190" Height="108" Margin="0,0,16,16">
+                    <StackPanel>
+                        <TextBlock Text="{Binding Scripts.Count}" FontSize="28" FontWeight="SemiBold" Margin="0,0,0,8"/>
+                        <TextBlock Text="Kịch bản" Foreground="{DynamicResource BrushTextSecondary}"/>
+                    </StackPanel>
+                </Button>
+                <Button Command="{Binding SetTabCommand}" CommandParameter="4" Style="{StaticResource BtnSecondary}" Width="190" Height="108" Margin="0,0,16,16">
+                    <StackPanel>
+                        <TextBlock Text="{Binding ProjectMembers.Count}" FontSize="28" FontWeight="SemiBold" Margin="0,0,0,8"/>
+                        <TextBlock Text="Thành viên" Foreground="{DynamicResource BrushTextSecondary}"/>
+                    </StackPanel>
+                </Button>
+                <Button Command="{Binding SetTabCommand}" CommandParameter="7" Style="{StaticResource BtnSecondary}" Width="190" Height="108" Margin="0,0,16,16">
+                    <StackPanel>
+                        <TextBlock Text="{Binding GenerationQueue.Count}" FontSize="28" FontWeight="SemiBold" Margin="0,0,0,8"/>
+                        <TextBlock Text="Tác vụ đã tải" Foreground="{DynamicResource BrushTextSecondary}"/>
+                    </StackPanel>
+                </Button>
+            </WrapPanel>
+            <Border Style="{StaticResource Card}" Padding="20">
+                <StackPanel>
+                    <TextBlock Text="Từ ý tưởng đến concept" Style="{StaticResource TextSection}"/>
+                    <TextBlock Text="Xây dựng hồ sơ nhân vật, liên kết vào kịch bản rồi phát triển các phiên bản concept với cả nhóm." TextWrapping="Wrap" Style="{StaticResource TextSecondary}" Margin="0,8,0,20"/>
+                    <WrapPanel>
+                        <Button Content="Quản lý nhân vật" Command="{Binding SetTabCommand}" Style="{StaticResource BtnPrimary}" Margin="0,0,8,0" CommandParameter="1"/>
+                        <Button Content="Mở Studio AI" Command="{Binding SetTabCommand}" Style="{StaticResource BtnSecondary}" Margin="0,0,8,0" CommandParameter="0"/>
+                        <Button Content="Dự án và thành viên" Command="{Binding SetTabCommand}" Style="{StaticResource BtnSecondary}" Margin="0,0,8,0" CommandParameter="4"/>
+                    </WrapPanel>
+                </StackPanel>
+            </Border>
+            <TextBlock Text="Các số lượng phản ánh dữ liệu đã tải trong phiên này." Style="{StaticResource TextCaption}" Margin="0,16,0,0"/>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

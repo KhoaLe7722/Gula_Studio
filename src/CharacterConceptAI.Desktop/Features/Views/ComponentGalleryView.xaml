@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<UserControl xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Class="CharacterConceptAI.Desktop.Features.Views.ComponentGalleryView">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel>
+            <Grid Margin="0,0,0,24">
+                <StackPanel>
+                    <TextBlock Text="Thành phần giao diện" Style="{StaticResource TextPageTitle}"/>
+                    <TextBlock Text="Kiểm tra trực tiếp các điều khiển, focus và giao diện sáng / tối." Style="{StaticResource TextSecondary}" Margin="0,6,0,0"/>
+                </StackPanel>
+                <Button Content="{Binding ThemeLabel}" Command="{Binding ToggleThemeCommand}" Style="{StaticResource BtnSecondary}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+            </Grid>
+            <Border Style="{StaticResource Card}" Padding="20" Margin="0,0,0,16">
+                <StackPanel>
+                    <TextBlock Text="Nút và trạng thái" Style="{StaticResource TextSection}"/>
+                    <TextBlock Text="Các nút hoạt động bên dưới đều chuyển giao diện sáng / tối." Style="{StaticResource TextCaption}" Margin="0,8,0,16"/>
+                    <WrapPanel>
+                        <Button Content="Nút chính: chuyển giao diện" Command="{Binding ToggleThemeCommand}" Style="{StaticResource BtnPrimary}" Margin="0,0,8,0"/>
+                        <Button Content="Nút phụ: chuyển giao diện" Command="{Binding ToggleThemeCommand}" Style="{StaticResource BtnSecondary}" Margin="0,0,8,0"/>
+                        <Button Content="Nút tối giản: chuyển giao diện" Command="{Binding ToggleThemeCommand}" Style="{StaticResource BtnGhost}" Margin="0,0,8,0"/>
+                        <Button Content="Không khả dụng" Style="{StaticResource BtnSecondary}" IsEnabled="False" ToolTipService.ShowOnDisabled="True" ToolTip="Ví dụ trạng thái bị vô hiệu hóa"/>
+                    </WrapPanel>
+                </StackPanel>
+            </Border>
+            <Border Style="{StaticResource Card}" Padding="20" Margin="0,0,0,16">
+                <StackPanel>
+                    <TextBlock Text="Nhập liệu và lựa chọn" Style="{StaticResource TextSection}" Margin="0,0,0,16"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="24"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel>
+                            <TextBlock Text="Văn bản tiếng Việt" Margin="0,0,0,8"/>
+                            <TextBox Text="Nhân vật · Ánh sáng · Câu chuyện" AutomationProperties.Name="Kiểm tra font và dấu tiếng Việt"/>
+                            <TextBlock Text="Mật khẩu" Margin="0,16,0,8"/>
+                            <PasswordBox AutomationProperties.Name="Mật khẩu mẫu chỉ dùng kiểm tra điều khiển"/>
+                        </StackPanel>
+                        <StackPanel Grid.Column="2">
+                            <TextBlock Text="Lựa chọn" Margin="0,0,0,8"/>
+                            <ComboBox ItemsSource="{Binding AvailableProjectTypes}" SelectedIndex="0" AutomationProperties.Name="Kiểu dự án mẫu"/>
+                            <CheckBox Content="Kiểm tra lựa chọn bật / tắt" Margin="0,16,0,0"/>
+                            <RadioButton Content="Lựa chọn thứ nhất" GroupName="Gallery" Margin="0,12,0,0" IsChecked="True"/>
+                            <RadioButton Content="Lựa chọn thứ hai" GroupName="Gallery" Margin="0,8,0,0"/>
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+            </Border>
+            <Border Style="{StaticResource Card}" Padding="20" Margin="0,0,0,16">
+                <StackPanel>
+                    <TextBlock Text="Thông tin và phản hồi" Style="{StaticResource TextSection}" Margin="0,0,0,16"/>
+                    <WrapPanel>
+                        <Border Style="{StaticResource StatusBadge}" Margin="0,0,8,8">
+                            <TextBlock Text="Đang chờ xử lý"/>
+                        </Border>
+                        <Border Style="{StaticResource StatusBadge}" Margin="0,0,8,8">
+                            <TextBlock Text="Đang sinh ảnh" Foreground="{DynamicResource BrushInfo}"/>
+                        </Border>
+                        <Border Style="{StaticResource StatusBadge}" Margin="0,0,8,8">
+                            <TextBlock Text="Đã hoàn thành" Foreground="{DynamicResource BrushPositive}"/>
+                        </Border>
+                        <Border Style="{StaticResource StatusBadge}" Margin="0,0,8,8">
+                            <TextBlock Text="Phiên bản đã duyệt" Foreground="{DynamicResource BrushPositive}"/>
+                        </Border>
+                        <Border Style="{StaticResource StatusBadge}" Margin="0,0,8,8">
+                            <TextBlock Text="Không thành công" Foreground="{DynamicResource BrushNegative}"/>
+                        </Border>
+                    </WrapPanel>
+                    <Border Style="{StaticResource InlineBanner}" Margin="0,12,0,0">
+                        <TextBlock Text="Thông tin hiển thị bên ngoài màu sắc để có thể đọc bằng trình hỗ trợ." TextWrapping="Wrap" Foreground="{DynamicResource BrushInfo}"/>
+                    </Border>
+                </StackPanel>
+            </Border>
+            <Border Style="{StaticResource Card}" Padding="20" Margin="0,0,0,16">
+                <StackPanel>
+                    <TextBlock Text="Bảng dữ liệu thật đang tải" Style="{StaticResource TextSection}" Margin="0,0,0,16"/>
+                    <DataGrid ItemsSource="{Binding Projects}" AutoGenerateColumns="False" IsReadOnly="True" Height="220" AutomationProperties.Name="Bảng dữ liệu dự án mẫu từ máy chủ">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Dự án" Binding="{Binding Name}" Width="*"/>
+                            <DataGridTextColumn Header="Loại" Binding="{Binding ProjectType}" Width="140"/>
+                            <DataGridTextColumn Header="Trạng thái" Binding="{Binding Status, Converter={StaticResource StatusTextConverter}}" Width="160"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

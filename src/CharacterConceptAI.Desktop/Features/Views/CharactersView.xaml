@@ -1,0 +1,405 @@
+<?xml version="1.0" encoding="utf-8"?>
+<UserControl xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Class="CharacterConceptAI.Desktop.Features.Views.CharactersView">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid Margin="0,0,0,24">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Margin="0,0,12,0">
+                <TextBlock Text="Nhân vật" Style="{StaticResource TextPageTitle}"/>
+                <TextBlock Text="{Binding ProjectEditHint}" Style="{StaticResource TextSecondary}" Margin="0,6,0,0"
+                           TextWrapping="Wrap" Visibility="{Binding ProjectEditHint, Converter={StaticResource StringNotEmptyToVisibilityConverter}}"/>
+            </StackPanel>
+            <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                <Button Content="Mở Studio AI" Command="{Binding SwitchToStudioWithCharacterCommand}"
+                        CommandParameter="{Binding SelectedCharacter}" Style="{StaticResource BtnSecondary}"
+                        ToolTip="Chọn một nhân vật trước khi mở Studio AI" Margin="0,0,8,0"/>
+                <Button Content="Tạo nhân vật" Command="{Binding OpenCreateCharacterDialogCommand}" Style="{StaticResource BtnPrimary}"
+                        ToolTip="{Binding ProjectEditHint}" ToolTipService.ShowOnDisabled="True" AutomationProperties.Name="Mở biểu mẫu tạo nhân vật"/>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="256"/>
+                <ColumnDefinition Width="20"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Border Style="{StaticResource Card}" Padding="0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <StackPanel Margin="12">
+                        <Grid>
+                            <TextBox x:Name="CharacterSearchBox" Text="{Binding CharacterSearchText, UpdateSourceTrigger=PropertyChanged, Delay=300}" AutomationProperties.Name="Tìm tên hoặc vai trò nhân vật" ToolTip="Tìm tên hoặc vai trò · Ctrl+F"/>
+                            <TextBlock Text="Tìm nhân vật…" Foreground="{DynamicResource BrushTextMuted}" FontSize="12" VerticalAlignment="Center" Margin="12,0,24,0" IsHitTestVisible="False" Focusable="False">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding CharacterSearchText}" Value="">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </Grid>
+                        <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                            <Button Content="Thẻ" Command="{Binding SetCharacterViewCommand}" Style="{StaticResource BtnGhost}" Margin="0,0,8,0" CommandParameter="Grid"/>
+                            <Button Content="Bảng" Command="{Binding SetCharacterViewCommand}" Style="{StaticResource BtnGhost}" Margin="0,0,8,0" CommandParameter="List"/>
+                        </StackPanel>
+                    </StackPanel>
+                    <Grid Grid.Row="1">
+                        <ListBox ItemsSource="{Binding FilteredCharacters}" SelectedItem="{Binding SelectedCharacter}" Visibility="{Binding IsCharacterListView, Converter={StaticResource InverseBooleanToVisibilityConverter}}" Background="Transparent" BorderThickness="0" VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" AutomationProperties.Name="Danh sách thẻ nhân vật" PreviewMouseRightButtonDown="SelectContextItem">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid MinHeight="92" Margin="12">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="56"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Border Width="44" Height="56" CornerRadius="6" Background="{DynamicResource BrushCardElevated}" HorizontalAlignment="Left">
+                                            <Path Data="M14,0 A7,7 0 1 1 13.9,0 M0,30 C0,14 28,14 28,30" Stroke="{DynamicResource BrushTextMuted}" StrokeThickness="1.3" Width="28" Height="34" Stretch="Uniform" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                            <TextBlock Text="{Binding Name}" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" ToolTip="{Binding Name}"/>
+                                            <TextBlock Text="{Binding Role, Converter={StaticResource StatusTextConverter}}" Foreground="{DynamicResource BrushTextSecondary}" FontSize="12" Margin="0,6,0,0" TextTrimming="CharacterEllipsis"/>
+                                            <TextBlock Text="{Binding Status, Converter={StaticResource StatusTextConverter}}" Foreground="{DynamicResource BrushTextMuted}" FontSize="11" Margin="0,4,0,0"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                        <DataGrid ItemsSource="{Binding FilteredCharacters}" SelectedItem="{Binding SelectedCharacter}" Visibility="{Binding IsCharacterListView, Converter={StaticResource BooleanToVisibilityConverter}}" AutoGenerateColumns="False" IsReadOnly="True" EnableRowVirtualization="True" VirtualizingPanel.VirtualizationMode="Recycling" AutomationProperties.Name="Bảng nhân vật">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Tên" Binding="{Binding Name}" Width="*"/>
+                                <DataGridTextColumn Header="Vai trò" Binding="{Binding Role, Converter={StaticResource StatusTextConverter}}" Width="90"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        <TextBlock Text="Không có nhân vật trong danh sách này." Margin="16" TextWrapping="Wrap"
+                                   Style="{StaticResource TextCaption}" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                   IsHitTestVisible="False"
+                                   Visibility="{Binding FilteredCharacters.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                    </Grid>
+                </Grid>
+            </Border>
+            <Grid Grid.Column="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid Margin="0,0,0,16"
+                      Visibility="{Binding HasSelectedCharacter, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <StackPanel>
+                        <TextBlock Text="{Binding SelectedCharacter.Name, TargetNullValue='Chọn một nhân vật'}" Style="{StaticResource TextSection}"/>
+                        <TextBlock Text="{Binding EditorError}" Foreground="{DynamicResource BrushNegative}" FontSize="12" TextWrapping="Wrap" Margin="0,6,0,0"/>
+                        <TextBlock Text="{Binding SelectedCharacter.Status, Converter={StaticResource StatusTextConverter}}" Style="{StaticResource TextCaption}" Margin="0,6,0,0"/>
+                    </StackPanel>
+                    <TextBlock Text="{Binding ProjectRole}" HorizontalAlignment="Right" VerticalAlignment="Center" Style="{StaticResource TextCaption}"/>
+                </Grid>
+                <Border Grid.Row="1" Style="{StaticResource Card}" Padding="24"
+                        Visibility="{Binding HasSelectedCharacter, Converter={StaticResource InverseBooleanToVisibilityConverter}}">
+                    <TextBlock Text="{Binding CharacterSelectionHint}" TextWrapping="Wrap" Style="{StaticResource TextSecondary}"
+                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Border>
+                <TabControl x:Name="CharacterDetailsTabs" Grid.Row="1" AutomationProperties.Name="Chi tiết nhân vật"
+                            Visibility="{Binding HasSelectedCharacter, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <TabItem Header="Hồ sơ">
+                        <ScrollViewer VerticalScrollBarVisibility="Auto">
+                            <StackPanel Margin="4,16,16,16" IsEnabled="{Binding CanEditProject}">
+                                <StackPanel Margin="0,0,0,16">
+                                    <TextBlock Text="Tên nhân vật" Style="{StaticResource TextBody}"/>
+                                    <TextBox Text="{Binding CharacterEditorName, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="Tên nhân vật"/>
+                                </StackPanel>
+                                <StackPanel Margin="0,0,0,16">
+                                    <TextBlock Text="Vai trò / nguyên mẫu" Style="{StaticResource TextBody}"/>
+                                    <TextBox Text="{Binding CharacterEditorRole, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="Vai trò / nguyên mẫu"/>
+                                </StackPanel>
+                                <StackPanel Margin="0,0,0,16">
+                                    <TextBlock Text="Mô tả" Style="{StaticResource TextBody}"/>
+                                    <TextBox Text="{Binding CharacterEditorDescription, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="Mô tả" AcceptsReturn="True" TextWrapping="Wrap" Height="128" VerticalScrollBarVisibility="Auto"/>
+                                </StackPanel>
+                                <TextBlock Text="Có thay đổi chưa lưu" Foreground="{DynamicResource BrushWarning}" Visibility="{Binding HasUnsavedChanges, Converter={StaticResource BooleanToVisibilityConverter}}" Margin="0,0,0,16"/>
+                                <WrapPanel>
+                                    <Button Content="Lưu hồ sơ" Command="{Binding SaveCharacterProfileCommand}" Style="{StaticResource BtnPrimary}" Margin="0,0,8,0"/>
+                                    <Button Content="Bỏ thay đổi" Command="{Binding ResetCharacterEditorCommand}" Style="{StaticResource BtnSecondary}" Margin="0,0,8,0"/>
+                                </WrapPanel>
+                                <TextBlock Text="Hồ sơ và thuộc tính được chụp thành phiên bản khi tạo concept." Style="{StaticResource TextCaption}" TextWrapping="Wrap" Margin="0,20,0,0"/>
+                            </StackPanel>
+                        </ScrollViewer>
+                    </TabItem>
+                    <TabItem Header="Thuộc tính">
+                        <ScrollViewer VerticalScrollBarVisibility="Auto">
+                            <StackPanel Margin="4,16,16,16">
+                                <TextBlock Text="{Binding AttributeEditScope}" Style="{StaticResource TextSection}"/>
+                                <Button Content="Nạp lại thuộc tính hồ sơ gốc" Command="{Binding LoadBaseAttributesCommand}" Style="{StaticResource BtnGhost}" HorizontalAlignment="Left" Margin="0,12,0,0"/>
+                                <TextBlock Text="Định nghĩa quy định kiểu dữ liệu. Biến thể có thể ghi đè giá trị của hồ sơ gốc." Style="{StaticResource TextSecondary}" TextWrapping="Wrap" Margin="0,8,0,20"/>
+                                <ItemsControl ItemsSource="{Binding AttributeEditors}" IsEnabled="{Binding CanEditProject}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border BorderBrush="{DynamicResource BrushBorderSubtle}" BorderThickness="0,0,0,1" Padding="0,0,0,16" Margin="0,0,0,16">
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <StackPanel Margin="0,0,16,0">
+                                                        <TextBlock Text="{Binding DisplayName}" FontWeight="SemiBold" TextWrapping="Wrap"/>
+                                                        <TextBlock Text="{Binding DataType}" Style="{StaticResource TextCaption}" Margin="0,4,0,0"/>
+                                                        <TextBlock Text="Đặc điểm nhận diện" Foreground="{DynamicResource BrushInfo}" FontSize="11" Margin="0,4,0,0" Visibility="{Binding IsIdentityCritical, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                                                    </StackPanel>
+                                                    <Grid Grid.Column="1">
+                                                        <TextBox Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="{Binding DisplayName}">
+                                                            <TextBox.Style>
+                                                                <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+                                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                                    <Style.Triggers>
+                                                                        <DataTrigger Binding="{Binding IsBoolean}" Value="True">
+                                                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                                                        </DataTrigger>
+                                                                        <DataTrigger Binding="{Binding IsChoice}" Value="True">
+                                                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                                                        </DataTrigger>
+                                                                    </Style.Triggers>
+                                                                </Style>
+                                                            </TextBox.Style>
+                                                        </TextBox>
+                                                        <CheckBox Content="Có / bật" IsChecked="{Binding BooleanValue}" Visibility="{Binding IsBoolean, Converter={StaticResource BooleanToVisibilityConverter}}" VerticalAlignment="Center" AutomationProperties.Name="{Binding DisplayName}"/>
+                                                        <ComboBox ItemsSource="{Binding Choices}" SelectedItem="{Binding Value, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding IsChoice, Converter={StaticResource BooleanToVisibilityConverter}}" AutomationProperties.Name="{Binding DisplayName}"/>
+                                                    </Grid>
+                                                </Grid>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                                <WrapPanel Margin="0,0,0,24">
+                                    <Button Content="Lưu thuộc tính" Command="{Binding SaveAttributesCommand}" Style="{StaticResource BtnPrimary}" Margin="0,0,8,0"/>
+                                </WrapPanel>
+                                <Expander Header="Gán thuộc tính đã có" Margin="0,0,0,20">
+                                    <StackPanel Margin="0,16,0,0">
+                                        <StackPanel Margin="0,0,0,16">
+                                            <TextBlock Text="Định nghĩa" Style="{StaticResource TextBody}"/>
+                                            <ComboBox ItemsSource="{Binding AttributeDefinitions}" SelectedItem="{Binding SelectedAttributeDefinition}" DisplayMemberPath="DisplayName" AutomationProperties.Name="Định nghĩa"/>
+                                            <TextBlock Text="Dự án chưa có thuộc tính để chọn. Mở mục Tạo định nghĩa thuộc tính bên dưới."
+                                                       TextWrapping="Wrap" Margin="0,8,0,0" Style="{StaticResource TextCaption}">
+                                                <TextBlock.Visibility>
+                                                    <Binding Path="AttributeDefinitions.Count" Converter="{StaticResource IntToVisibilityConverter}" ConverterParameter="0"/>
+                                                </TextBlock.Visibility>
+                                            </TextBlock>
+                                        </StackPanel>
+                                        <StackPanel Margin="0,0,0,16">
+                                            <TextBlock Text="Giá trị (đúng kiểu của định nghĩa)" Style="{StaticResource TextBody}"/>
+                                            <TextBox Text="{Binding NewAttributeValue, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="Giá trị (đúng kiểu của định nghĩa)"/>
+                                        </StackPanel>
+                                        <Button Content="Gán vào hồ sơ" Command="{Binding AssignAttributeCommand}" Style="{StaticResource BtnSecondary}" Margin="0,0,8,0"/>
+                                    </StackPanel>
+                                </Expander>
+                                <Expander Header="Tạo định nghĩa thuộc tính">
+                                    <StackPanel Margin="0,16,0,0">
+                                        <StackPanel Margin="0,0,0,16">
+                                            <TextBlock Text="Mã thuộc tính" Style="{StaticResource TextBody}"/>
+                                            <TextBox Text="{Binding NewAttributeCode, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="Mã thuộc tính"/>
+                                        </StackPanel>
+                                        <StackPanel Margin="0,0,0,16">
+                                            <TextBlock Text="Tên hiển thị" Style="{StaticResource TextBody}"/>
+                                            <TextBox Text="{Binding NewAttributeName, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="Tên hiển thị"/>
+                                        </StackPanel>
+                                        <StackPanel Margin="0,0,0,16">
+                                            <TextBlock Text="Kiểu dữ liệu" Style="{StaticResource TextBody}"/>
+                                            <ComboBox ItemsSource="{Binding AvailableAttributeTypes}" SelectedItem="{Binding NewAttributeDataType}" AutomationProperties.Name="Kiểu dữ liệu"/>
+                                        </StackPanel>
+                                        <StackPanel Margin="0,0,0,16">
+                                            <TextBlock Text="Các lựa chọn (phân cách bằng dấu phẩy)" Style="{StaticResource TextBody}"/>
+                                            <TextBox Text="{Binding NewAttributeAllowedValues, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="Các lựa chọn (phân cách bằng dấu phẩy)"/>
+                                        </StackPanel>
+                                        <Button Content="Tạo định nghĩa" Command="{Binding CreateAttributeDefinitionCommand}" Style="{StaticResource BtnSecondary}" Margin="0,0,8,0"/>
+                                    </StackPanel>
+                                </Expander>
+                            </StackPanel>
+                        </ScrollViewer>
+                    </TabItem>
+                    <TabItem Header="Biến thể">
+                        <ScrollViewer VerticalScrollBarVisibility="Auto">
+                            <StackPanel Margin="4,16,16,16">
+                                <StackPanel Margin="0,0,0,16">
+                                    <TextBlock Text="Biến thể" Style="{StaticResource TextBody}"/>
+                                    <ComboBox ItemsSource="{Binding SelectedCharacterVariants}" SelectedItem="{Binding SelectedVariant}" DisplayMemberPath="Name" AutomationProperties.Name="Biến thể"/>
+                                </StackPanel>
+                                <TextBlock Text="{Binding SelectedVariant.Description}" Style="{StaticResource TextSecondary}" TextWrapping="Wrap" Margin="0,0,0,16"/>
+                                <TextBlock Text="Biến thể kế thừa thuộc tính gốc; chỉ những giá trị ghi đè được lưu riêng." Style="{StaticResource TextCaption}" TextWrapping="Wrap" Margin="0,0,0,20"/>
+                                <WrapPanel Margin="0,0,0,20">
+                                    <Button Content="Đặt mặc định" Command="{Binding MakeDefaultVariantCommand}" Style="{StaticResource BtnSecondary}" Margin="0,0,8,0"/>
+                                    <Button Content="Lưu thuộc tính ghi đè" Command="{Binding SaveVariantAttributesCommand}" Style="{StaticResource BtnSecondary}" Margin="0,0,8,0"/>
+                                </WrapPanel>
+                                <TextBlock Text="{Binding AttributeEditScope}" Foreground="{DynamicResource BrushInfo}" TextWrapping="Wrap" Margin="0,0,0,12"/>
+                                <Button Content="Nạp thuộc tính biến thể" Command="{Binding LoadVariantAttributesCommand}" Style="{StaticResource BtnSecondary}" Margin="0,0,8,0"/>
+                                <TextBlock Text="Sau khi nạp, chỉnh sửa giá trị rồi lưu ghi đè cho đúng biến thể đang chọn. Hồ sơ gốc được giữ riêng." Style="{StaticResource TextCaption}" TextWrapping="Wrap" Margin="0,12,0,16"/>
+                                <ItemsControl ItemsSource="{Binding AttributeEditors}" IsEnabled="{Binding CanEditProject}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border BorderBrush="{DynamicResource BrushBorderSubtle}" BorderThickness="0,0,0,1" Padding="0,0,0,16" Margin="0,0,0,16">
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <StackPanel Margin="0,0,16,0">
+                                                        <TextBlock Text="{Binding DisplayName}" FontWeight="SemiBold" TextWrapping="Wrap"/>
+                                                        <TextBlock Text="{Binding DataType}" Style="{StaticResource TextCaption}" Margin="0,4,0,0"/>
+                                                        <TextBlock Text="Đặc điểm nhận diện" Foreground="{DynamicResource BrushInfo}" FontSize="11" Margin="0,4,0,0" Visibility="{Binding IsIdentityCritical, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                                                    </StackPanel>
+                                                    <Grid Grid.Column="1">
+                                                        <TextBox Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="{Binding DisplayName}">
+                                                            <TextBox.Style>
+                                                                <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+                                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                                    <Style.Triggers>
+                                                                        <DataTrigger Binding="{Binding IsBoolean}" Value="True">
+                                                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                                                        </DataTrigger>
+                                                                        <DataTrigger Binding="{Binding IsChoice}" Value="True">
+                                                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                                                        </DataTrigger>
+                                                                    </Style.Triggers>
+                                                                </Style>
+                                                            </TextBox.Style>
+                                                        </TextBox>
+                                                        <CheckBox Content="Có / bật" IsChecked="{Binding BooleanValue}" Visibility="{Binding IsBoolean, Converter={StaticResource BooleanToVisibilityConverter}}" VerticalAlignment="Center" AutomationProperties.Name="{Binding DisplayName}"/>
+                                                        <ComboBox ItemsSource="{Binding Choices}" SelectedItem="{Binding Value, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding IsChoice, Converter={StaticResource BooleanToVisibilityConverter}}" AutomationProperties.Name="{Binding DisplayName}"/>
+                                                    </Grid>
+                                                </Grid>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                                <TextBlock Text="Tạo biến thể" Style="{StaticResource TextSection}" Margin="0,4,0,16"/>
+                                <StackPanel Margin="0,0,0,16">
+                                    <TextBlock Text="Tên biến thể" Style="{StaticResource TextBody}"/>
+                                    <TextBox Text="{Binding NewVariantName, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="Tên biến thể"/>
+                                </StackPanel>
+                                <StackPanel Margin="0,0,0,16">
+                                    <TextBlock Text="Mô tả biến thể" Style="{StaticResource TextBody}"/>
+                                    <TextBox Text="{Binding NewVariantDescription, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="Mô tả biến thể" TextWrapping="Wrap" AcceptsReturn="True" Height="80"/>
+                                </StackPanel>
+                                <Button Content="Tạo biến thể" Command="{Binding CreateVariantCommand}" Style="{StaticResource BtnPrimary}" Margin="0,0,8,0"/>
+                            </StackPanel>
+                        </ScrollViewer>
+                    </TabItem>
+                    <TabItem Header="Lịch sử">
+                        <Grid Margin="4,16,16,16">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="180"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Text="Lịch sử hồ sơ bất biến" Style="{StaticResource TextSection}" Margin="0,0,0,16"/>
+                            <DataGrid Grid.Row="1" ItemsSource="{Binding SelectedCharacterRevisions}" SelectedItem="{Binding SelectedRevision}" AutoGenerateColumns="False" IsReadOnly="True" AutomationProperties.Name="Lịch sử hồ sơ">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Bản" Binding="{Binding RevisionNumber}" Width="54"/>
+                                    <DataGridTextColumn Header="Thay đổi" Binding="{Binding ChangeSummary}" Width="*"/>
+                                    <DataGridTextColumn Header="Thời gian" Binding="{Binding CreatedAt, StringFormat='{}{0:dd/MM HH:mm}'}" Width="112"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                            <Grid Grid.Row="2" Margin="0,20,0,16">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Margin="0,0,12,0">
+                                    <StackPanel Margin="0,0,0,16">
+                                        <TextBlock Text="Từ phiên bản" Style="{StaticResource TextBody}"/>
+                                        <ComboBox ItemsSource="{Binding SelectedCharacterRevisions}" SelectedItem="{Binding RevisionFrom}" DisplayMemberPath="RevisionNumber" AutomationProperties.Name="Từ phiên bản"/>
+                                    </StackPanel>
+                                </StackPanel>
+                                <StackPanel Grid.Column="1" Margin="0,0,12,0">
+                                    <StackPanel Margin="0,0,0,16">
+                                        <TextBlock Text="Đến phiên bản" Style="{StaticResource TextBody}"/>
+                                        <ComboBox ItemsSource="{Binding SelectedCharacterRevisions}" SelectedItem="{Binding RevisionTo}" DisplayMemberPath="RevisionNumber" AutomationProperties.Name="Đến phiên bản"/>
+                                    </StackPanel>
+                                </StackPanel>
+                                <Button Grid.Column="2" Content="So sánh" Command="{Binding CompareRevisionsCommand}" Style="{StaticResource BtnSecondary}" VerticalAlignment="Center"/>
+                            </Grid>
+                            <TextBox Grid.Row="3" Text="{Binding RevisionDiffSummary, Mode=OneWay}" IsReadOnly="True" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" AutomationProperties.Name="Khác biệt giữa hai phiên bản"/>
+                        </Grid>
+                    </TabItem>
+                    <TabItem Header="Mẫu">
+                        <ScrollViewer VerticalScrollBarVisibility="Auto">
+                            <StackPanel Margin="4,16,16,16">
+                                <StackPanel Margin="0,0,0,16">
+                                    <TextBlock Text="Mẫu thuộc tính" Style="{StaticResource TextBody}"/>
+                                    <ComboBox ItemsSource="{Binding Templates}" SelectedItem="{Binding SelectedTemplate}" DisplayMemberPath="Name" AutomationProperties.Name="Mẫu thuộc tính"/>
+                                </StackPanel>
+                                <WrapPanel Margin="0,0,0,16">
+                                    <Button Content="Xem trước thay đổi" Command="{Binding PreviewTemplateCommand}" Style="{StaticResource BtnSecondary}" Margin="0,0,8,0"/>
+                                    <Button Content="Áp dụng mẫu" Command="{Binding ApplyTemplateCommand}" Style="{StaticResource BtnPrimary}" Margin="0,0,8,0"/>
+                                </WrapPanel>
+                                <TextBox Text="{Binding TemplatePreviewText, Mode=OneWay}" IsReadOnly="True" TextWrapping="Wrap" Height="180" VerticalScrollBarVisibility="Auto" AutomationProperties.Name="Xem trước thuộc tính từ mẫu"/>
+                                <TextBlock Text="Lưu thành mẫu" Style="{StaticResource TextSection}" Margin="0,24,0,16"/>
+                                <StackPanel Margin="0,0,0,16">
+                                    <TextBlock Text="Tên mẫu mới" Style="{StaticResource TextBody}"/>
+                                    <TextBox Text="{Binding NewTemplateName, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="Tên mẫu mới"/>
+                                </StackPanel>
+                                <Button Content="Lưu hồ sơ thuộc tính thành mẫu" Command="{Binding SaveTemplateCommand}" Style="{StaticResource BtnSecondary}" Margin="0,0,8,0"/>
+                            </StackPanel>
+                        </ScrollViewer>
+                    </TabItem>
+                    <TabItem Header="Quan hệ">
+                        <ScrollViewer VerticalScrollBarVisibility="Auto">
+                            <StackPanel Margin="4,16,16,16">
+                                <TextBlock Text="Quan hệ có hướng" Style="{StaticResource TextSection}"/>
+                                <TextBlock Text="Từ nhân vật đang chọn đến một nhân vật trong cùng dự án." Style="{StaticResource TextSecondary}" TextWrapping="Wrap" Margin="0,8,0,16"/>
+                                <ItemsControl ItemsSource="{Binding Relationships}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid Margin="0,0,0,12">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                </Grid.ColumnDefinitions>
+                                                <StackPanel>
+                                                    <TextBlock Text="{Binding TargetCharacterName}" FontWeight="SemiBold"/>
+                                                    <TextBlock Text="{Binding Type}" Style="{StaticResource TextSecondary}"/>
+                                                    <TextBlock Text="{Binding Notes}" Style="{StaticResource TextCaption}" TextWrapping="Wrap"/>
+                                                </StackPanel>
+                                                <Button Grid.Column="1" Content="Xóa quan hệ" Command="{Binding DataContext.DeleteRelationshipCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}" Style="{StaticResource BtnGhost}" Foreground="{DynamicResource BrushNegative}"/>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                                <Border Height="1" Background="{DynamicResource BrushBorderSubtle}" Margin="0,12,0,20"/>
+                                <StackPanel Margin="0,0,0,16">
+                                    <TextBlock Text="Đến nhân vật" Style="{StaticResource TextBody}"/>
+                                    <ComboBox ItemsSource="{Binding Characters}" SelectedItem="{Binding RelationshipTargetCharacter}" DisplayMemberPath="Name" AutomationProperties.Name="Đến nhân vật"/>
+                                </StackPanel>
+                                <StackPanel Margin="0,0,0,16">
+                                    <TextBlock Text="Loại quan hệ" Style="{StaticResource TextBody}"/>
+                                    <TextBox Text="{Binding RelationshipType, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="Loại quan hệ"/>
+                                </StackPanel>
+                                <StackPanel Margin="0,0,0,16">
+                                    <TextBlock Text="Ghi chú" Style="{StaticResource TextBody}"/>
+                                    <TextBox Text="{Binding RelationshipNotes, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="Ghi chú"/>
+                                </StackPanel>
+                                <Button Content="Thêm quan hệ" Command="{Binding CreateRelationshipCommand}" Style="{StaticResource BtnPrimary}" Margin="0,0,8,0"/>
+                            </StackPanel>
+                        </ScrollViewer>
+                    </TabItem>
+                </TabControl>
+            </Grid>
+        </Grid>
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,16,0,0">
+            <Button Content="Trước" Command="{Binding PreviousCharacterPageCommand}" Style="{StaticResource BtnGhost}"/>
+            <TextBlock Text="{Binding CharacterPageLabel}" VerticalAlignment="Center" Margin="12,0" Style="{StaticResource TextCaption}"/>
+            <Button Content="Sau" Command="{Binding NextCharacterPageCommand}" Style="{StaticResource BtnGhost}"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

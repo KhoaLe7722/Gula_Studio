@@ -1,0 +1,6 @@
+# Python packages required by Gula Studio's 4 custom ComfyUI nodes
+# (cca_depth_control, cca_face, cca_face_identity, cca_studio_pro)
+onnxruntime>=1.18.0
+opencv-python>=4.9.0
+scikit-image>=0.22.0
+numpy>=1.26.0

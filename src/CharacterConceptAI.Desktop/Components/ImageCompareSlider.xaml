@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<UserControl xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="CharacterConceptAI.Desktop.Components.ImageCompareSlider"
+             x:Name="Root">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="34"/>
+        </Grid.RowDefinitions>
+
+        <Border x:Name="Stage"
+                Background="{DynamicResource BrushCanvas}"
+                BorderBrush="{DynamicResource BrushBorderSubtle}"
+                BorderThickness="1"
+                CornerRadius="10"
+                ClipToBounds="True"
+                Cursor="SizeWE"
+                SizeChanged="Stage_SizeChanged"
+                PreviewMouseLeftButtonDown="Stage_MouseDown"
+                PreviewMouseMove="Stage_MouseMove"
+                PreviewMouseLeftButtonUp="Stage_MouseUp"
+                LostMouseCapture="Stage_LostMouseCapture">
+            <Grid>
+                <!-- Right / Full Layer: Upscaled 2x After Image -->
+                <Image Source="{Binding AfterSource, ElementName=Root}" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality"/>
+
+                <!-- Left / Clipped Layer: Original 1x Before Image (Clipped in full Stage coordinate space so 3:4 / 2:3 / 1:1 align 100%) -->
+                <Grid x:Name="BeforeClipHost">
+                    <Grid.Clip>
+                        <RectangleGeometry x:Name="BeforeClipRect" Rect="0,0,400,400"/>
+                    </Grid.Clip>
+                    <Image x:Name="BeforeImageLayer" Source="{Binding BeforeSource, ElementName=Root}" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality" SizeChanged="Stage_SizeChanged"/>
+                </Grid>
+
+                <!-- Corner Badges -->
+                <Border VerticalAlignment="Top" HorizontalAlignment="Left" Margin="12" Background="{DynamicResource BrushBadgeDark}" BorderBrush="{DynamicResource BrushBorderSubtle}" BorderThickness="1" CornerRadius="10" Padding="10,4" IsHitTestVisible="False">
+                    <TextBlock Text="{Binding BeforeLabel, ElementName=Root}" FontSize="11.5" FontWeight="SemiBold" Foreground="{DynamicResource BrushOnBadgeDark}"/>
+                </Border>
+                <Border VerticalAlignment="Top" HorizontalAlignment="Right" Margin="12" Background="{DynamicResource BrushBadgeEmerald}" BorderBrush="#000000" BorderThickness="1" CornerRadius="10" Padding="10,4" IsHitTestVisible="False">
+                    <TextBlock Text="{Binding AfterLabel, ElementName=Root}" FontSize="11.5" FontWeight="Bold" Foreground="{DynamicResource BrushOnEmerald}"/>
+                </Border>
+
+                <!-- Draggable Vertical Divider Line + Handle -->
+                <Canvas x:Name="OverlayCanvas" IsHitTestVisible="False">
+                    <Border x:Name="DividerLine" Width="2" Background="{DynamicResource BrushEmerald}" Opacity="0.95" Canvas.Top="0"/>
+                    <Border x:Name="DividerHandle" Width="34" Height="34" CornerRadius="17" Background="{DynamicResource BrushEmerald}" BorderBrush="#000000" BorderThickness="2">
+                        <TextBlock Text="◀ ▶" Foreground="{DynamicResource BrushOnEmerald}" FontSize="10" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                </Canvas>
+            </Grid>
+        </Border>
+
+        <Grid Grid.Row="1" Margin="0,6,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="Kéo thanh gạt Trước / Sau" Style="{StaticResource TextCaption}" VerticalAlignment="Center"/>
+            <Slider x:Name="PositionSlider" Grid.Column="1" Minimum="0.02" Maximum="0.98" Value="0.5" Margin="12,0" VerticalAlignment="Center" ValueChanged="PositionSlider_ValueChanged" AutomationProperties.Name="Thanh trượt so sánh ảnh trước và sau"/>
+            <Button Grid.Column="2" Content="Giữa (50%)" Click="ResetSplit_Click" Style="{StaticResource BtnGhost}" MinHeight="28" Padding="10,2" FontSize="12"/>
+        </Grid>
+    </Grid>
+</UserControl>
