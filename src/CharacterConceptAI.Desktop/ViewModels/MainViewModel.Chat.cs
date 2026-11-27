@@ -350,6 +350,8 @@ public partial class MainViewModel
         OnPropertyChanged(nameof(ActiveChatTitle));
     }
 
+    private bool _chatHistoryLoaded;
+
     private void LoadLocalChatHistory()
     {
         if (!IsRealSession) return;
@@ -402,6 +404,7 @@ public partial class MainViewModel
             }
             ChatThreads.Add(thread);
         }
+        _chatHistoryLoaded = true;
         RefreshFilteredChatThreads();
         RefreshFavoritesGallery();
         NotifyChatStateChanged();
@@ -450,7 +453,7 @@ public partial class MainViewModel
 
     private void SaveLocalChatHistory()
     {
-        if (!IsRealSession) return;
+        if (!IsRealSession || !_chatHistoryLoaded) return;
         var records = ChatThreads.Select(t => new ChatThreadRecord(
             t.Id,
             t.Title,

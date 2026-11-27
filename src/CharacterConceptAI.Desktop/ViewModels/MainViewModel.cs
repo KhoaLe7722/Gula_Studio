@@ -453,6 +453,7 @@ public partial class MainViewModel : ObservableObject
         ActiveChatThread = null;
         _activeGeneratingTurn = null;
         _lightboxTurn = null;
+        _chatHistoryLoaded = false;
         ChatThreads.Clear();
         NotifyChatStateChanged();
         ClearSessionGenerations();
