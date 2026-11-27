@@ -9,6 +9,7 @@ namespace CharacterConceptAI.Desktop.ViewModels;
 
 public sealed partial class ChatTurnImageItem : ObservableObject
 {
+    public Guid InstanceId { get; } = Guid.NewGuid();
     public Guid? AssetId { get; }
     public long? Seed { get; }
     public int Width { get; }
@@ -292,6 +293,60 @@ public partial class MainViewModel
     {
         RefreshFavoritesGallery();
         NotifyChatStateChanged();
+        if (value)
+            _ = HydrateFavoriteImagesAsync();
+    }
+
+    private readonly Dictionary<string, FavoriteImageRecord> _favoriteRecords = new(StringComparer.OrdinalIgnoreCase);
+    private readonly Dictionary<string, ChatTurnImageItem> _standaloneFavoriteItems = new(StringComparer.OrdinalIgnoreCase);
+    private bool _favoritesLoaded;
+
+    private static string GetFavoriteKey(ChatTurnImageItem item)
+    {
+        if (!string.IsNullOrWhiteSpace(item.LocalImagePath))
+            return FavoritesStore.BuildKey(item.LocalImagePath, item.AssetId);
+        return $"mem:{item.InstanceId:N}";
+    }
+
+    private bool TryFindFavoriteKey(ChatTurnImageItem item, out string matchedKey)
+    {
+        var primary = GetFavoriteKey(item);
+        if (!string.IsNullOrWhiteSpace(primary) && _favoriteRecords.ContainsKey(primary))
+        {
+            matchedKey = primary;
+            return true;
+        }
+        if (string.IsNullOrWhiteSpace(item.LocalImagePath) && item.AssetId is Guid aid && aid != Guid.Empty)
+        {
+            var assetKey = FavoritesStore.BuildKey(null, aid);
+            if (_favoriteRecords.ContainsKey(assetKey))
+            {
+                matchedKey = assetKey;
+                return true;
+            }
+        }
+        matchedKey = primary;
+        return false;
+    }
+
+    private void SaveFavoritesNow()
+    {
+        if (!IsRealSession || !_favoritesLoaded) return;
+        FavoritesStore.Save(_favoriteRecords.Values);
+    }
+
+    private void SyncFavoriteUpscalePath(ChatTurnImageItem item)
+    {
+        if (!item.IsFavorite || !_favoritesLoaded) return;
+        if (TryFindFavoriteKey(item, out var key) && _favoriteRecords.TryGetValue(key, out var rec))
+        {
+            _favoriteRecords[key] = rec with
+            {
+                LocalImagePath = item.LocalImagePath ?? rec.LocalImagePath,
+                UpscaledImagePath = item.UpscaledImagePath ?? rec.UpscaledImagePath
+            };
+            SaveFavoritesNow();
+        }
     }
 
     private void RefreshFilteredChatThreads()
@@ -314,22 +369,87 @@ public partial class MainViewModel
 
     private void RefreshFavoritesGallery()
     {
-        var collected = new List<ChatTurnImageItem>();
-        var seen = new HashSet<ChatTurnImageItem>();
+        // Build index of live ChatTurnImageItem instances in ChatThreads by stable key
+        var liveByKey = new Dictionary<string, ChatTurnImageItem>(StringComparer.OrdinalIgnoreCase);
         foreach (var thread in ChatThreads)
         {
             foreach (var turn in thread.Turns)
             {
                 foreach (var img in turn.Images)
                 {
-                    if (img.IsFavorite && seen.Add(img))
-                        collected.Add(img);
+                    var key = GetFavoriteKey(img);
+                    if (!string.IsNullOrWhiteSpace(key) && !liveByKey.ContainsKey(key))
+                        liveByKey[key] = img;
+                    if (img.AssetId is Guid aid && aid != Guid.Empty)
+                    {
+                        var assetKey = FavoritesStore.BuildKey(null, aid);
+                        if (!liveByKey.ContainsKey(assetKey))
+                            liveByKey[assetKey] = img;
+                    }
                 }
             }
         }
+
+        var orderedRecords = _favoriteRecords.Values
+            .OrderByDescending(r => r.FavoritedAt)
+            .ThenByDescending(r => r.CreatedAt)
+            .ToList();
+
+        var resolved = new List<ChatTurnImageItem>(orderedRecords.Count);
+        var seenKeys = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+        foreach (var rec in orderedRecords)
+        {
+            if (!seenKeys.Add(rec.Key)) continue;
+
+            ChatTurnImageItem? item = null;
+            if (liveByKey.TryGetValue(rec.Key, out var liveItem))
+            {
+                item = liveItem;
+                if (!item.IsFavorite) item.IsFavorite = true;
+            }
+            else if (rec.AssetId is Guid aid && aid != Guid.Empty && liveByKey.TryGetValue(FavoritesStore.BuildKey(null, aid), out var liveByAsset))
+            {
+                item = liveByAsset;
+                if (!item.IsFavorite) item.IsFavorite = true;
+            }
+            else
+            {
+                // Standalone favorite whose original chat thread was deleted or aged past history limit.
+                if (!_standaloneFavoriteItems.TryGetValue(rec.Key, out item))
+                {
+                    item = new ChatTurnImageItem(
+                        rec.AssetId,
+                        rec.Seed,
+                        rec.Width,
+                        rec.Height,
+                        rec.PromptSnapshot,
+                        rec.CreatedAt,
+                        rec.IsFullQuality)
+                    {
+                        LocalImagePath = rec.LocalImagePath,
+                        UpscaledImagePath = rec.UpscaledImagePath,
+                        IsFavorite = true
+                    };
+                    _standaloneFavoriteItems[rec.Key] = item;
+                }
+                else
+                {
+                    item.IsFavorite = true;
+                }
+            }
+
+            resolved.Add(item);
+        }
+
+        // Remove stale standalone cache entries that are no longer favorited
+        foreach (var staleKey in _standaloneFavoriteItems.Keys.Where(k => !_favoriteRecords.ContainsKey(k)).ToList())
+            _standaloneFavoriteItems.Remove(staleKey);
+
         FavoriteImages.Clear();
-        foreach (var img in collected.OrderByDescending(i => i.CreatedAt))
+        foreach (var img in resolved)
             FavoriteImages.Add(img);
+
         OnPropertyChanged(nameof(HasFavoriteImages));
         OnPropertyChanged(nameof(FavoritesCountLabel));
         OnPropertyChanged(nameof(ActiveChatTitle));
@@ -404,6 +524,55 @@ public partial class MainViewModel
             }
             ChatThreads.Add(thread);
         }
+        // Load independent FavoritesStore as the single source of truth.
+        // One-time migration from legacy chat-history flags only when favorites.json does not yet exist.
+        _favoriteRecords.Clear();
+        _standaloneFavoriteItems.Clear();
+        if (FavoritesStore.ExistsOnDisk())
+        {
+            foreach (var fav in FavoritesStore.Load())
+                _favoriteRecords[fav.Key] = fav;
+
+            // Synchronize star indicators on all loaded chat images strictly from FavoritesStore
+            foreach (var thread in ChatThreads)
+            {
+                foreach (var turn in thread.Turns)
+                {
+                    foreach (var img in turn.Images)
+                        img.IsFavorite = TryFindFavoriteKey(img, out _);
+                }
+            }
+        }
+        else
+        {
+            foreach (var thread in ChatThreads)
+            {
+                foreach (var turn in thread.Turns)
+                {
+                    foreach (var img in turn.Images)
+                    {
+                        if (!img.IsFavorite) continue;
+                        var key = GetFavoriteKey(img);
+                        if (string.IsNullOrWhiteSpace(key) || _favoriteRecords.ContainsKey(key)) continue;
+                        _favoriteRecords[key] = new FavoriteImageRecord(
+                            key,
+                            img.AssetId,
+                            img.Seed,
+                            img.Width,
+                            img.Height,
+                            img.PromptSnapshot,
+                            img.LocalImagePath,
+                            img.UpscaledImagePath,
+                            img.IsFullQuality,
+                            img.CreatedAt,
+                            img.CreatedAt);
+                    }
+                }
+            }
+            FavoritesStore.Save(_favoriteRecords.Values);
+        }
+
+        _favoritesLoaded = true;
         _chatHistoryLoaded = true;
         RefreshFilteredChatThreads();
         RefreshFavoritesGallery();
@@ -418,6 +587,7 @@ public partial class MainViewModel
         if (!IsRealSession) return;
         SaveLocalChatHistory();
         SaveLocalStories();
+        SaveFavoritesNow();
         ChatHistoryStore.FlushPendingSaves();
         StoryStore.FlushPendingSaves();
     }
@@ -591,10 +761,33 @@ public partial class MainViewModel
             return list;
         });
 
+        var upgradedFavoriteKey = false;
         foreach (var (item, path) in savedPaths)
+        {
+            var oldMemKey = $"mem:{item.InstanceId:N}";
+            var oldAssetKey = item.AssetId is Guid aid && aid != Guid.Empty ? FavoritesStore.BuildKey(null, aid) : string.Empty;
             item.LocalImagePath = path;
+            if (item.IsFavorite && !string.IsNullOrWhiteSpace(path))
+            {
+                var newKey = FavoritesStore.BuildKey(path, item.AssetId);
+                if (_favoriteRecords.Remove(oldMemKey, out var memRec))
+                {
+                    _favoriteRecords[newKey] = memRec with { Key = newKey, LocalImagePath = path };
+                    upgradedFavoriteKey = true;
+                }
+                else if (!string.IsNullOrWhiteSpace(oldAssetKey) &&
+                    !string.Equals(oldAssetKey, newKey, StringComparison.OrdinalIgnoreCase) &&
+                    _favoriteRecords.Remove(oldAssetKey, out var oldRec))
+                {
+                    _favoriteRecords[newKey] = oldRec with { Key = newKey, LocalImagePath = path };
+                    upgradedFavoriteKey = true;
+                }
+            }
+        }
         if (savedPaths.Count > 0)
             turn.LocalImagePath = savedPaths[0].Path;
+        if (upgradedFavoriteKey)
+            SaveFavoritesNow();
         SaveLocalChatHistory();
     }
 

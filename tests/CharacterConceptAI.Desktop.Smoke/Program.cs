@@ -599,6 +599,65 @@ internal static class Program
         await PumpAsync(window);
         Require(vm.CurrentLanguageShortBadge == "VI" && vm.IsLanguageVi, "Live language switch back to Vietnamese succeeds", report);
 
+        // Verify independent FavoritesStore persistence, backup recovery, and survival across chat thread deletion
+        var favTestDir = Path.Combine(Path.GetTempPath(), $"gula_fav_test_{Guid.NewGuid():N}");
+        try
+        {
+            var imgA = Path.Combine(favTestDir, "abc123.png");
+            var imgAInpaint = Path.Combine(favTestDir, "abc123_inpaint.png");
+            var aidA = Guid.NewGuid();
+            var now = DateTimeOffset.UtcNow;
+            var k1 = FavoritesStore.BuildKey(imgA, aidA);
+            var k2 = FavoritesStore.BuildKey(imgAInpaint, aidA);
+            Require(!string.Equals(k1, k2, StringComparison.OrdinalIgnoreCase),
+                "FavoritesStore distinguishes original and _inpaint image keys even with same AssetId", report);
+
+            FavoritesStore.Save(
+            [
+                new FavoriteImageRecord(k1, aidA, 42, 896, 1152, "Portrait A", imgA, null, false, now, now),
+                new FavoriteImageRecord(k1.ToUpperInvariant(), aidA, 42, 896, 1152, "Portrait A dup", imgA, null, false, now, now.AddSeconds(5)),
+                new FavoriteImageRecord(k2, aidA, 42, 896, 1152, "Portrait A inpaint", imgAInpaint, null, false, now, now.AddSeconds(10))
+            ], favTestDir);
+            var loadedFavs = FavoritesStore.Load(favTestDir);
+            Require(loadedFavs.Count == 2 && loadedFavs[0].PromptSnapshot == "Portrait A inpaint" && loadedFavs[1].PromptSnapshot == "Portrait A dup",
+                "FavoritesStore deduplicates case-insensitively and preserves newest FavoritedAt order", report);
+
+            // Corrupt main file and verify automatic recovery from .bak (after saving a second revision to populate .bak)
+            FavoritesStore.Save(loadedFavs, favTestDir);
+            File.WriteAllText(FavoritesStore.GetFavoritesFilePath(favTestDir), "{corrupt json");
+            var recoveredFavs = FavoritesStore.Load(favTestDir);
+            Require(recoveredFavs.Count == 2, "FavoritesStore automatically recovers from .bak when main favorites.json is corrupt", report);
+
+            // Verify MainViewModel keeps favorited image alive even after deleting its parent chat thread
+            var testImg = new ChatTurnImageItem(Guid.NewGuid(), 777, 1024, 1024, "Smoke Favorite Preservation", now, true)
+            {
+                LocalImagePath = imgA
+            };
+            var testTurn = new ChatTurnItem(Guid.NewGuid(), "Smoke Favorite Preservation", 1024, 1024, true, now);
+            testTurn.Images.Add(testImg);
+            var testThread = new ChatThreadItem(Guid.NewGuid(), "Smoke Favorite Thread", now, now);
+            testThread.Turns.Add(testTurn);
+            vm.ChatThreads.Insert(0, testThread);
+
+            var beforeFavCount = vm.FavoriteImages.Count;
+            vm.ToggleFavoriteImageCommand.Execute(testImg);
+            Require(testImg.IsFavorite && vm.FavoriteImages.Count == beforeFavCount + 1,
+                "ToggleFavoriteImageCommand adds image to FavoriteImages", report);
+
+            vm.DeleteChatThreadCommand.Execute(testThread);
+            Require(vm.FavoriteImages.Count == beforeFavCount + 1 && vm.FavoriteImages.Any(f => f.PromptSnapshot == "Smoke Favorite Preservation"),
+                "Deleting a chat thread preserves its favorited images as standalone favorites", report);
+
+            var preservedFav = vm.FavoriteImages.First(f => f.PromptSnapshot == "Smoke Favorite Preservation");
+            vm.ToggleFavoriteImageCommand.Execute(preservedFav);
+            Require(vm.FavoriteImages.Count == beforeFavCount,
+                "Unfavoriting a standalone favorite cleanly removes it from FavoriteImages", report);
+        }
+        finally
+        {
+            try { if (Directory.Exists(favTestDir)) Directory.Delete(favTestDir, recursive: true); } catch { }
+        }
+
         report.Checks.Add("No desktop preference file was changed by capture theme/language switches (persist:false).");
         report.Limitations.Add("No real SQL, GPU workflow, two-PC LAN, native titlebar, screen reader, physical DPI switch, or human UX acceptance is claimed.");
         report.Limitations.Add("Renders use 96-DPI target bitmaps from the real WPF visual tree. Physical 125%/150% monitor testing remains required.");

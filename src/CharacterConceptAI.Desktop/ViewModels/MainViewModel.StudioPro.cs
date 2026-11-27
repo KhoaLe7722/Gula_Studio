@@ -496,6 +496,7 @@ public partial class MainViewModel
             {
                 target.UpscaledImagePath = await ChatHistoryStore.SaveImageBytesAsync(assetId, bytes, "2x");
                 TryAutoExportImage(target.Seed ?? 0, upscaledImg.PixelWidth, upscaledImg.PixelHeight, isUpscaled: true, bytes);
+                SyncFavoriteUpscalePath(target);
                 SaveLocalChatHistory();
             }
 
@@ -540,10 +541,68 @@ public partial class MainViewModel
     {
         var target = item ?? LightboxItem;
         if (target == null) return;
-        target.IsFavorite = !target.IsFavorite;
+
+        var newState = !target.IsFavorite;
+        var primaryKey = GetFavoriteKey(target);
+        var assetKey = target.AssetId is Guid aid && aid != Guid.Empty ? FavoritesStore.BuildKey(null, aid) : string.Empty;
+
+        target.IsFavorite = newState;
+
+        // Keep every matching instance across ChatThreads in sync
+        foreach (var thread in ChatThreads)
+        {
+            foreach (var turn in thread.Turns)
+            {
+                foreach (var img in turn.Images)
+                {
+                    var imgKey = GetFavoriteKey(img);
+                    if (!string.IsNullOrWhiteSpace(primaryKey) && string.Equals(imgKey, primaryKey, StringComparison.OrdinalIgnoreCase))
+                    {
+                        img.IsFavorite = newState;
+                    }
+                }
+            }
+        }
+
+        if (!string.IsNullOrWhiteSpace(primaryKey))
+        {
+            if (newState)
+            {
+                if (!string.IsNullOrWhiteSpace(assetKey) && !string.Equals(assetKey, primaryKey, StringComparison.OrdinalIgnoreCase))
+                    _favoriteRecords.Remove(assetKey);
+
+                _favoriteRecords[primaryKey] = new FavoriteImageRecord(
+                    primaryKey,
+                    target.AssetId,
+                    target.Seed,
+                    target.Width,
+                    target.Height,
+                    target.PromptSnapshot,
+                    target.LocalImagePath,
+                    target.UpscaledImagePath,
+                    target.IsFullQuality,
+                    target.CreatedAt,
+                    DateTimeOffset.Now);
+            }
+            else
+            {
+                _favoriteRecords.Remove(primaryKey);
+                _standaloneFavoriteItems.Remove(primaryKey);
+                if (!string.IsNullOrWhiteSpace(assetKey))
+                {
+                    _favoriteRecords.Remove(assetKey);
+                    _standaloneFavoriteItems.Remove(assetKey);
+                }
+            }
+        }
+
         OnPropertyChanged(nameof(LightboxFavoriteLabel));
+        SaveFavoritesNow();
         SaveLocalChatHistory();
         RefreshFavoritesGallery();
+
+        if (ShowFavoritesOnly && newState)
+            _ = HydrateFavoriteImagesAsync();
 
         // Keep Lightbox Prev/Next gallery in sync when unfavoriting while browsing Favorites
         if (IsLightboxOpen && _lightboxOpenedFromFavorites && !target.IsFavorite)

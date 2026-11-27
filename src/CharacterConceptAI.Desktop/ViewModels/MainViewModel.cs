@@ -454,6 +454,10 @@ public partial class MainViewModel : ObservableObject
         _activeGeneratingTurn = null;
         _lightboxTurn = null;
         _chatHistoryLoaded = false;
+        _favoritesLoaded = false;
+        _favoriteRecords.Clear();
+        _standaloneFavoriteItems.Clear();
+        FavoriteImages.Clear();
         ChatThreads.Clear();
         NotifyChatStateChanged();
         ClearSessionGenerations();

@@ -148,7 +148,7 @@ public static class ChatHistoryStore
                 var list = threads.Take(80).ToList();
                 tempFile = $"{HistoryFile}.{Guid.NewGuid():N}.tmp";
                 File.WriteAllText(tempFile, JsonSerializer.Serialize(list, JsonOptions));
-                if (File.Exists(HistoryFile))
+                if (File.Exists(HistoryFile) && new FileInfo(HistoryFile).Length > 4)
                     try { File.Copy(HistoryFile, HistoryFile + ".bak", overwrite: true); } catch { }
                 File.Move(tempFile, HistoryFile, overwrite: true);
                 tempFile = null;
