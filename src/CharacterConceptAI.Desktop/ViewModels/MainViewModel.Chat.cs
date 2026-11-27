@@ -10,6 +10,11 @@ namespace CharacterConceptAI.Desktop.ViewModels;
 public sealed partial class ChatTurnImageItem : ObservableObject
 {
     public Guid InstanceId { get; } = Guid.NewGuid();
+    /// <summary>
+    /// When this item is an independent Favorites copy, links back to the canonical FavoritesStore key
+    /// so unfavoriting or syncing star badges works even after its original chat thread or file is deleted.
+    /// </summary>
+    public string? FavoriteOriginKey { get; set; }
     public Guid? AssetId { get; }
     public long? Seed { get; }
     public int Width { get; }
@@ -303,6 +308,8 @@ public partial class MainViewModel
 
     private static string GetFavoriteKey(ChatTurnImageItem item)
     {
+        if (!string.IsNullOrWhiteSpace(item.FavoriteOriginKey))
+            return item.FavoriteOriginKey;
         if (!string.IsNullOrWhiteSpace(item.LocalImagePath))
             return FavoritesStore.BuildKey(item.LocalImagePath, item.AssetId);
         return $"mem:{item.InstanceId:N}";
@@ -335,16 +342,85 @@ public partial class MainViewModel
         FavoritesStore.Save(_favoriteRecords.Values);
     }
 
+    private static byte[]? EncodeBitmapToPngBytes(BitmapSource? bmp)
+    {
+        if (bmp == null) return null;
+        try
+        {
+            var encoder = new PngBitmapEncoder();
+            encoder.Frames.Add(BitmapFrame.Create(bmp));
+            using var ms = new MemoryStream();
+            encoder.Save(ms);
+            return ms.ToArray();
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+    private FavoriteImageRecord CreateVaultBackedFavoriteRecord(string key, ChatTurnImageItem source, DateTimeOffset favoritedAt)
+    {
+        string? vaultMain = null;
+        string? vaultUp = null;
+
+        if (IsRealSession)
+        {
+            vaultMain = FavoritesStore.CopyFileIntoVault(key, source.LocalImagePath);
+            if (string.IsNullOrWhiteSpace(vaultMain))
+            {
+                var pngBytes = EncodeBitmapToPngBytes(source.OriginalImage ?? source.DisplayImage);
+                vaultMain = FavoritesStore.SaveBytesIntoVault(key, pngBytes);
+            }
+
+            if (!string.IsNullOrWhiteSpace(source.UpscaledImagePath))
+            {
+                vaultUp = FavoritesStore.CopyFileIntoVault(key, source.UpscaledImagePath, "2x");
+            }
+            else if (source.UpscaledImage != null)
+            {
+                vaultUp = FavoritesStore.SaveBytesIntoVault(key, EncodeBitmapToPngBytes(source.UpscaledImage), "2x");
+            }
+        }
+
+        return new FavoriteImageRecord(
+            key,
+            source.AssetId,
+            source.Seed,
+            source.Width,
+            source.Height,
+            source.PromptSnapshot,
+            source.LocalImagePath,
+            source.UpscaledImagePath,
+            source.IsFullQuality,
+            source.CreatedAt,
+            favoritedAt,
+            vaultMain,
+            vaultUp);
+    }
+
     private void SyncFavoriteUpscalePath(ChatTurnImageItem item)
     {
         if (!item.IsFavorite || !_favoritesLoaded) return;
         if (TryFindFavoriteKey(item, out var key) && _favoriteRecords.TryGetValue(key, out var rec))
         {
+            var vaultUp = IsRealSession
+                ? FavoritesStore.CopyFileIntoVault(key, item.UpscaledImagePath, "2x") ?? rec.FavoriteUpscaledImagePath
+                : rec.FavoriteUpscaledImagePath;
+
             _favoriteRecords[key] = rec with
             {
                 LocalImagePath = item.LocalImagePath ?? rec.LocalImagePath,
-                UpscaledImagePath = item.UpscaledImagePath ?? rec.UpscaledImagePath
+                UpscaledImagePath = item.UpscaledImagePath ?? rec.UpscaledImagePath,
+                FavoriteUpscaledImagePath = vaultUp
             };
+
+            if (_standaloneFavoriteItems.TryGetValue(key, out var favClone))
+            {
+                favClone.UpscaledImagePath = vaultUp ?? item.UpscaledImagePath ?? favClone.UpscaledImagePath;
+                if (item.UpscaledImage != null) favClone.UpscaledImage = item.UpscaledImage;
+            }
+
             SaveFavoritesNow();
         }
     }
@@ -369,7 +445,8 @@ public partial class MainViewModel
 
     private void RefreshFavoritesGallery()
     {
-        // Build index of live ChatTurnImageItem instances in ChatThreads by stable key
+        // Build lookup of live ChatTurnImageItem instances ONLY to borrow already-decoded thumbnails
+        // and sync their star badge — FavoriteImages itself always owns an independent copy backed by favorite-images\.
         var liveByKey = new Dictionary<string, ChatTurnImageItem>(StringComparer.OrdinalIgnoreCase);
         foreach (var thread in ChatThreads)
         {
@@ -380,12 +457,6 @@ public partial class MainViewModel
                     var key = GetFavoriteKey(img);
                     if (!string.IsNullOrWhiteSpace(key) && !liveByKey.ContainsKey(key))
                         liveByKey[key] = img;
-                    if (img.AssetId is Guid aid && aid != Guid.Empty)
-                    {
-                        var assetKey = FavoritesStore.BuildKey(null, aid);
-                        if (!liveByKey.ContainsKey(assetKey))
-                            liveByKey[assetKey] = img;
-                    }
                 }
             }
         }
@@ -402,47 +473,55 @@ public partial class MainViewModel
         {
             if (!seenKeys.Add(rec.Key)) continue;
 
-            ChatTurnImageItem? item = null;
-            if (liveByKey.TryGetValue(rec.Key, out var liveItem))
+            liveByKey.TryGetValue(rec.Key, out var liveItem);
+            if (liveItem != null && !liveItem.IsFavorite)
+                liveItem.IsFavorite = true;
+
+            // Prefer the independent physical copy in favorite-images\; fall back to original path only if vault copy doesn't exist (e.g. simulated tests)
+            var effectiveMainPath = !string.IsNullOrWhiteSpace(rec.FavoriteImagePath) && File.Exists(rec.FavoriteImagePath)
+                ? rec.FavoriteImagePath
+                : rec.LocalImagePath;
+            var effectiveUpPath = !string.IsNullOrWhiteSpace(rec.FavoriteUpscaledImagePath) && File.Exists(rec.FavoriteUpscaledImagePath)
+                ? rec.FavoriteUpscaledImagePath
+                : rec.UpscaledImagePath;
+
+            if (!_standaloneFavoriteItems.TryGetValue(rec.Key, out var favItem))
             {
-                item = liveItem;
-                if (!item.IsFavorite) item.IsFavorite = true;
-            }
-            else if (rec.AssetId is Guid aid && aid != Guid.Empty && liveByKey.TryGetValue(FavoritesStore.BuildKey(null, aid), out var liveByAsset))
-            {
-                item = liveByAsset;
-                if (!item.IsFavorite) item.IsFavorite = true;
+                favItem = new ChatTurnImageItem(
+                    rec.AssetId,
+                    rec.Seed,
+                    rec.Width,
+                    rec.Height,
+                    rec.PromptSnapshot,
+                    rec.CreatedAt,
+                    rec.IsFullQuality)
+                {
+                    FavoriteOriginKey = rec.Key,
+                    LocalImagePath = effectiveMainPath,
+                    UpscaledImagePath = effectiveUpPath,
+                    OriginalImage = liveItem?.OriginalImage,
+                    UpscaledImage = liveItem?.UpscaledImage,
+                    IsFavorite = true
+                };
+                _standaloneFavoriteItems[rec.Key] = favItem;
             }
             else
             {
-                // Standalone favorite whose original chat thread was deleted or aged past history limit.
-                if (!_standaloneFavoriteItems.TryGetValue(rec.Key, out item))
-                {
-                    item = new ChatTurnImageItem(
-                        rec.AssetId,
-                        rec.Seed,
-                        rec.Width,
-                        rec.Height,
-                        rec.PromptSnapshot,
-                        rec.CreatedAt,
-                        rec.IsFullQuality)
-                    {
-                        LocalImagePath = rec.LocalImagePath,
-                        UpscaledImagePath = rec.UpscaledImagePath,
-                        IsFavorite = true
-                    };
-                    _standaloneFavoriteItems[rec.Key] = item;
-                }
-                else
-                {
-                    item.IsFavorite = true;
-                }
+                favItem.IsFavorite = true;
+                if (!string.IsNullOrWhiteSpace(effectiveMainPath))
+                    favItem.LocalImagePath = effectiveMainPath;
+                if (!string.IsNullOrWhiteSpace(effectiveUpPath))
+                    favItem.UpscaledImagePath = effectiveUpPath;
+                if (favItem.OriginalImage == null && liveItem?.OriginalImage != null)
+                    favItem.OriginalImage = liveItem.OriginalImage;
+                if (favItem.UpscaledImage == null && liveItem?.UpscaledImage != null)
+                    favItem.UpscaledImage = liveItem.UpscaledImage;
             }
 
-            resolved.Add(item);
+            resolved.Add(favItem);
         }
 
-        // Remove stale standalone cache entries that are no longer favorited
+        // Remove stale independent copies that were unfavorited
         foreach (var staleKey in _standaloneFavoriteItems.Keys.Where(k => !_favoriteRecords.ContainsKey(k)).ToList())
             _standaloneFavoriteItems.Remove(staleKey);
 
@@ -554,18 +633,7 @@ public partial class MainViewModel
                         if (!img.IsFavorite) continue;
                         var key = GetFavoriteKey(img);
                         if (string.IsNullOrWhiteSpace(key) || _favoriteRecords.ContainsKey(key)) continue;
-                        _favoriteRecords[key] = new FavoriteImageRecord(
-                            key,
-                            img.AssetId,
-                            img.Seed,
-                            img.Width,
-                            img.Height,
-                            img.PromptSnapshot,
-                            img.LocalImagePath,
-                            img.UpscaledImagePath,
-                            img.IsFullQuality,
-                            img.CreatedAt,
-                            img.CreatedAt);
+                        _favoriteRecords[key] = CreateVaultBackedFavoriteRecord(key, img, img.CreatedAt);
                     }
                 }
             }
@@ -772,14 +840,32 @@ public partial class MainViewModel
                 var newKey = FavoritesStore.BuildKey(path, item.AssetId);
                 if (_favoriteRecords.Remove(oldMemKey, out var memRec))
                 {
-                    _favoriteRecords[newKey] = memRec with { Key = newKey, LocalImagePath = path };
+                    var vaultMain = memRec.FavoriteImagePath;
+                    if (string.IsNullOrWhiteSpace(vaultMain) || !File.Exists(vaultMain))
+                        vaultMain = FavoritesStore.CopyFileIntoVault(newKey, path);
+                    _favoriteRecords[newKey] = memRec with { Key = newKey, LocalImagePath = path, FavoriteImagePath = vaultMain };
+                    if (_standaloneFavoriteItems.Remove(oldMemKey, out var cloned))
+                    {
+                        cloned.FavoriteOriginKey = newKey;
+                        cloned.LocalImagePath = vaultMain ?? path;
+                        _standaloneFavoriteItems[newKey] = cloned;
+                    }
                     upgradedFavoriteKey = true;
                 }
                 else if (!string.IsNullOrWhiteSpace(oldAssetKey) &&
                     !string.Equals(oldAssetKey, newKey, StringComparison.OrdinalIgnoreCase) &&
                     _favoriteRecords.Remove(oldAssetKey, out var oldRec))
                 {
-                    _favoriteRecords[newKey] = oldRec with { Key = newKey, LocalImagePath = path };
+                    var vaultMain = oldRec.FavoriteImagePath;
+                    if (string.IsNullOrWhiteSpace(vaultMain) || !File.Exists(vaultMain))
+                        vaultMain = FavoritesStore.CopyFileIntoVault(newKey, path);
+                    _favoriteRecords[newKey] = oldRec with { Key = newKey, LocalImagePath = path, FavoriteImagePath = vaultMain };
+                    if (_standaloneFavoriteItems.Remove(oldAssetKey, out var cloned))
+                    {
+                        cloned.FavoriteOriginKey = newKey;
+                        cloned.LocalImagePath = vaultMain ?? path;
+                        _standaloneFavoriteItems[newKey] = cloned;
+                    }
                     upgradedFavoriteKey = true;
                 }
             }

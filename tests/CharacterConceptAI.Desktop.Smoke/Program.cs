@@ -599,12 +599,19 @@ internal static class Program
         await PumpAsync(window);
         Require(vm.CurrentLanguageShortBadge == "VI" && vm.IsLanguageVi, "Live language switch back to Vietnamese succeeds", report);
 
-        // Verify independent FavoritesStore persistence, backup recovery, and survival across chat thread deletion
+        // Verify independent FavoritesStore physical-copy vault, survival after deleting original chat file & thread, and backup recovery
         var favTestDir = Path.Combine(Path.GetTempPath(), $"gula_fav_test_{Guid.NewGuid():N}");
         try
         {
-            var imgA = Path.Combine(favTestDir, "abc123.png");
-            var imgAInpaint = Path.Combine(favTestDir, "abc123_inpaint.png");
+            var fakeChatDir = Path.Combine(favTestDir, "chat-images");
+            Directory.CreateDirectory(fakeChatDir);
+            var imgA = Path.Combine(fakeChatDir, "abc123.png");
+            var imgAInpaint = Path.Combine(fakeChatDir, "abc123_inpaint.png");
+            var payloadA = new byte[] { 0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A, 1, 2, 3, 4 };
+            var payloadB = new byte[] { 0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A, 5, 6, 7, 8 };
+            File.WriteAllBytes(imgA, payloadA);
+            File.WriteAllBytes(imgAInpaint, payloadB);
+
             var aidA = Guid.NewGuid();
             var now = DateTimeOffset.UtcNow;
             var k1 = FavoritesStore.BuildKey(imgA, aidA);
@@ -612,15 +619,29 @@ internal static class Program
             Require(!string.Equals(k1, k2, StringComparison.OrdinalIgnoreCase),
                 "FavoritesStore distinguishes original and _inpaint image keys even with same AssetId", report);
 
+            var vaultA = FavoritesStore.CopyFileIntoVault(k1, imgA, "", favTestDir);
+            var vaultB = FavoritesStore.CopyFileIntoVault(k2, imgAInpaint, "", favTestDir);
+            Require(!string.IsNullOrWhiteSpace(vaultA) && File.Exists(vaultA) &&
+                    !string.IsNullOrWhiteSpace(vaultB) && File.Exists(vaultB) &&
+                    !string.Equals(vaultA, imgA, StringComparison.OrdinalIgnoreCase),
+                "FavoritesStore creates independent physical copies inside favorite-images vault", report);
+
             FavoritesStore.Save(
             [
-                new FavoriteImageRecord(k1, aidA, 42, 896, 1152, "Portrait A", imgA, null, false, now, now),
-                new FavoriteImageRecord(k1.ToUpperInvariant(), aidA, 42, 896, 1152, "Portrait A dup", imgA, null, false, now, now.AddSeconds(5)),
-                new FavoriteImageRecord(k2, aidA, 42, 896, 1152, "Portrait A inpaint", imgAInpaint, null, false, now, now.AddSeconds(10))
+                new FavoriteImageRecord(k1, aidA, 42, 896, 1152, "Portrait A", imgA, null, false, now, now, vaultA, null),
+                new FavoriteImageRecord(k1.ToUpperInvariant(), aidA, 42, 896, 1152, "Portrait A dup", imgA, null, false, now, now.AddSeconds(5), vaultA, null),
+                new FavoriteImageRecord(k2, aidA, 42, 896, 1152, "Portrait A inpaint", imgAInpaint, null, false, now, now.AddSeconds(10), vaultB, null)
             ], favTestDir);
+
+            // Physically delete the ENTIRE original chat-images folder — Favorites copies must remain 100% intact!
+            Directory.Delete(fakeChatDir, recursive: true);
+            Require(!File.Exists(imgA) && File.Exists(vaultA!) && File.ReadAllBytes(vaultA!).SequenceEqual(payloadA),
+                "Deleting original chat-images folder leaves favorite-images physical copy 100% intact", report);
+
             var loadedFavs = FavoritesStore.Load(favTestDir);
-            Require(loadedFavs.Count == 2 && loadedFavs[0].PromptSnapshot == "Portrait A inpaint" && loadedFavs[1].PromptSnapshot == "Portrait A dup",
-                "FavoritesStore deduplicates case-insensitively and preserves newest FavoritedAt order", report);
+            Require(loadedFavs.Count == 2 && loadedFavs[0].PromptSnapshot == "Portrait A inpaint" && loadedFavs[1].PromptSnapshot == "Portrait A dup"
+                    && File.Exists(loadedFavs[0].FavoriteImagePath) && File.Exists(loadedFavs[1].FavoriteImagePath),
+                "FavoritesStore deduplicates case-insensitively and loads intact vault copies after source deletion", report);
 
             // Corrupt main file and verify automatic recovery from .bak (after saving a second revision to populate .bak)
             FavoritesStore.Save(loadedFavs, favTestDir);
@@ -628,7 +649,11 @@ internal static class Program
             var recoveredFavs = FavoritesStore.Load(favTestDir);
             Require(recoveredFavs.Count == 2, "FavoritesStore automatically recovers from .bak when main favorites.json is corrupt", report);
 
-            // Verify MainViewModel keeps favorited image alive even after deleting its parent chat thread
+            // Verify DeleteVaultFileSafe deletes inside favorite-images\ cleanly
+            FavoritesStore.DeleteVaultFileSafe(vaultA, favTestDir);
+            Require(!File.Exists(vaultA!), "DeleteVaultFileSafe cleanly removes unfavorited vault copy", report);
+
+            // Verify MainViewModel keeps favorited image as an independent copy even after deleting its parent chat thread
             var testImg = new ChatTurnImageItem(Guid.NewGuid(), 777, 1024, 1024, "Smoke Favorite Preservation", now, true)
             {
                 LocalImagePath = imgA
@@ -644,9 +669,13 @@ internal static class Program
             Require(testImg.IsFavorite && vm.FavoriteImages.Count == beforeFavCount + 1,
                 "ToggleFavoriteImageCommand adds image to FavoriteImages", report);
 
+            var favEntry = vm.FavoriteImages.First(f => f.PromptSnapshot == "Smoke Favorite Preservation");
+            Require(!ReferenceEquals(favEntry, testImg),
+                "FavoriteImages stores an independent cloned item rather than a raw pointer to the chat item", report);
+
             vm.DeleteChatThreadCommand.Execute(testThread);
             Require(vm.FavoriteImages.Count == beforeFavCount + 1 && vm.FavoriteImages.Any(f => f.PromptSnapshot == "Smoke Favorite Preservation"),
-                "Deleting a chat thread preserves its favorited images as standalone favorites", report);
+                "Deleting a chat thread preserves its favorited images as standalone copies", report);
 
             var preservedFav = vm.FavoriteImages.First(f => f.PromptSnapshot == "Smoke Favorite Preservation");
             vm.ToggleFavoriteImageCommand.Execute(preservedFav);

@@ -571,26 +571,23 @@ public partial class MainViewModel
                 if (!string.IsNullOrWhiteSpace(assetKey) && !string.Equals(assetKey, primaryKey, StringComparison.OrdinalIgnoreCase))
                     _favoriteRecords.Remove(assetKey);
 
-                _favoriteRecords[primaryKey] = new FavoriteImageRecord(
-                    primaryKey,
-                    target.AssetId,
-                    target.Seed,
-                    target.Width,
-                    target.Height,
-                    target.PromptSnapshot,
-                    target.LocalImagePath,
-                    target.UpscaledImagePath,
-                    target.IsFullQuality,
-                    target.CreatedAt,
-                    DateTimeOffset.Now);
+                _favoriteRecords[primaryKey] = CreateVaultBackedFavoriteRecord(primaryKey, target, DateTimeOffset.Now);
             }
             else
             {
-                _favoriteRecords.Remove(primaryKey);
-                _standaloneFavoriteItems.Remove(primaryKey);
-                if (!string.IsNullOrWhiteSpace(assetKey))
+                if (_favoriteRecords.Remove(primaryKey, out var removedRec) && IsRealSession)
                 {
-                    _favoriteRecords.Remove(assetKey);
+                    FavoritesStore.DeleteVaultFileSafe(removedRec.FavoriteImagePath);
+                    FavoritesStore.DeleteVaultFileSafe(removedRec.FavoriteUpscaledImagePath);
+                }
+                _standaloneFavoriteItems.Remove(primaryKey);
+                if (!string.IsNullOrWhiteSpace(assetKey) && !string.Equals(assetKey, primaryKey, StringComparison.OrdinalIgnoreCase))
+                {
+                    if (_favoriteRecords.Remove(assetKey, out var removedAssetRec) && IsRealSession)
+                    {
+                        FavoritesStore.DeleteVaultFileSafe(removedAssetRec.FavoriteImagePath);
+                        FavoritesStore.DeleteVaultFileSafe(removedAssetRec.FavoriteUpscaledImagePath);
+                    }
                     _standaloneFavoriteItems.Remove(assetKey);
                 }
             }
